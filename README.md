@@ -3,7 +3,7 @@
   <br>
   <img src="resources/nixos.svg" width="200px" height="200px"/>
   <br>
-  My trash system system flake that you SHOULD NOT use!
+  My trash system flake that you SHOULD NOT use!
 </h1>
 
 ## Features

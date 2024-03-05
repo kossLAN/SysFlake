@@ -1,7 +1,8 @@
 { platform
 , lib
 , ...
-}: let
+}:
+let
   allowedPlatforms = [ "desktop" "macbook" ];
 in
 lib.mkIf (builtins.elem platform allowedPlatforms) {
@@ -14,10 +15,9 @@ lib.mkIf (builtins.elem platform allowedPlatforms) {
       enable = true;
       custom = "$HOME/.config/zsh-custom";
       plugins = [
-        "git" 
+        "git"
         "urltools"
         "bgnotify"
-        "zsh-syntax-highlighting"
         "zsh-history-enquirer"
         "jovial"
       ];

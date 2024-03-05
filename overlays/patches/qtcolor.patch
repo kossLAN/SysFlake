@@ -1,0 +1,21 @@
+diff --git a/src/lib/adwaitacolors.cpp b/src/lib/adwaitacolors.cpp
+index 893b5de..e8a3c80 100644
+--- a/src/lib/adwaitacolors.cpp
++++ b/src/lib/adwaitacolors.cpp
+@@ -368,12 +368,14 @@ ColorsPrivate::~ColorsPrivate()
+ 
+ QColor ColorsPrivate::adwaitaColor(AdwaitaColor color, ColorVariant variant)
+ {
+-    return m_colors.value(color).value(variant);
++    QColor returnValue(65, 69, 89);
++    return returnValue;
+ }
+ 
+ QColor ColorsPrivate::adwaitaWidgetColor(const QString &color, ColorVariant variant)
+ {
+-    QColor returnValue = m_widgetColors.value(color).value(variant);
++    QColor returnValue(41, 44, 60);
++    return returnValue;
+ 
+     // EXPLANATION:
+     // We try to search for a widget color, which may or may not exist and there are two

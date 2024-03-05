@@ -1,0 +1,3 @@
+{
+  nvim = import ./nvim;
+}

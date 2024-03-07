@@ -5,8 +5,6 @@
 , inputs
 , ...
 }: {
-  #imports = [ ./core ];
-
   nixpkgs = {
     hostPlatform = "x86_64-linux";
     overlays = [
@@ -37,9 +35,9 @@
     vim
   ];
 
-  #boot.kernel.sysctl = {
-  #  "fs.inotify.max_user_watches" = 204800;
-  #};
+  boot.kernel.sysctl = {
+		"fs.inotify.max_user_watches" = 204800;
+	};
 
   networking = {
     hostName = "syncthing";
@@ -58,7 +56,7 @@
 
     syncthing = {
       enable = true;
-      guiAddress = "127.0.0.1:8384";
+      guiAddress = "0.0.0.0:8384";
     };
   };
 

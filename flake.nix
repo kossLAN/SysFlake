@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Package Flakes
-    #TODO: Clean this shit up/format better
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -89,7 +88,7 @@
       };
 
       # LXC Images
-      syncthing.x86_64-linux = nixos-generators.nixosGenerate {
+      syncthing = nixos-generators.nixosGenerate {
         system = "x86_64-linux";
         modules = [
           ./hosts/syncthing

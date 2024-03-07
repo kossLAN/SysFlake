@@ -6,15 +6,35 @@
 
     # Package Flakes
     #TODO: Clean this shit up/format better
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.url = "github:hyprwm/Hyprland";
-    #hyprland-plugins.url = "github:hyprwm/hyprland-plugins";
-    nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    mac-app-util.url = "github:hraban/mac-app-util";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -23,8 +43,9 @@
     , home-manager
     , nix-darwin
     , hyprland
+    , nixos-generators
     , ...
-    } @inputs:
+    } @ inputs:
     let
       inherit (self) outputs;
       stateVersion = "23.11";
@@ -66,6 +87,18 @@
           desktop = "hyprland";
         };
       };
+
+      # LXC Images
+      syncthing.x86_64-linux = nixos-generators.nixosGenerate {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/syncthing
+        ];
+        format = "proxmox-lxc";
+
+        # pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        # lib = nixpkgs.legacyPackages.x86_64-linux.lib;
+        specialArgs = { inherit outputs inputs; };
+      };
     };
 }
-

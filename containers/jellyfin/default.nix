@@ -53,7 +53,7 @@
     syncthing = {
       enable = true;
       guiAddress = "0.0.0.0:8384";
-      openFirewall = true;
+      openDefaultPorts = true;
     };
   };
 

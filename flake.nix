@@ -88,16 +88,8 @@
       };
 
       # LXC Images
-      syncthing = nixos-generators.nixosGenerate {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/syncthing
-        ];
-        format = "proxmox-lxc";
-
-        # pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        # lib = nixpkgs.legacyPackages.x86_64-linux.lib;
-        specialArgs = { inherit outputs inputs; };
+      syncthing = libx.mkLxcImage {
+        hostname = "syncthing";
       };
     };
 }

@@ -1,4 +1,10 @@
-{ inputs, outputs, nix-darwin, stateVersion, username, ... }: {
+{ inputs
+, outputs
+, nix-darwin
+, stateVersion
+, username
+, ...
+}: {
   # Helper function for generating home-manager configs
   mkHome =
     { hostname
@@ -6,7 +12,9 @@
     , homeDir ? "/home/${username}"
     , user ? username
     , desktop ? null
-    }: inputs.home-manager.lib.homeManagerConfiguration {
+    ,
+    }:
+    inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = {
         inherit inputs outputs stateVersion hostname desktop platform homeDir;
@@ -23,19 +31,23 @@
     { hostname
     , desktop ? null
     , pkgsInput ? inputs.nixpkgs
-    }: pkgsInput.lib.nixosSystem {
+    ,
+    }:
+    pkgsInput.lib.nixosSystem {
       specialArgs = {
         inherit inputs outputs stateVersion username hostname desktop;
       };
       modules = [ ../../hosts/${hostname} ];
-    };  
+    };
 
   mkDarwin =
     { hostname
     , platform ? "macbook"
     , homeDir ? "/Users/${username}"
     , user ? username
-    }: nix-darwin.lib.darwinSystem {
+    ,
+    }:
+    nix-darwin.lib.darwinSystem {
       specialArgs = {
         inherit inputs outputs stateVersion hostname platform homeDir;
         username = user;
@@ -51,6 +63,19 @@
           home-manager.users.koss = import ../../home;
         }
       ];
+    };
+
+  mkLxcImage = { hostname }:
+    nixos-generators.nixosGenerate {
+      system = "x86_64-linux";
+      modules = [
+        ./containers/${hostname}
+      ];
+      format = "proxmox-lxc";
+
+      # pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      # lib = nixpkgs.legacyPackages.x86_64-linux.lib;
+      specialArgs = { inherit outputs inputs; };
     };
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [

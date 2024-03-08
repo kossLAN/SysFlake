@@ -49,6 +49,12 @@
     jellyfin = {
       enable = true;
     };
+
+    syncthing = {
+      enable = true;
+      guiAddress = "0.0.0.0:8384";
+      openFirewall = true;
+    };
   };
 
   users.users.root.initialPassword = "root";

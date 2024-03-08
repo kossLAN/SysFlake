@@ -90,5 +90,9 @@
       syncthing = libx.mkLxcImage {
         hostname = "syncthing";
       };
+
+      jellyfin = libx.mkLxcImage {
+        hostname = "jellyfin";
+      };
     };
 }

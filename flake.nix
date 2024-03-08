@@ -42,7 +42,6 @@
     , home-manager
     , nix-darwin
     , hyprland
-    , nixos-generators
     , ...
     } @ inputs:
     let

@@ -66,7 +66,7 @@
     };
 
   mkLxcImage = { hostname }:
-    nixos-generators.nixosGenerate {
+    inputs.nixos-generators.nixosGenerate {
       system = "x86_64-linux";
       modules = [
         ./containers/${hostname}

@@ -87,8 +87,8 @@
       };
 
       # LXC Images
-      syncthing = libx.mkLxcImage {
-        hostname = "syncthing";
+      cloud = libx.mkLxcImage {
+        hostname = "cloud";
       };
 
       jellyfin = libx.mkLxcImage {

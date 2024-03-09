@@ -94,5 +94,9 @@
       jellyfin = libx.mkLxcImage {
         hostname = "jellyfin";
       };
+
+      navidrome = libx.mkLxcImage {
+        hostname = "navidrome";
+      };
     };
 }

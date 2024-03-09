@@ -29,47 +29,23 @@
     };
   };
 
-  environment.etc."nc-adminpass".text = "root";
   environment.systemPackages = with pkgs; [
     git
-    gh
     vim
   ];
 
-  boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 204800;
-  };
-
   networking = {
-    hostName = "syncthing";
+    hostName = "navidrome";
   };
-
-  zramSwap.enable = true;
-  boot.tmp.cleanOnBoot = true;
 
   services = {
     openssh = {
       enable = true;
     };
 
-    nginx = {
+    navidrome = {
       enable = true;
-    };
-
-    nextcloud = {
-      enable = true;
-      package = pkgs.nextcloud28;
-      hostName = "sync";
-
-      config = {
-        adminpassFile = "/etc/nc-adminpass";
-      };
-    };
-
-    syncthing = {
-      enable = true;
-      openDefaultPorts = true;
-      guiAddress = "0.0.0.0:8384";
+      openFirewall = true;
     };
   };
 

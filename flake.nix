@@ -62,10 +62,6 @@
           hostname = "galahad";
           desktop = "hyprland";
         };
-        celebrite = libx.mkHost {
-          hostname = "celebrite";
-          desktop = "none";
-        };
       };
 
       # MacOS Configuration: this setups home-manager as well...
@@ -97,6 +93,10 @@
 
       navidrome = libx.mkLxcImage {
         hostname = "navidrome";
+      };
+
+      nginx = libx.mkLxcImage {
+        hostname = "nginx";
       };
     };
 }

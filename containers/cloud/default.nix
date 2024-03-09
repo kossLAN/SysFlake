@@ -59,12 +59,18 @@
 
     nginx = {
       enable = true;
+      virtualHosts.${config.services.nextcloud.hostName} = {
+        forceSSL = true;
+        enableACME = true;
+      };
     };
 
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud28;
       hostName = "cloud";
+      appstoreEnable = true;
+      https = true;
 
       settings = {
         trusted_domains = [ "198.27.69.44" ];

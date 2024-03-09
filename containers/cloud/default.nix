@@ -41,11 +41,16 @@
   };
 
   networking = {
-    hostName = "syncthing";
+    hostName = "cloud";
   };
 
   zramSwap.enable = true;
   boot.tmp.cleanOnBoot = true;
+
+  networking.firewall = {
+    allowedTCPPorts = [ 22000 8384 80 ];
+    allowedUDPPorts = [ 21027 22000 ];
+  };
 
   services = {
     openssh = {
@@ -59,7 +64,7 @@
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud28;
-      hostName = "sync";
+      hostName = "cloud";
 
       config = {
         adminpassFile = "/etc/nc-adminpass";
@@ -68,7 +73,7 @@
 
     syncthing = {
       enable = true;
-      openDefaultPorts = true;
+      #openDefaultPorts = true;
       guiAddress = "0.0.0.0:8384";
     };
   };

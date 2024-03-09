@@ -52,6 +52,16 @@
     allowedUDPPorts = [ 21027 22000 ];
   };
 
+  security.acme = {
+    useRoot = true;
+    acceptTerms = true;
+    defaults.email = "kosslan@kosslan.dev";
+    certs."cloud.kosslan.dev" = {
+      dnsProvider = "godaddy";
+      credentialsFile = "/etc/secrets/kosslan.dev";
+    };
+  };
+
   services = {
     openssh = {
       enable = true;

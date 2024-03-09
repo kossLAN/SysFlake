@@ -66,6 +66,10 @@
       package = pkgs.nextcloud28;
       hostName = "cloud";
 
+      settings = {
+        trusted_domains = [ "198.27.69.44" ];
+      };
+
       config = {
         adminpassFile = "/etc/nc-adminpass";
       };

@@ -36,6 +36,7 @@
     vim
   ];
 
+  boot.isContainer = true;
   boot.kernel.sysctl = {
     "fs.inotify.max_user_watches" = 204800;
   };
@@ -52,45 +53,37 @@
     allowedUDPPorts = [ 21027 22000 ];
   };
 
-  # security.acme = {
-  #   acceptTerms = true;
-  #   defaults.email = "kosslan@kosslan.dev";
-  #
-  # };
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "kosslan@proton.me";
+  };
 
   services = {
     openssh = {
       enable = true;
     };
 
-    # nginx = {
-    #   enable = true;
-    #   virtualHosts."cloud.kosslan.dev" = {
-    #     forceSSL = true;
-    #     enableACME = true;
-    #   };
-    # };
-
-    nextcloud = {
+    nginx = {
       enable = true;
-      package = pkgs.nextcloud28;
-      hostName = "cloud.kosslan.dev";
-      appstoreEnable = true;
-      https = true;
-
-      settings = {
-        trusted_domains = [ "cloud.kosslan.dev" ];
+      recommendedProxySettings = true;
+      recommendedTlsSettings = true;
+      # other Nginx options
+      virtualHosts = {
+        "nextcloud.kosslan.dev" = {
+          enableACME = true;
+          forceSSL = true;
+          locations."/" = {
+            proxyPass = "http://192.168.10.102";
+            proxyWebsockets = true; # needed if you need to use WebSocket
+            extraConfig =
+              # required when the target is also TLS server with multiple hosts
+              "proxy_ssl_server_name on;"
+              +
+              # required when the server wants to use HTTP Authentication
+              "proxy_pass_header Authorization;";
+          };
+        };
       };
-
-      config = {
-        adminpassFile = "/etc/nc-adminpass";
-      };
-    };
-
-    syncthing = {
-      enable = true;
-      #openDefaultPorts = true;
-      guiAddress = "0.0.0.0:8384";
     };
   };
 

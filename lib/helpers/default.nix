@@ -69,7 +69,7 @@
     inputs.nixos-generators.nixosGenerate {
       system = "x86_64-linux";
       modules = [
-        ../../containers/${hostname}
+        ../../hosts/${hostname}
       ];
       format = "proxmox-lxc";
 

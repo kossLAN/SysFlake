@@ -62,6 +62,14 @@
           hostname = "galahad";
           desktop = "hyprland";
         };
+        cloud = libx.mkHost {
+          hostname = "cloud";
+          desktop = "";
+        };
+        nginx = libx.mkHost {
+          hostname = "nginx";
+          desktop = "";
+        };
       };
 
       # MacOS Configuration: this setups home-manager as well...

@@ -31,11 +31,18 @@
 
   environment.systemPackages = with pkgs; [
     git
+    gh
     vim
   ];
 
+  boot.isContainer = true;
+
   networking = {
-    hostName = "navidrome";
+    hostName = "plex";
+  };
+
+  networking.firewall = {
+    allowedTCPPorts = [ 32400 ];
   };
 
   services = {
@@ -43,9 +50,8 @@
       enable = true;
     };
 
-    navidrome = {
+    plex = {
       enable = true;
-      openFirewall = true;
     };
   };
 

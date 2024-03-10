@@ -70,6 +70,10 @@
           hostname = "nginx";
           desktop = "";
         };
+        plex = libx.mkHost {
+          hostname = "plex";
+          desktop = "";
+        };
       };
 
       # MacOS Configuration: this setups home-manager as well...
@@ -95,12 +99,8 @@
         hostname = "cloud";
       };
 
-      jellyfin = libx.mkLxcImage {
-        hostname = "jellyfin";
-      };
-
-      navidrome = libx.mkLxcImage {
-        hostname = "navidrome";
+      plex = libx.mkLxcImage {
+        hostname = "plex";
       };
 
       nginx = libx.mkLxcImage {

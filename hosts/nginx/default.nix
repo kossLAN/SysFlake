@@ -49,7 +49,7 @@
   boot.tmp.cleanOnBoot = true;
 
   networking.firewall = {
-    allowedTCPPorts = [ 22000 8384 80 443 ];
+    allowedTCPPorts = [ 22000 8384 80 443 32400 ];
     allowedUDPPorts = [ 21027 22000 ];
   };
 
@@ -74,6 +74,20 @@
           forceSSL = true;
           locations."/" = {
             proxyPass = "http://192.168.10.102";
+            proxyWebsockets = true; # needed if you need to use WebSocket
+            extraConfig =
+              # required when the target is also TLS server with multiple hosts
+              "proxy_ssl_server_name on;"
+              +
+              # required when the server wants to use HTTP Authentication
+              "proxy_pass_header Authorization;";
+          };
+        };
+        "plex.kosslan.dev" = {
+          enableACME = true;
+          forceSSL = true;
+          locations."/" = {
+            proxyPass = "http://192.168.10.103:32400/web";
             proxyWebsockets = true; # needed if you need to use WebSocket
             extraConfig =
               # required when the target is also TLS server with multiple hosts

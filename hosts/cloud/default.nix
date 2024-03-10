@@ -77,11 +77,21 @@
       package = pkgs.nextcloud28;
       hostName = "nextcloud.kosslan.dev";
       appstoreEnable = true;
-      https = true; 
+      https = true;
+      nginx.recommendedHttpHeaders = true; 
 
-      settings = {
-        trusted_domains = [ "nextcloud.kosslan.dev" ];
-      	trusted_proxies = [ "192.168.10.115" ];
+      settings = let 
+       prot = "https"; # or https
+       host = "127.0.0.1";
+       dir = "/nextcloud";
+      in {
+        overwriteprotocol = prot;
+        overwritehost = host;
+        overwritewebroot = dir;
+        overwrite.cli.url = "${prot}://${host}${dir}/";
+        htaccess.RewriteBase = dir;
+        trusted_domains = [ "localhost" "192.168.10.115"  "nextcloud.kosslan.dev" ];
+      	#trusted_proxies = [ "192.168.10.115" ];
       };
 
       config = {

@@ -33,8 +33,7 @@
   environment.systemPackages = with pkgs; [
     git
     gh
-    vim
-    samba
+    vim 
   ];
 
   boot.isContainer = true;
@@ -78,10 +77,7 @@
       package = pkgs.nextcloud28;
       hostName = "nextcloud.kosslan.dev";
       appstoreEnable = true;
-      https = true;
-      extraApps = {
-        inherit (pkgs.php82Extensions) smbclient;
-      };
+      https = true; 
 
       settings = {
         trusted_domains = [ "nextcloud.kosslan.dev" ];

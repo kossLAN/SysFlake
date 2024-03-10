@@ -72,29 +72,35 @@
         "nextcloud.kosslan.dev" = {
           enableACME = true;
           forceSSL = true;
-          locations."/" = {
-            proxyPass = "http://192.168.10.102";
-            proxyWebsockets = true; # needed if you need to use WebSocket
-            extraConfig =
-              # required when the target is also TLS server with multiple hosts
-              "proxy_ssl_server_name on;"
-              +
-              # required when the server wants to use HTTP Authentication
-              "proxy_pass_header Authorization;";
+
+          "^~ /.well-known" = {
+            priority = 9000;
+            extraConfig = ''
+              absolute_redirect off;
+              location ~ ^/\\.well-known/(?:carddav|caldav)$ {
+                return 301 /nextcloud/remote.php/dav;
+              }
+              location ~ ^/\\.well-known/host-meta(?:\\.json)?$ {
+                return 301 /nextcloud/public.php?service=host-meta-json;
+              }
+              location ~ ^/\\.well-known/(?!acme-challenge|pki-validation) {
+                return 301 /nextcloud/index.php$request_uri;
+              }
+              try_files $uri $uri/ =404;
+            '';
           };
-        };
-        "plex.kosslan.dev" = {
-          enableACME = true;
-          forceSSL = true;
-          locations."/" = {
-            proxyPass = "http://192.168.10.103:32400/web";
-            proxyWebsockets = true; # needed if you need to use WebSocket
-            extraConfig =
-              # required when the target is also TLS server with multiple hosts
-              "proxy_ssl_server_name on;"
-              +
-              # required when the server wants to use HTTP Authentication
-              "proxy_pass_header Authorization;";
+          "/nextcloud/" = {
+            priority = 9999;
+            extraConfig = ''
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-NginX-Proxy true;
+              proxy_set_header X-Forwarded-Proto http;
+              proxy_pass http://192.168.10.102/; # tailing / is important!
+              proxy_set_header Host $host;
+              proxy_cache_bypass $http_upgrade;
+              proxy_redirect off;
+            '';
           };
         };
       };

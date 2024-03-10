@@ -68,11 +68,10 @@
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       # other Nginx options
-      virtualHosts = {
-        "nextcloud.kosslan.dev" = {
-          enableACME = true;
-          forceSSL = true;
-
+      virtualHosts."nextcloud.kosslan.dev" = {
+        # enableACME = true;
+        # forceSSL = true;
+        locations = {
           "^~ /.well-known" = {
             priority = 9000;
             extraConfig = ''

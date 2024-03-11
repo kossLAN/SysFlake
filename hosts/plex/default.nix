@@ -59,13 +59,11 @@
       securityType = "user";
       openFirewall = true;
       extraConfig = ''
-        workgroup = WORKGROUP
+        workgroup = smbnix
         server string = smbnix
         netbios name = smbnix
         security = user
-        #use sendfile = yes
-        #max protocol = smb2
-        hosts allow = 192.168.10.103 127.0.0.1 localhost
+        hosts allow = 192.168.10.103 192.168.10.102 127.0.0.1 localhost
         hosts deny = 0.0.0.0/0
         guest account = nobody
         map to guest = bad user

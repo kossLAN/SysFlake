@@ -34,6 +34,7 @@
     git
     gh
     vim
+    samba
   ];
 
   boot.isContainer = true;
@@ -53,12 +54,6 @@
     allowedUDPPorts = [ 21027 22000 ];
   };
 
-  # security.acme = {
-  #   acceptTerms = true;
-  #   defaults.email = "kosslan@kosslan.dev";
-  #
-  # };
-
   services = {
     openssh = {
       enable = true;
@@ -69,24 +64,29 @@
       package = pkgs.nextcloud28;
       hostName = "nextcloud.kosslan.dev";
       appstoreEnable = true;
+      maxUploadSize = "50G";
       https = true;
-      nginx.recommendedHttpHeaders = true;
 
-      settings =
-        let
-          prot = "https"; # or https
-          host = "nextcloud.kosslan.dev";
-          dir = "/";
-        in
-        {
-          overwriteprotocol = prot;
-          overwritehost = host;
-          overwritewebroot = dir;
-          overwrite.cli.url = "${prot}://${host}${dir}/";
-          htaccess.RewriteBase = dir;
-          trusted_domains = [ "localhost" "192.168.10.115" "nextcloud.kosslan.dev" ];
-          #trusted_proxies = [ "192.168.10.115" ];
-        };
+      phpExtraExtensions = all: [ all.smbclient ];
+
+      extraOptions.enabledPreviewProviders = [
+        "OC\\Preview\\BMP"
+        "OC\\Preview\\GIF"
+        "OC\\Preview\\JPEG"
+        "OC\\Preview\\Krita"
+        "OC\\Preview\\MarkDown"
+        "OC\\Preview\\MP3"
+        "OC\\Preview\\OpenDocument"
+        "OC\\Preview\\PNG"
+        "OC\\Preview\\TXT"
+        "OC\\Preview\\XBitmap"
+        "OC\\Preview\\HEIC"
+      ];
+
+      settings = {
+        trusted_domains = [ "localhost" "192.168.10.115" "nextcloud.kosslan.dev" ];
+        trusted_proxies = [ "192.168.10.115" "localhost" "192.168.10.102" ];
+      };
 
       config = {
         adminpassFile = "/etc/nc-adminpass";
@@ -95,7 +95,6 @@
 
     syncthing = {
       enable = true;
-      #openDefaultPorts = true;
       guiAddress = "0.0.0.0:8384";
     };
   };

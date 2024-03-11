@@ -75,8 +75,8 @@
       settings =
         let
           prot = "https"; # or https
-          host = "192.168.10.102";
-          dir = "/nextcloud";
+          host = "nextcloud.kosslan.dev";
+          dir = "/";
         in
         {
           overwriteprotocol = prot;

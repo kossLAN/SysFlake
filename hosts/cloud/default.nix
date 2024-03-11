@@ -61,7 +61,7 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud27;
+      package = pkgs.nextcloud28;
       hostName = "nextcloud.kosslan.dev";
       appstoreEnable = true;
       maxUploadSize = "200G";

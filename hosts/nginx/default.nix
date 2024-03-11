@@ -29,7 +29,7 @@
     };
   };
 
-  environment.etc."nc-adminpass".text = "root";
+  environment.etc."nc-adminpass".text = "root"; #disable root account after initial setup
   environment.systemPackages = with pkgs; [
     git
     gh
@@ -42,7 +42,7 @@
   };
 
   networking = {
-    hostName = "cloud";
+    hostName = "nginx";
   };
 
   zramSwap.enable = true;
@@ -67,22 +67,18 @@
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      # other Nginx options
       virtualHosts = {
         "nextcloud.kosslan.dev" = {
           enableACME = true;
           forceSSL = true;
           locations."/" = {
             proxyPass = "http://192.168.10.102";
-            proxyWebsockets = true; # needed if you need to use WebSocket
-            extraConfig =
-              # required when the target is also TLS server with multiple hosts
-              "client_max_body_size 100M;"
-              #+ "client_body_buffer_size 400M;"
-              + "proxy_ssl_server_name on;"
-              +
-              # required when the server wants to use HTTP Authentication
-              "proxy_pass_header Authorization;";
+            proxyWebsockets = true;
+            extraConfig = ''
+              client_max_body_size 1G;"
+              proxy_ssl_server_name on;"
+              proxy_pass_header Authorization;
+            '';
           };
         };
       };

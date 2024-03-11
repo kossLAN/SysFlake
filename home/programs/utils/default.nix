@@ -28,6 +28,7 @@ lib.mkIf (builtins.elem platform allowedPlatforms) {
     wootility
     vesktop
     nh
+    nextcloud-client
     #inputs.nh.packages.${pkgs.system}.default
     # (pkgs.armcord.overrideAttrs (old: {
     #     postFixup = ''

@@ -95,12 +95,12 @@
           "OC\\Preview\\HEIC"
         ];
         opcache = {
-          enable = "1";
-          interned_strings_buffer = "32";
-          max_accelerated_files = "10000";
-          memory_consumption = "128";
-          save_comments = "1";
-          revalidate_freq = "1";
+          enable = 1;
+          interned_strings_buffer = 32;
+          max_accelerated_files = 10000;
+          memory_consumption = 128;
+          save_comments = 1;
+          revalidate_freq = 1;
         };
       };
 

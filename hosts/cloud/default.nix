@@ -78,6 +78,15 @@
         "pm.start_servers" = "12";
       };
 
+      phpOptions = {
+        "opcache.enable" = "1";
+        "opcache.interned_strings_buffer" = "32";
+        "opcache.max_accelerated_files" = "10000";
+        "opcache.memory_consumption" = "128";
+        "opcache.save_comments" = "1";
+        "opcache.revalidate_freq" = "1";
+      };
+
       settings = {
         trusted_domains = [ "localhost" "192.168.10.115" "nextcloud.kosslan.dev" ];
         trusted_proxies = [ "192.168.10.115" "localhost" "192.168.10.102" ];
@@ -94,14 +103,6 @@
           "OC\\Preview\\XBitmap"
           "OC\\Preview\\HEIC"
         ];
-        opcache = {
-          enable = 1;
-          interned_strings_buffer = 32;
-          max_accelerated_files = 10000;
-          memory_consumption = 128;
-          save_comments = 1;
-          revalidate_freq = 1;
-        };
       };
 
       config = {

@@ -75,7 +75,7 @@
             proxyPass = "http://192.168.10.102";
             proxyWebsockets = true;
             extraConfig = ''
-              client_max_body_size 1G;"
+              client_max_body_size 200M;"
               proxy_ssl_server_name on;"
               proxy_pass_header Authorization;
             '';

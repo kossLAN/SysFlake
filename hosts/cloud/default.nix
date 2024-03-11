@@ -69,6 +69,15 @@
 
       phpExtraExtensions = all: [ all.smbclient ];
 
+      poolSettings = {
+        pm = "dynamic";
+        "pm.max_children" = "120";
+        "pm.max_requests" = "2000";
+        "pm.max_spare_servers" = "6";
+        "pm.min_spare_servers" = "18";
+        "pm.start_servers" = "12";
+      };
+
       settings = {
         trusted_domains = [ "localhost" "192.168.10.115" "nextcloud.kosslan.dev" ];
         trusted_proxies = [ "192.168.10.115" "localhost" "192.168.10.102" ];
@@ -85,6 +94,14 @@
           "OC\\Preview\\XBitmap"
           "OC\\Preview\\HEIC"
         ];
+        opcache = {
+          enable = "1";
+          interned_strings_buffer = "32";
+          max_accelerated_files = "10000";
+          memory_consumption = "128";
+          save_comments = "1";
+          revalidate_freq = "1";
+        };
       };
 
       config = {

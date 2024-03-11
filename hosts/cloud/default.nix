@@ -61,10 +61,10 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud28;
+      package = pkgs.nextcloud27;
       hostName = "nextcloud.kosslan.dev";
       appstoreEnable = true;
-      maxUploadSize = "50G";
+      maxUploadSize = "200G";
       https = true;
 
       phpExtraExtensions = all: [ all.smbclient ];

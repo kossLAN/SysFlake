@@ -21,6 +21,10 @@ lib.mkIf (builtins.elem platform allowedPlatforms) {
       enable = true;
       enableAutosuggestions = true;
       enableCompletion = true;
+      envExtra = ''
+        bindkey "^[[1;5C" forward-word
+        bindkey "^[[1;5D" backward-word
+      '';
 
       plugins = [
         {

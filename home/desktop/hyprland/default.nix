@@ -6,27 +6,32 @@
 let
   allowedPlatforms = [ "desktop" ];
 in
-if (builtins.elem platform allowedPlatforms) then {
+if (builtins.elem platform allowedPlatforms)
+then {
   imports = [
     inputs.hyprland.homeManagerModules.default
     ./waybar
   ];
 
-  home.packages = with pkgs; [
-    swaybg
-    hyprpicker
-    grimblast
-    grim
-    slurp
-    swaynotificationcenter
-    networkmanagerapplet
-    libnotify
-    playerctl 
-    inputs.anyrun.packages.${system}.anyrun
-  ];
- 
-  home.file.".config/anyrun".source = ./anyrun;
-  home.file.".config/swaync".source = ./swaync;
+  home = {
+    packages = with pkgs; [
+      swaybg
+      hyprpicker
+      grimblast
+      grim
+      slurp
+      swaynotificationcenter
+      networkmanagerapplet
+      libnotify
+      playerctl
+      inputs.anyrun.packages.${system}.anyrun
+    ];
+
+    file = {
+      ".config/anyrun".source = ./anyrun;
+      ".config/swaync".source = ./swaync;
+    };
+  };
 
   # Main color accents, here for convenience.
   #   text #ffffff
@@ -219,6 +224,7 @@ if (builtins.elem platform allowedPlatforms) then {
       windowrulev2 = immediate , xwayland:1
       windowrule=float,title:^(foot_float)$
 
+
       # Default Startup
 
       windowrule = workspace 2, spotify
@@ -278,6 +284,7 @@ if (builtins.elem platform allowedPlatforms) then {
       }
     '';
   };
-} else {
+}
+else {
   # imports = [];
 }

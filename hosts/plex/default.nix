@@ -19,9 +19,6 @@
   nix = {
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-    optimise.automatic = true;
-    gc.automatic = true;
-    gc.options = "--delete-older-than 1d";
 
     settings = {
       experimental-features = "nix-command flakes";

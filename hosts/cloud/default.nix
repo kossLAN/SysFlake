@@ -69,26 +69,12 @@
 
       phpExtraExtensions = all: [ all.smbclient ];
 
-      poolSettings = {
-        pm = "dynamic";
-        "pm.max_children" = "120";
-        "pm.max_requests" = "2000";
-        "pm.max_spare_servers" = "6";
-        "pm.min_spare_servers" = "18";
-        "pm.start_servers" = "12";
-      };
-
       phpOptions = {
-        "opcache.enable" = "1";
-        "opcache.interned_strings_buffer" = "32";
-        "opcache.max_accelerated_files" = "10000";
-        "opcache.memory_consumption" = "128";
-        "opcache.save_comments" = "1";
-        "opcache.revalidate_freq" = "1";
+        "opcache.interned_strings_buffer" = 32;
       };
 
       settings = {
-        trusted_domains = [ "localhost" "192.168.10.115" "nextcloud.kosslan.dev" ];
+        trusted_domains = [ "localhost" "192.168.10.115" "cloud.kosslan.dev" "nextcloud.kosslan.dev" ];
         trusted_proxies = [ "192.168.10.115" "localhost" "192.168.10.102" ];
         enabledPreviewProviders = [
           "OC\\Preview\\BMP"

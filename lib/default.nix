@@ -9,5 +9,5 @@ let
   helpers = import ./helpers { inherit inputs outputs nix-darwin stateVersion username; };
 in
 {
-  inherit (helpers) mkHome mkHost mkDarwin mkLxcImage forAllSystems;
+  inherit (helpers) mkHome mkHost mkDarwin forAllSystems;
 }

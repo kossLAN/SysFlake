@@ -16,9 +16,6 @@ in
       enable = true;
       defaultEditor = true;
       vimdiffAlias = true;
-      coc = {
-        enable = true;
-      };
 
       extraConfig = ''
         autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
@@ -31,8 +28,6 @@ in
       '';
 
       extraPackages = with pkgs; [
-        #prettierd
-        #rust-analyzer
         alejandra
       ];
 
@@ -43,10 +38,10 @@ in
           plugin = oxocarbon-nvim;
           config = ''
             vim.opt.background = "dark"
-             vim.cmd("colorscheme oxocarbon")
-             -- TODO: find a better full black theme.
-            -- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-            -- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+            vim.cmd("colorscheme oxocarbon")
+            -- TODO: find a better full black theme.
+            vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+            vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
           '';
         }
         {
@@ -140,11 +135,11 @@ in
               documentation = cmp.config.window.bordered(),
             },
             mapping = {
-              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-              ['<C-f>'] = cmp.mapping.scroll_docs(4),
-              ['<C-Space>'] = cmp.mapping.complete(),
-              ['<C-e>'] = cmp.mapping.abort(),
-              ['<CR>'] = cmp.mapping.confirm({ select = true }),
+              -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              -- ['<C-Space>'] = cmp.mapping.complete(),
+              -- ['<C-e>'] = cmp.mapping.abort(),
+              -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
             },
             sources = cmp.config.sources({
               { name = 'nvim_lsp' },
@@ -198,7 +193,6 @@ in
         }
 
         # Treesitter (fuck it we ball)
-        nvim-treesitter-context
         nvim-treesitter.withAllGrammars
       ];
     };

@@ -65,19 +65,6 @@
       ];
     };
 
-  mkLxcImage = { hostname }:
-    inputs.nixos-generators.nixosGenerate {
-      system = "x86_64-linux";
-      modules = [
-        ../../hosts/${hostname}
-      ];
-      format = "proxmox-lxc";
-
-      # pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      # lib = nixpkgs.legacyPackages.x86_64-linux.lib;
-      specialArgs = { inherit outputs inputs; };
-    };
-
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
     "aarch64-linux"
     "i686-linux"

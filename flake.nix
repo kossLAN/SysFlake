@@ -30,11 +30,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     anyrun = {
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -67,18 +62,6 @@
           hostname = "galahad";
           desktop = "hyprland";
         };
-        cloud = libx.mkHost {
-          hostname = "cloud";
-          desktop = "";
-        };
-        nginx = libx.mkHost {
-          hostname = "nginx";
-          desktop = "";
-        };
-        plex = libx.mkHost {
-          hostname = "plex";
-          desktop = "";
-        };
       };
 
       # MacOS Configuration: this setups home-manager as well...
@@ -97,19 +80,6 @@
           hostname = "galahad";
           desktop = "hyprland";
         };
-      };
-
-      # LXC Images
-      cloud = libx.mkLxcImage {
-        hostname = "cloud";
-      };
-
-      plex = libx.mkLxcImage {
-        hostname = "plex";
-      };
-
-      nginx = libx.mkLxcImage {
-        hostname = "nginx";
       };
     };
 }

@@ -1,12 +1,11 @@
-{ lib
-, pkgs
-, config
-, ...
-}:
-let
-  cfg = config.programs.nvim;
-in
 {
+  lib,
+  pkgs,
+  config,
+  ...
+}: let
+  cfg = config.programs.nvim;
+in {
   options.programs.nvim = {
     enable = lib.mkEnableOption "custom nvim";
   };
@@ -18,8 +17,8 @@ in
       vimdiffAlias = true;
 
       extraConfig = ''
-        autocmd FileType c setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-        autocmd FileType rs setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+        autocmd FileType c setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+        autocmd FileType rs setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
         autocmd FileType nix setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
       '';
 
@@ -29,6 +28,7 @@ in
 
       extraPackages = with pkgs; [
         alejandra
+        clang
       ];
 
       plugins = with pkgs.vimPlugins; [
@@ -117,7 +117,6 @@ in
         cmp-cmdline
         cmp-treesitter
         luasnip
-
         {
           type = "lua";
           plugin = nvim-cmp;
@@ -135,11 +134,13 @@ in
               documentation = cmp.config.window.bordered(),
             },
             mapping = {
-              -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-              -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-              -- ['<C-Space>'] = cmp.mapping.complete(),
-              -- ['<C-e>'] = cmp.mapping.abort(),
-              -- ['<CR>'] = cmp.mapping.confirm({ select = true }),
+              ['<C-p>'] = cmp.mapping.select_prev_item(),
+              ['<C-n>'] = cmp.mapping.select_next_item(),
+              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ['<CR>'] = cmp.mapping.confirm({ select = true }),
             },
             sources = cmp.config.sources({
               { name = 'nvim_lsp' },
@@ -175,16 +176,25 @@ in
             })
 
             -- LSP Configs
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            local capabilities = vim.tbl_deep_extend(
+              'force',
+              vim.lsp.protocol.make_client_capabilities(),
+              require('cmp_nvim_lsp').default_capabilities(),
+              -- File watching is disabled by default for neovim.
+              -- See: https://github.com/neovim/neovim/pull/22405
+              { workspace = { didChangeWatchedFiles = { dynamicRegistration = true } } }
+            );
+
 
             lspconfig.clangd.setup {
               capabilities = capabilities,
               cmd = { "${pkgs.clang-tools}/bin/clangd" },
             }
-            lspconfig.rnix.setup {
+            lspconfig.nixd.setup {
               capabilities = capabilities,
-              cmd = { "${pkgs.rnix-lsp}/bin/rnix-lsp" },
+              cmd = { "${pkgs.nixd}/bin/nixd" },
             }
+
             lspconfig.rust_analyzer.setup {
               capabilities = capabilities,
               cmd = { "${pkgs.rust-analyzer}/bin/rust-analyzer" },

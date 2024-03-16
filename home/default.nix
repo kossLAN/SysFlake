@@ -1,14 +1,15 @@
-{ inputs
-, outputs
-, config
-, lib
-, stateVersion
-, pkgs
-, #, username
-  hostname
-, platform
-, homeDir
-, ...
+{
+  inputs,
+  outputs,
+  config,
+  lib,
+  stateVersion,
+  pkgs,
+  #, username
+  hostname,
+  platform,
+  homeDir,
+  ...
 }: {
   imports = [
     ./desktop
@@ -24,6 +25,12 @@
     config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
+
+      # For nixd, should be fine for now
+      allowBroken = true;
+      permittedInsecurePackages = [
+        "nix-2.16.2"
+      ];
     };
     overlays = [
       outputs.overlays.additions

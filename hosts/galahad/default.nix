@@ -1,11 +1,11 @@
-{ inputs
-, outputs
-, lib
-, config
-, pkgs
-, ...
-}:
 {
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./core
     inputs.nix-gaming.nixosModules.pipewireLowLatency # From nix-gaming
@@ -23,7 +23,7 @@
   };
 
   nix = {
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     optimise.automatic = true;
     gc.automatic = true;
@@ -32,8 +32,8 @@
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      substituters = [ "https://nix-gaming.cachix.org" ];
-      trusted-public-keys = [ "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4=" ];
+      substituters = ["https://nix-gaming.cachix.org"];
+      trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
     };
   };
 
@@ -99,7 +99,7 @@
     tmpfiles.rules = [
       "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
     ];
-  }; 
+  };
 
   # Services
   services = {
@@ -108,8 +108,8 @@
       libinput.enable = true;
       videoDriver = "amdgpu";
       layout = "us";
-      xkbVariant = "";  
-      
+      xkbVariant = "";
+
       # Not my daily driver just here for comparisons and fallback
       displayManager = {
         sddm = {
@@ -128,7 +128,7 @@
       enable = true;
       pulse.enable = true;
       wireplumber.enable = true;
-     
+
       lowLatency = {
         # enable this module
         enable = true;
@@ -146,7 +146,7 @@
 
     printing = {
       enable = true;
-      drivers = [ pkgs.hplipWithPlugin ];
+      drivers = [pkgs.hplipWithPlugin];
     };
 
     udev.packages = with pkgs; [
@@ -158,8 +158,7 @@
     gvfs.enable = true;
     udisks2.enable = true;
     dbus.enable = true;
-    flatpak.enable = true;
-  }; 
+  };
 
   # Programs
   programs = {
@@ -215,7 +214,7 @@
     enableDebugInfo = true;
   };
 
-  # Networking
+  # Networking.
   networking = {
     networkmanager.enable = true;
     hostName = "galahad";
@@ -255,7 +254,7 @@
         "libvirtd"
         "dialout"
         "docker"
-        "pipewire" 
+        "pipewire"
       ];
     };
   };

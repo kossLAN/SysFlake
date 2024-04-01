@@ -1,3 +1,3 @@
 {
-  nvim = import ./nvim;
+  imports = [./nvim];
 }

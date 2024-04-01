@@ -4,11 +4,13 @@
   lib,
   config,
   pkgs,
+  username,
+  hostname,
   ...
 }: {
   imports = [
-    ./core
-    inputs.nix-gaming.nixosModules.pipewireLowLatency # From nix-gaming
+    ./hardware
+    outputs.coreModules
   ];
 
   nixpkgs = {
@@ -32,8 +34,6 @@
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      substituters = ["https://nix-gaming.cachix.org"];
-      trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
     };
   };
 
@@ -75,122 +75,6 @@
     ];
   };
 
-  # Hardware
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [
-        rocmPackages.clr.icd
-      ];
-    };
-
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
-
-    opentabletdriver.enable = true;
-  };
-
-  # Systemd
-  systemd = {
-    tmpfiles.rules = [
-      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-    ];
-  };
-
-  # Services
-  services = {
-    xserver = {
-      enable = true;
-      libinput.enable = true;
-      videoDriver = "amdgpu";
-      layout = "us";
-      xkbVariant = "";
-
-      # Not my daily driver just here for comparisons and fallback
-      displayManager = {
-        sddm = {
-          enable = false;
-          wayland.enable = true;
-          #theme = "chili";
-        };
-      };
-
-      desktopManager = {
-        plasma5.enable = false;
-      };
-    };
-
-    pipewire = {
-      enable = true;
-      pulse.enable = true;
-      wireplumber.enable = true;
-
-      lowLatency = {
-        # enable this module
-        enable = true;
-        # defaults (no need to be set unless modified)
-        quantum = 256;
-        rate = 44100;
-      };
-    };
-
-    openssh.settings = {
-      enable = false;
-      permitRootLogin = "no";
-      passwordAuthentication = false;
-    };
-
-    printing = {
-      enable = true;
-      drivers = [pkgs.hplipWithPlugin];
-    };
-
-    udev.packages = with pkgs; [
-      via
-    ];
-
-    blueman.enable = true;
-    devmon.enable = true;
-    gvfs.enable = true;
-    udisks2.enable = true;
-    dbus.enable = true;
-  };
-
-  # Programs
-  programs = {
-    fish.enable = true;
-    dconf.enable = true;
-    gamemode.enable = true;
-
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        v8
-      ];
-    };
-
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
-
-    java = {
-      enable = true;
-      package = pkgs.openjdk;
-    };
-
-    # Steam
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-    };
-  };
-
-  # Environment
   environment = {
     variables = rec {
       "DXVK_ASYNC" = "1";
@@ -205,58 +89,48 @@
 
     systemPackages = with pkgs; [
       ntfs3g
-      networkmanager
-      scanmem
-      sddm-chili-theme
     ];
 
     localBinInPath = true;
     enableDebugInfo = true;
   };
 
-  # Networking.
   networking = {
-    networkmanager.enable = true;
-    hostName = "galahad";
+    nm.enable = true;
+    hostName = hostname;
   };
 
-  # Security
-  security = {
-    pam.services.gdm.enableGnomeKeyring = true;
-    rtkit.enable = true;
-  };
-
-  # Virtualization
-  virtualisation = {
-    vmware.host.enable = true;
-    vmware.guest.enable = true;
-    docker.enable = true;
-    docker.rootless = {
+  services = {
+    printing = {
       enable = true;
-      setSocketVariable = true;
+      drivers = [pkgs.hplipWithPlugin];
     };
-    libvirtd.enable = true;
+
+    tablet.enable = true;
+    bluetooth.enable = true;
+
+    amdGpu.enable = true;
+    helpfulUtils.enable = true;
+    sound.enable = true;
+
+    udevRules = {
+      enable = true;
+      keyboard.enable = true;
+    };
   };
 
-  # Users
-  users.users = {
-    koss = {
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "root";
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        #Add your SSH public key(s) here, if you plan on using SSH to connect
-      ];
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-        "libvirtd"
-        "dialout"
-        "docker"
-        "pipewire"
-      ];
+  programs = {
+    gtkgreet.enable = true;
+
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      customConf.enable = true;
     };
+
+    devTools.enable = true;
+    gameUtils.enable = true;
+    oc.enable = true;
   };
 
   system.stateVersion = "23.11";

@@ -18,7 +18,7 @@
     ./scripts
     ./theme
 
-    outputs.homeManagerModules.nvim
+    outputs.homeManagerModules
   ];
 
   nixpkgs = {

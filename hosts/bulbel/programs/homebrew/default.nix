@@ -23,7 +23,6 @@
       "microsoft-powerpoint"
       "microsoft-outlook"
       "microsoft-excel"
-      "nextcloud"
     ];
 
     brews = [

@@ -1,6 +1,0 @@
-{
-  imports = [
-    ./loginmanager
-    ./hardware
-  ];
-}

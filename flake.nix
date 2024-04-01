@@ -1,5 +1,50 @@
 {
   description = "Main nix configuration";
+
+  outputs = {
+    self,
+    nix-darwin,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    stateVersion = "23.11";
+    username = "koss";
+    libx = import ./lib {inherit inputs outputs nix-darwin stateVersion username;};
+  in {
+    # Packages & Overlays
+    overlays = import ./overlays {inherit inputs;};
+    coreModules = import ./modules/core;
+    nixosModules = import ./modules/nixos;
+    homeManagerModules = import ./modules/home-manager;
+
+    # NixOS Configurations
+    nixosConfigurations = {
+      galahad = libx.mkHost {
+        hostname = "galahad";
+        desktop = "hyprland";
+        username = "koss";
+      };
+    };
+
+    # MacOS Configuration: this setups home-manager as well...
+    darwinConfigurations = {
+      bulbel = libx.mkDarwin {
+        hostname = "bulbel";
+        user = "koss";
+        homeDir = "/Users/koss";
+        platform = "macbook";
+      };
+    };
+
+    # Home Manager
+    homeConfigurations = {
+      "${username}@galahad" = libx.mkHome {
+        hostname = "galahad";
+        desktop = "hyprland";
+      };
+    };
+  };
+
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -33,48 +78,6 @@
     anyrun = {
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = {
-    self,
-    nix-darwin,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    stateVersion = "23.11";
-    username = "koss";
-    libx = import ./lib {inherit inputs outputs nix-darwin stateVersion username;};
-  in {
-    # Packages & Overlays
-    overlays = import ./overlays {inherit inputs;};
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
-
-    # NixOS Configurations
-    nixosConfigurations = {
-      galahad = libx.mkHost {
-        hostname = "galahad";
-        desktop = "hyprland";
-      };
-    };
-
-    # MacOS Configuration: this setups home-manager as well...
-    darwinConfigurations = {
-      bulbel = libx.mkDarwin {
-        hostname = "bulbel";
-        user = "koss";
-        homeDir = "/Users/koss";
-        platform = "macbook";
-      };
-    };
-
-    # Home Manager
-    homeConfigurations = {
-      "${username}@galahad" = libx.mkHome {
-        hostname = "galahad";
-        desktop = "hyprland";
-      };
     };
   };
 }

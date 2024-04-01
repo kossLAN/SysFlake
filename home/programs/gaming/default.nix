@@ -1,14 +1,13 @@
-{ pkgs
-, inputs
-, self
-, lib
-, platform
-, ...
-}:
-let
-  allowedPlatforms = [ "desktop" ];
-in
 {
+  pkgs,
+  inputs,
+  self,
+  lib,
+  platform,
+  ...
+}: let
+  allowedPlatforms = ["desktop"];
+in {
   imports = [
     ./mangohud
   ];
@@ -19,12 +18,11 @@ in
       htop
       lutris
       prismlauncher
-      ugtrain
       gamemode
       protonup-qt
-      heroic
-      scanmem
-      rpcs3
+      #heroic
+      #scanmem
+      #rpcs3
       protontricks
       wine
       winetricks

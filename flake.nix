@@ -13,9 +13,7 @@
   in {
     # Packages & Overlays
     overlays = import ./overlays {inherit inputs;};
-    coreModules = import ./modules/core;
-    nixosModules = import ./modules/nixos;
-    homeManagerModules = import ./modules/home-manager;
+    coreModules = import ./modules;
 
     # NixOS Configurations
     nixosConfigurations = {

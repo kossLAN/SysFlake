@@ -100,6 +100,12 @@
     hostName = hostname;
   };
 
+  loginmanager.greetd = {
+    gtkgreet.enable = true;
+  };
+
+  theme.oled.enable = true;
+
   services = {
     printing = {
       enable = true;
@@ -120,8 +126,6 @@
   };
 
   programs = {
-    gtkgreet.enable = true;
-
     hyprland = {
       enable = true;
       xwayland.enable = true;
@@ -131,6 +135,27 @@
     devTools.enable = true;
     gameUtils.enable = true;
     oc.enable = true;
+    shells.zsh.enable = true;
+
+    hm = {
+      art.enable = true;
+      foot.enable = true;
+      nvim.enable = true;
+      utils.enable = true;
+      obs-studio.enable = true;
+      syncthing.enable = true;
+      vscodium.enable = true;
+
+      dev = {
+        git.enable = true;
+        utils.enable = true;
+      };
+
+      game = {
+        enable = true;
+        mangohud.enable = true;
+      };
+    };
   };
 
   system.stateVersion = "23.11";

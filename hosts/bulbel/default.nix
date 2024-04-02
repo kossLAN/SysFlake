@@ -1,25 +1,29 @@
-{ inputs
-, outputs
-, config
-, lib
-, pkgs
-, stateVersion
-, hostname
-, homeDir
-, platform
-, ...
+{
+  inputs,
+  outputs,
+  config,
+  lib,
+  pkgs,
+  stateVersion,
+  hostname,
+  homeDir,
+  platform,
+  ...
 }: {
   imports = [
     outputs.universalModules
     outputs.darwinModules
-    ./programs
   ];
 
   networking = {
     hostName = "bulbel";
   };
 
-  # programs.bash.enable = true;
+  homebrew = {
+    enable = true;
+    customConf = true;
+  };
+
   programs = {
     zsh = {
       enable = true;
@@ -33,6 +37,10 @@
       nvim.enable = true;
       vscodium.enable = true;
       syncthing.enable = true;
+
+      dev = {
+        git.enable = true;
+      };
 
       utils = {
         enable = true;

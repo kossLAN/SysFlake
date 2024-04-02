@@ -1,3 +1,3 @@
 {
-  imports = [ ./nvim ./syncthing ./vscodium ];
+  imports = [./dev ./nvim ./syncthing ./vscodium];
 }

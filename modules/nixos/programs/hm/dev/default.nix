@@ -1,3 +1,3 @@
 {
-  imports = [./git ./utils];
+  imports = [./utils];
 }

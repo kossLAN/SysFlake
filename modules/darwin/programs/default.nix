@@ -1,3 +1,3 @@
 {
-  imports = [ ./hm ];
+  imports = [./hm ./homebrew];
 }

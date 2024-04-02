@@ -1,16 +1,16 @@
-{
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  username,
-  hostname,
-  ...
+{ inputs
+, outputs
+, lib
+, config
+, pkgs
+, username
+, hostname
+, ...
 }: {
   imports = [
     ./hardware
-    outputs.coreModules
+    outputs.universalModules
+    outputs.nixosModules
   ];
 
   nixpkgs = {
@@ -25,7 +25,7 @@
   };
 
   nix = {
-    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
+    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     optimise.automatic = true;
     gc.automatic = true;
@@ -109,7 +109,7 @@
   services = {
     printing = {
       enable = true;
-      drivers = [pkgs.hplipWithPlugin];
+      drivers = [ pkgs.hplipWithPlugin ];
     };
 
     tablet.enable = true;
@@ -135,7 +135,10 @@
     devTools.enable = true;
     gameUtils.enable = true;
     oc.enable = true;
-    shells.zsh.enable = true;
+    zsh = {
+      enable = true;
+      customConf = true;
+    };
 
     hm = {
       art.enable = true;

@@ -4,15 +4,17 @@
 , ...
 }:
 let
-  cfg = config.darwin.programs.hm.utils;
+  cfg = config.programs.hm.utils;
 in
 {
-  options.darwin.programs.hm.utils = {
+  imports = [ ./trampoline ];
+
+  options.programs.hm.utils = {
     enable = lib.mkEnableOption "utils";
   };
 
   config = lib.mkIf cfg.enable {
-    home-manager.users.${config.defaultUser} = {
+    home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
         iterm2
         spotify

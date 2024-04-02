@@ -1,12 +1,13 @@
-{
-  lib,
-  config,
-  inputs,
-  self,
-  ...
-}: let
+{ lib
+, config
+, inputs
+, self
+, ...
+}:
+let
   cfg = config.users.defaultUser;
-in {
+in
+{
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -19,7 +20,7 @@ in {
   config = {
     users.users.${config.users.defaultUser} = {
       isNormalUser = true;
-      extraGroups = ["wheel"];
+      extraGroups = [ "wheel" ];
       initialPassword = "root";
     };
 

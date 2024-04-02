@@ -1,47 +1,43 @@
 {
   description = "Main nix configuration";
 
-  outputs = {
-    self,
-    nix-darwin,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    stateVersion = "23.11";
-    username = "koss";
-    libx = import ./lib {inherit inputs outputs nix-darwin stateVersion username;};
-  in {
-    # Packages & Overlays
-    overlays = import ./overlays {inherit inputs;};
-    coreModules = import ./modules;
+  outputs =
+    { self
+    , nix-darwin
+    , ...
+    } @ inputs:
+    let
+      inherit (self) outputs;
+      stateVersion = "23.11";
+      username = "koss";
+      libx = import ./lib { inherit inputs outputs nix-darwin stateVersion username; };
+    in
+    {
+      # Packages & Overlays
+      overlays = import ./overlays { inherit inputs; };
+      universalModules = import ./modules/universal;
+      nixosModules = import ./modules/nixos;
+      darwinModules = import ./modules/darwin;
 
-    # NixOS Configurations
-    nixosConfigurations = {
-      galahad = libx.mkHost {
-        hostname = "galahad";
-        desktop = "hyprland";
-        username = "koss";
+      # NixOS Configurations
+      nixosConfigurations = {
+        galahad = libx.mkHost {
+          hostname = "galahad";
+          desktop = "hyprland";
+          username = "koss";
+        };
+      };
+
+      # MacOS Configuration: this setups home-manager as well...
+      darwinConfigurations = {
+        bulbel = libx.mkDarwin {
+          hostname = "bulbel";
+          user = "koss";
+          homeDir = "/Users/koss";
+          platform = "macbook";
+        };
       };
     };
-
-    # MacOS Configuration: this setups home-manager as well...
-    darwinConfigurations = {
-      bulbel = libx.mkDarwin {
-        hostname = "bulbel";
-        user = "koss";
-        homeDir = "/Users/koss";
-        platform = "macbook";
-      };
-    };
-
-    # Home Manager
-    homeConfigurations = {
-      "${username}@galahad" = libx.mkHome {
-        hostname = "galahad";
-        desktop = "hyprland";
-      };
-    };
-  };
 
   inputs = {
     # Nixpkgs

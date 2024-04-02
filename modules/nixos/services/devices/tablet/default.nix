@@ -1,10 +1,11 @@
-{
-  config,
-  lib,
-  ...
-}: let
+{ config
+, lib
+, ...
+}:
+let
   cfg = config.services.tablet;
-in {
+in
+{
   options.services.tablet = {
     enable = lib.mkEnableOption "tablet";
   };
@@ -14,7 +15,7 @@ in {
       opentabletdriver = {
         enable = true;
         daemon.enable = true;
-        blacklistedKernelModules = ["wacom"];
+        blacklistedKernelModules = [ "wacom" ];
       };
     };
   };

@@ -4,7 +4,7 @@
     ./services
     ./programs
     ./virtualization
-    ./users
     ./theme
+    ./users
   ];
 }

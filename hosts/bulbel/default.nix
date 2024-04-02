@@ -1,6 +1,19 @@
-{ inputs, outputs, config, lib, pkgs, stateVersion, hostname, homeDir, platform, ... }:
-{
-  imports = [ ./programs ];
+{ inputs
+, outputs
+, config
+, lib
+, pkgs
+, stateVersion
+, hostname
+, homeDir
+, platform
+, ...
+}: {
+  imports = [
+    outputs.universalModules
+    outputs.darwinModules
+    ./programs
+  ];
 
   networking = {
     hostName = "bulbel";
@@ -13,8 +26,27 @@
       interactiveShellInit = ''
         alias nix-rebuild="darwin-rebuild --flake /Users/koss/.config/nix-darwin switch"
       '';
+      customConf = true;
+    };
+
+    hm = {
+      nvim.enable = true;
+      vscodium.enable = true;
+      syncthing.enable = true;
+
+      utils = {
+        enable = true;
+        trampoline.enable = true;
+      };
     };
   };
+
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
+  };
+
+  security.pam.enableSudoTouchIdAuth = true;
 
   services = {
     nix-daemon.enable = true;
@@ -35,10 +67,5 @@
       automatic = true;
       options = "--delete-older-than 1d";
     };
-  };
-
-  users.users.koss = {
-    home = "/Users/koss";
-    name = "koss";
   };
 }

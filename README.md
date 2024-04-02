@@ -7,7 +7,7 @@
 </h1>
 
 ## Features
-  - **Singular home-manager home**: because I have systems where I don't use NixOS and having a unified home is easier for me to manage
+  - **Modulization first approach: Everything that can be abstracted into modules is! Wny? well that's because it allows me to bundle my apps with own configs together! 
   - **Management for my dotfiles in one place where I can easily switch between them**
   - **Host support for NixOS & Nix-Darwin**
   - Don't know what else to put here, things are pretty bog standard
@@ -25,9 +25,7 @@
   - Build a system(alternatively use nh):
     
     ```nixos-rebuild --flake .#<system> switch|boot```
-  - Rebuild home-manager(alternatively use nh):
 
-    ```home-manager --flake .#<user>@<system> switch```
   - Build iso image of a system configuration:
     
     ```nixos-rebuild build --flake .#nixosConfigurations.<system>.config.system.build.isoImage;```

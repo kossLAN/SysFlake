@@ -1,3 +1,3 @@
 {
-  imports = [ ./oc ./hyprland ./devTools ./gameUtils ];
+  imports = [./hm ./oc ./hyprland ./devTools ./gameUtils];
 }

@@ -40,6 +40,7 @@ in {
 
       brews = [
         "java"
+        "dotnet"
         "openjdk"
       ];
     };

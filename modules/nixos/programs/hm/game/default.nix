@@ -29,10 +29,7 @@ in {
         winetricks
         xivlauncher
         r2modman
-        #inputs.nix-gaming.packages.${pkgs.system}.osu-stable
-        #inputs.nix-gaming.packages.${pkgs.system}.osu-mime
-        #inputs.nix-gaming.packages.${pkgs.system}.osu-lazer-bin
-        #osu-lazer
+        osu-lazer-bin
       ];
     };
   };

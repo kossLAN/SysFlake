@@ -21,7 +21,8 @@ in {
         dpkg
         nodejs
         xxd
-        #gdb
+        gdb
+        valgrind
         killall
         file
         dotnet-sdk

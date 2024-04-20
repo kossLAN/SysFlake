@@ -25,9 +25,11 @@ in {
         vimdiffAlias = true;
 
         extraConfig = ''
+          autocmd FileType cpp setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType c setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType rs setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType nix setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+          autocmd FileType qml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
         '';
 
         extraLuaConfig = ''
@@ -84,6 +86,8 @@ in {
           }
 
           # Misc plugins/quality of life
+          vim-qml
+          vim-nix
           {
             type = "lua";
             plugin = comment-nvim;

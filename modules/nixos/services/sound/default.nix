@@ -13,6 +13,8 @@ in {
   config = lib.mkIf cfg.enable {
     services = {
       pipewire = {
+        wireplumber.enable = true;
+        audio.enable = true;
         enable = true;
         pulse.enable = true;
         alsa = {
@@ -26,8 +28,6 @@ in {
       rtkit.enable = true;
     };
 
-    # TODO: setup a global variable of sorts to manager user, or find
-    # a better solution.
     users.users.${config.users.defaultUser}.extraGroups = [
       "pipewire"
     ];

@@ -1,11 +1,12 @@
-{ inputs
-, outputs
-, lib
-, config
-, pkgs
-, username
-, hostname
-, ...
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  username,
+  hostname,
+  ...
 }: {
   imports = [
     ./hardware
@@ -25,7 +26,7 @@
   };
 
   nix = {
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
     optimise.automatic = true;
     gc.automatic = true;
@@ -82,14 +83,9 @@
 
     sessionVariables = rec {
       NIXOS_OZONE_WL = "1";
-      SHELL = "/run/current-system/sw/bin/fish";
-      DOTNET_ROOT = "${pkgs.dotnet-sdk}";
+      SHELL = "/run/current-system/sw/bin/zsh";
       FLAKE = "/home/koss/.nixos-conf";
     };
-
-    systemPackages = with pkgs; [
-      ntfs3g
-    ];
 
     localBinInPath = true;
     enableDebugInfo = true;
@@ -109,7 +105,7 @@
   services = {
     printing = {
       enable = true;
-      drivers = [ pkgs.hplipWithPlugin ];
+      drivers = [pkgs.hplipWithPlugin];
     };
 
     tablet.enable = true;
@@ -132,6 +128,7 @@
       customConf.enable = true;
     };
 
+    noisetorch.enable = true;
     devTools.enable = true;
     gameUtils.enable = true;
     oc.enable = true;

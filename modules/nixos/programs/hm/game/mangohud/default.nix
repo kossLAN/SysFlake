@@ -34,7 +34,7 @@ in {
           gpu_color = "2e9762";
           wine_color = "eb5b5b";
           #fps_limit_method = "late";
-          fps_limit = 60;
+          fps_limit = 240;
           frame_timing = 0;
           frametime = true;
           frametime_color = "00ff00";

@@ -12,9 +12,30 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-kde
+      ];
+      config.common.default = [
+        "hyprland"
+        "kde"
+      ];
+    };
+
+    environment.systemPackages = with pkgs; [
+      libsForQt5.dolphin
+      libsForQt5.gwenview
+      libsForQt5.ark
+    ];
+
+    programs.hyprland = {
+      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    };
+
     #TODO: move hyprland configuration into this.
     home-manager.users.${config.users.defaultUser} = {
-      imports = [./waybar];
+      # imports = [./waybar ];
 
       home = {
         packages = with pkgs; [
@@ -28,23 +49,27 @@ in {
           libnotify
           playerctl
           inputs.anyrun.packages.${system}.anyrun
+
+          qt6.qt5compat
+          qt6.qtsvg
+          inputs.quickshell.packages.${system}.default
         ];
 
         file = {
           ".config/anyrun".source = ./anyrun;
-          ".config/swaync".source = ./swaync;
+          #".config/swaync".source = ./swaync;
         };
       };
 
       wayland.windowManager.hyprland = {
         enable = true;
-        # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+        package = inputs.hyprland.packages.${pkgs.system}.hyprland;
         systemd.enable = true;
 
         extraConfig = ''
             exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-            exec-once = waybar &
-            exec-once = swaync -s ~/.config/swaync/style.css -c ~/.config/swaync/config.js
+            exec-once = quickshell &
+            # exec-once = swaync -s ~/.config/swaync/style.css -c ~/.config/swaync/config.js
 
             exec = swaybg -m fill -i ${./wallpapers/wallhaven-vqv3ml.jpg}
             exec = ${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
@@ -182,6 +207,11 @@ in {
           # Move/resize windows with mainMod + LMB/RMB and dragging
           bindm = $mainMod , mouse:272 , movewindow
           bindm = $mainMod , mouse:273 , resizewindow
+
+          # Define layer rules
+          layerrule = ignorezero, quickshell
+          layerrule = blur, quickshell
+          layerrule = blurpopups, quickshell
 
           # Define window behaviour
 

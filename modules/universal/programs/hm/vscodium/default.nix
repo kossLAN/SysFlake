@@ -18,11 +18,11 @@ in {
         mutableExtensionsDir = true;
         extensions = with pkgs.vscode-extensions; [
           bbenoist.nix
-          catppuccin.catppuccin-vsc
+          #catppuccin.catppuccin-vsc
           dbaeumer.vscode-eslint
           eamodio.gitlens
           esbenp.prettier-vscode
-          ms-python.python
+          #ms-python.python
           # ms-python.vscode-pylance
           naumovs.color-highlight
           oderwat.indent-rainbow
@@ -167,9 +167,9 @@ in {
 
           window.titleBarStyle = "custom";
 
-          catppuccin.accentColor = "blue";
+          #catppuccin.accentColor = "blue";
           workbench = {
-            colorTheme = "Catppuccin Frappé";
+            #colorTheme = "Catppuccin Frappé";
             iconTheme = "material-icon-theme";
             list.smoothScrolling = true;
             panel.defaultLocation = "bottom";

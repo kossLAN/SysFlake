@@ -15,10 +15,6 @@ in {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
         # Move these to hyprland config
-        libsForQt5.dolphin
-        libsForQt5.gwenview
-        libsForQt5.ark
-
         deluge
         pavucontrol
         mpv
@@ -31,14 +27,20 @@ in {
         hplip
         libreoffice-qt
         plexamp
-        protonvpn-cli_2
         nh
-        (pkgs.vesktop.overrideAttrs (old: {
-          postFixup = ''
-            wrapProgram $out/bin/vesktop \
-              --add-flags "--enable-features=VaapiIgnoreDriverChecks,VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,UseMultiPlaneFormatForHardwareVideo"
-          '';
-        }))
+        vesktop
+        # (pkgs.vesktop.overrideAttrs (old: {
+        #   src = fetchFromGitHub {
+        #     owner = "Vencord";
+        #     repo = "Vesktop";
+        #     rev = "05df122cf1c83e9f77293a9dc28bbc13be537134";
+        #     hash = "sha256-+6CyMxYEK/nQLoxh7QWcknjn04e80bVlkLsf6Vg7SeI=";
+        #   };
+        #   # postFixup = ''
+        #   #   wrapProgram $out/bin/vesktop \
+        #   #     --add-flags "--enable-features=VaapiIgnoreDriverChecks,VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization,UseMultiPlaneFormatForHardwareVideo"
+        #   # '';
+        # }))
       ];
     };
   };

@@ -1,12 +1,11 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
-let
-  cfg = config.programs.gameUtils;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  cfg = config.programs.gameUtils;
+in {
   options.programs.gameUtils = {
     enable = lib.mkEnableOption "gameUtils";
   };

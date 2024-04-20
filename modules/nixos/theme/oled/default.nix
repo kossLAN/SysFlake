@@ -11,9 +11,23 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    qt = {
+      enable = true;
+      # platformTheme = "qtct";
+      # style = {
+      #   name = "breeze";
+      # };
+    };
+
     home-manager.users.${config.users.defaultUser} = {
       # GTK
-      home.packages = with pkgs; [glib nerdfonts];
+      home.packages = with pkgs; [
+        glib
+        nerdfonts
+        /*
+        (nerdfonts.override {fonts = ["FiraCode" "FantasqueSansMono" "JetBrainsMono"];})
+        */
+      ];
       xdg.systemDirs.data = let
         schema = pkgs.gsettings-desktop-schemas;
       in ["${schema}/share/gsettings-schemas/${schema.name}"];
@@ -45,14 +59,6 @@ in {
           gtk-xft-hintstyle="hintslight"
           gtk-xft-rgba="rgb"
         '';
-      };
-
-      qt = {
-        enable = true;
-        platformTheme = "qtct";
-        style = {
-          name = "breeze";
-        };
       };
 
       # xdg.configFile = {

@@ -54,8 +54,6 @@
   };
 
   boot.loader.grub = {
-    # no need to set devices, disko will add all devices that have a EF02 partition to the list already
-    # devices = [ ];
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
@@ -136,8 +134,10 @@
       customConf = true;
     };
 
-    #dev.git.enable = true;
-    hm.nvim.enable = true;
+    hm = {
+      nvim.enable = true;
+      dev.git.enable = true;
+    };
   };
 
   services = {
@@ -178,8 +178,8 @@
       };
 
       settings = {
-        trusted_domains = ["nextcloud.kosslan.dev"];
-        trusted_proxies = ["192.168.10.115" "192.168.10.102" "nextcloud.kosslan.dev"];
+        trusted_domains = ["nextcloud.kosslan.dev" "cloud.kosslan.dev"];
+        trusted_proxies = ["cloud.kosslan.dev" "nextcloud.kosslan.dev"];
         enabledPreviewProviders = [
           "OC\\Preview\\BMP"
           "OC\\Preview\\GIF"
@@ -191,7 +191,6 @@
           "OC\\Preview\\PNG"
           "OC\\Preview\\TXT"
           "OC\\Preview\\XBitmap"
-          "OC\\Preview\\HEIC"
         ];
 
         "filelocking.enabled" = true;
@@ -200,6 +199,7 @@
       database.createLocally = true;
 
       config = {
+        adminuser = "koss";
         adminpassFile = "/etc/nc-adminpass";
         dbtype = "mysql";
       };
@@ -222,7 +222,7 @@
           forceSSL = true;
           locations = {
             "/" = {
-              proxyPass = "http://127.0.0.1";
+              proxyPass = "http://127.0.0.1:80";
               proxyWebsockets = true;
               extraConfig = ''
                 limit_rate 30m;

@@ -36,6 +36,26 @@
         "type": "github"
       }
     },
+    "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1713406758,
+        "narHash": "sha256-kwZvhmx+hSZvjzemKxsAqzEqWmXZS47VVwQhNrINORQ=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "1efd500e9805a9efbce401ed5999006d397b9f11",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -356,6 +376,7 @@
     "root": {
       "inputs": {
         "anyrun": "anyrun",
+        "disko": "disko",
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "mac-app-util": "mac-app-util",

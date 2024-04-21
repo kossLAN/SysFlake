@@ -102,7 +102,20 @@
 
   theme.oled.enable = true;
 
+  environment.etc."nc-adminpass".text = "root";
+
   services = {
+    nginx.enable = true;
+    nextcloud = {
+      enable = true;
+      package = pkgs.nextcloud28;
+      hostName = "localhost";
+
+      config = {
+        adminpassFile = "/etc/nc-adminpass";
+      };
+    };
+
     printing = {
       enable = true;
       drivers = [pkgs.hplipWithPlugin];

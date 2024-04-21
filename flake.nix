@@ -24,6 +24,12 @@
         desktop = "hyprland";
         username = "koss";
       };
+
+      cerebrite = libx.mkHost {
+        hostname = "cerebrite";
+        desktop = "";
+        username = "koss";
+      };
     };
 
     # MacOS Configuration: this setups home-manager as well...
@@ -74,6 +80,11 @@
 
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

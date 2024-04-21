@@ -30,6 +30,10 @@
     
     ```nixos-rebuild build --flake .#nixosConfigurations.<system>.config.system.build.isoImage;```
 
+  - Remote Deploy image to a server using nixos-anywhere
+
+    ```nix run github:nix-community/nixos-anywhere -- --flake <path to configuration>#<configuration name> root@<ip address>```
+
 ## Notes
   - I'm not a very aesthetic person when it comes to my ReadMe's so this is the best you get 8)
   - I have yet to overhaul my system configuration for galahad as it is the longest standing component in my system

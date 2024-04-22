@@ -15,6 +15,7 @@
     overlays = import ./overlays {inherit inputs;};
     universalModules = import ./modules/universal;
     nixosModules = import ./modules/nixos;
+    serverModules = import ./modules/server;
     darwinModules = import ./modules/darwin;
 
     # NixOS Configurations

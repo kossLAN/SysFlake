@@ -11,7 +11,7 @@
   imports = [
     #./hardware
     outputs.universalModules
-    outputs.nixosModules
+    outputs.serverModules
     ./disk-config.nix
   ];
 
@@ -131,6 +131,7 @@
   };
 
   programs = {
+    utils.enable = true;
     zsh = {
       enable = true;
       customConf = true;
@@ -142,9 +143,17 @@
     };
   };
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
+  virtualisation = {
+    docker = {
+      enable = true;
+      enableOnBoot = true;
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
+    };
+
+    portainer.enable = true;
   };
 
   services = {
@@ -227,7 +236,6 @@
       recommendedTlsSettings = true;
       virtualHosts = {
         "nextcloud.kosslan.dev" = {
-          #serverAliases = ["cloud.kosslan.dev"];
           enableACME = true;
           forceSSL = true;
           locations = {

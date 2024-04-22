@@ -77,8 +77,8 @@
     hostName = "cerebrite";
 
     firewall = {
-      allowedTCPPorts = [22 80 443 8384];
-      allowedUDPPorts = [21027 22000 51820];
+      allowedTCPPorts = [32400 22000 22 80 443 8384];
+      allowedUDPPorts = [22000 51820];
     };
 
     nat = {
@@ -118,19 +118,19 @@
     };
   };
 
-  # systemd.services."inotify-nextcloud" = {
-  #   wantedBy = ["multi-user.target"];
-  #   after = ["network.target"];
-  #   description = "Run inotify watcher for nextcloud.";
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     User = "root";
-  #     ExecStart = ''
-  #       ${config.system.path}/bin/nextcloud-occ files_external:notify -v 1 &
-  #     '';
-  #     Restart = "on-failure";
-  #   };
-  # };
+  systemd.services."inotify-nextcloud" = {
+    wantedBy = ["multi-user.target"];
+    after = ["network.target"];
+    description = "Run inotify watcher for nextcloud.";
+    serviceConfig = {
+      Type = "simple";
+      User = "root";
+      ExecStart = ''
+        ${config.system.path}/bin/nextcloud-occ files_external:notify -v 1 &
+      '';
+      Restart = "on-failure";
+    };
+  };
 
   programs = {
     zsh = {
@@ -169,7 +169,7 @@
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud28;
-      hostName = "localhost";
+      hostName = "nextcloud.kosslan.dev";
       appstoreEnable = true;
       configureRedis = true;
       notify_push.enable = false;
@@ -177,10 +177,15 @@
       maxUploadSize = "50G";
 
       phpExtraExtensions = all: [all.smbclient all.inotify];
+      phpOptions = {
+        "opcache.interned_strings_buffer" = "32";
+        "opcache.max_accelerated_files" = "10000";
+        "opcache.memory_consumption" = "128";
+      };
 
       settings = {
-        trusted_domains = ["cloud.kosslan.dev"];
-        trusted_proxies = ["cloud.kosslan.dev" "127.0.0.1"];
+        trusted_domains = ["nextcloud.kosslan.dev"];
+        trusted_proxies = ["nextcloud.kosslan.dev" "127.0.0.1"];
         "filelocking.enabled" = true;
       };
 
@@ -203,20 +208,15 @@
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       virtualHosts = {
-        "cloud.kosslan.dev" = {
+        "nextcloud.kosslan.dev" = {
           #serverAliases = ["cloud.kosslan.dev"];
           enableACME = true;
           forceSSL = true;
           locations = {
-            "/" = {
-              proxyPass = "http://127.0.0.1:8080/";
+            "\\.php" = {
+              proxyPass = "http://127.0.0.1/";
               proxyWebsockets = true;
               extraConfig = ''
-                limit_rate 30m;
-                client_max_body_size 50G;
-                client_body_timeout 300s;
-                fastcgi_buffers 64 4K;
-                client_body_buffer_size 512k;
                 proxy_ssl_server_name on;
                 proxy_pass_header Authorization;
               '';

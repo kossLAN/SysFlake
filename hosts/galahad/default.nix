@@ -102,17 +102,35 @@
 
   theme.oled.enable = true;
 
-  environment.etc."nc-adminpass".text = "root";
-
   services = {
-    nginx.enable = true;
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud28;
       hostName = "localhost";
+      appstoreEnable = true;
+      configureRedis = true;
+      notify_push.enable = false;
+      https = true;
+      maxUploadSize = "50G";
+
+      phpExtraExtensions = all: [all.smbclient all.inotify];
+
+      settings = {
+        trusted_domains = ["nextcloud.kosslan.dev" "cloud.kosslan.dev"];
+        trusted_proxies = ["cloud.kosslan.dev" "nextcloud.kosslan.dev"];
+        "filelocking.enabled" = true;
+      };
+
+      database.createLocally = true;
 
       config = {
         adminpassFile = "/etc/nc-adminpass";
+        dbtype = "mysql";
+      };
+
+      caching = {
+        redis = true;
+        memcached = true;
       };
     };
 

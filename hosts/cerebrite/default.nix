@@ -140,6 +140,11 @@
     };
   };
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
+
   services = {
     openssh = {
       enable = true;
@@ -222,7 +227,7 @@
           forceSSL = true;
           locations = {
             "/" = {
-              proxyPass = "http://127.0.0.1:80";
+              proxyPass = "http://127.0.0.1:8080/";
               proxyWebsockets = true;
               extraConfig = ''
                 limit_rate 30m;

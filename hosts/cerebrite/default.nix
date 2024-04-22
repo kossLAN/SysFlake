@@ -53,20 +53,24 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  boot.loader.grub = {
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+  boot = {
+    kernel.sysctl = {
+      "fs.inotify.max_user_watches" = 204800;
+    };
+
+    swraid.enable = true;
+
+    loader.grub = {
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+    };
   };
 
   environment.etc."nc-adminpass".text = "root";
 
-  boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = 204800;
-  };
-
   security.acme = {
     acceptTerms = true;
-    defaults.email = "kosslan@proton.me";
+    defaults.email = "kosslan@kosslan.dev";
   };
 
   networking = {

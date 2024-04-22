@@ -58,8 +58,6 @@
       "fs.inotify.max_user_watches" = 204800;
     };
 
-    swraid.enable = true;
-
     loader.grub = {
       efiSupport = true;
       efiInstallAsRemovable = true;
@@ -182,6 +180,7 @@
       maxUploadSize = "50G";
 
       phpExtraExtensions = all: [all.smbclient all.inotify];
+
       phpOptions = {
         "opcache.interned_strings_buffer" = "32";
         "opcache.max_accelerated_files" = "10000";
@@ -192,6 +191,20 @@
         trusted_domains = ["nextcloud.kosslan.dev"];
         trusted_proxies = ["nextcloud.kosslan.dev" "127.0.0.1"];
         "filelocking.enabled" = true;
+
+        "enabledPreviewProviders" = [
+          "OC\\Preview\\BMP"
+          "OC\\Preview\\GIF"
+          "OC\\Preview\\JPEG"
+          "OC\\Preview\\Krita"
+          "OC\\Preview\\MarkDown"
+          "OC\\Preview\\MP3"
+          "OC\\Preview\\OpenDocument"
+          "OC\\Preview\\PNG"
+          "OC\\Preview\\TXT"
+          "OC\\Preview\\XBitmap"
+          "OC\\Preview\\HEIC"
+        ];
       };
 
       database.createLocally = true;

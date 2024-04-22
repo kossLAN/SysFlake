@@ -77,8 +77,8 @@
     hostName = "cerebrite";
 
     firewall = {
-      allowedTCPPorts = [32400 22000 22 80 443 8384];
-      allowedUDPPorts = [22000 51820];
+      allowedTCPPorts = [32400 22000 22 80 443 8384 53];
+      allowedUDPPorts = [22000 51820 53];
     };
 
     nat = {

@@ -83,7 +83,7 @@
 
     nat = {
       enable = true;
-      externalInterface = "eth0";
+      externalInterface = "eno1";
       internalInterfaces = ["wg0"];
     };
 

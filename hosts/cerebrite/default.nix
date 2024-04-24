@@ -106,6 +106,11 @@
       adguardhome.enable = true;
     };
 
+    forgejo = {
+      enable = true;
+      customConf = true;
+    };
+
     # seafile = {
     #   enable = true;
     #   customConf.enable = true;

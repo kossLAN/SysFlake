@@ -30,10 +30,19 @@ in {
           autocmd FileType rs setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType nix setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType qml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+          autocmd FileType * setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
         '';
 
         extraLuaConfig = ''
-          vim.opt.number = true
+          # vim.opt.number = true
+
+          -- Restore cursor position
+          vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+            pattern = { "*" },
+            callback = function()
+              vim.api.nvim_exec('silent! normal! g`"zv', false)
+            end,
+          })
         '';
 
         extraPackages = with pkgs; [
@@ -97,6 +106,7 @@ in {
           }
 
           # Autoformatting
+          vim-clang-format
           {
             type = "lua";
             plugin = null-ls-nvim;

@@ -170,6 +170,11 @@
       enable = true;
     };
 
+    searx = {
+      enable = true;
+      customConf.enable = true;
+    };
+
     syncthing = {
       enable = true;
       guiAddress = "0.0.0.0:8384";
@@ -181,11 +186,11 @@
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud28;
-      hostName = "nextcloud.kosslan.dev";
+      hostName = "localhost";
       appstoreEnable = true;
       configureRedis = true;
       notify_push.enable = false;
-      https = true;
+      # https = true;
       maxUploadSize = "50G";
 
       phpExtraExtensions = all: [all.smbclient all.inotify];

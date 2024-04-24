@@ -34,7 +34,7 @@ in {
         '';
 
         extraLuaConfig = ''
-          # vim.opt.number = true
+          -- vim.opt.number = true
 
           -- Restore cursor position
           vim.api.nvim_create_autocmd({ "BufReadPost" }, {

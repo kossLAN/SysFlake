@@ -64,12 +64,9 @@
     };
   };
 
+  /*
   environment.etc."nc-adminpass".text = "root";
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = "kosslan@kosslan.dev";
-  };
+  */
 
   networking = {
     hostName = "cerebrite";
@@ -116,19 +113,19 @@
     };
   };
 
-  systemd.services."inotify-nextcloud" = {
-    wantedBy = ["multi-user.target"];
-    after = ["network.target"];
-    description = "Run inotify watcher for nextcloud.";
-    serviceConfig = {
-      Type = "simple";
-      User = "root";
-      ExecStart = ''
-        ${config.system.path}/bin/nextcloud-occ files_external:notify -v 1 &
-      '';
-      Restart = "on-failure";
-    };
-  };
+  # systemd.services."inotify-nextcloud" = {
+  #   wantedBy = ["multi-user.target"];
+  #   after = ["network.target"];
+  #   description = "Run inotify watcher for nextcloud.";
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     User = "root";
+  #     ExecStart = ''
+  #       ${config.system.path}/bin/nextcloud-occ files_external:notify -v 1 &
+  #     '';
+  #     Restart = "on-failure";
+  #   };
+  # };
 
   programs = {
     utils.enable = true;
@@ -175,6 +172,11 @@
       customConf.enable = true;
     };
 
+    seafile = {
+      enable = true;
+      customConf.enable = true;
+    };
+
     syncthing = {
       enable = true;
       guiAddress = "0.0.0.0:8384";
@@ -183,79 +185,86 @@
       dataDir = "/var/lib/nextcloud";
     };
 
-    nextcloud = {
-      enable = true;
-      package = pkgs.nextcloud28;
-      hostName = "localhost";
-      appstoreEnable = true;
-      configureRedis = true;
-      notify_push.enable = false;
-      # https = true;
-      maxUploadSize = "50G";
+    # Config.php won't reset unless rebuilt as root :P
+    # nextcloud = {
+    #   enable = true;
+    #   package = pkgs.nextcloud28;
+    #   hostName = "nextcloud.kosslan.dev";
+    #   https = true;
+    #
+    #   appstoreEnable = true;
+    #   configureRedis = true;
+    #   notify_push.enable = false;
+    #   maxUploadSize = "50G";
+    #
+    #   phpExtraExtensions = all: [all.smbclient all.inotify];
+    #
+    #   phpOptions = {
+    #     "opcache.interned_strings_buffer" = "32";
+    #     "opcache.max_accelerated_files" = "10000";
+    #     "opcache.memory_consumption" = "128";
+    #   };
+    #
+    #   settings = {
+    #     trusted_domains = ["nextcloud.kosslan.dev"];
+    #     trusted_proxies = ["nextcloud.kosslan.dev"];
+    #     "filelocking.enabled" = true;
+    #
+    #     "enabledPreviewProviders" = [
+    #       "OC\\Preview\\BMP"
+    #       "OC\\Preview\\GIF"
+    #       "OC\\Preview\\JPEG"
+    #       "OC\\Preview\\Krita"
+    #       "OC\\Preview\\MarkDown"
+    #       "OC\\Preview\\MP3"
+    #       "OC\\Preview\\OpenDocument"
+    #       "OC\\Preview\\PNG"
+    #       "OC\\Preview\\TXT"
+    #       "OC\\Preview\\XBitmap"
+    #       "OC\\Preview\\HEIC"
+    #     ];
+    #   };
+    #
+    #   database.createLocally = true;
+    #
+    #   config = {
+    #     adminpassFile = "/etc/nc-adminpass";
+    #     dbtype = "mysql";
+    #   };
+    #
+    #   caching = {
+    #     redis = true;
+    #     memcached = true;
+    #   };
+    # };
 
-      phpExtraExtensions = all: [all.smbclient all.inotify];
-
-      phpOptions = {
-        "opcache.interned_strings_buffer" = "32";
-        "opcache.max_accelerated_files" = "10000";
-        "opcache.memory_consumption" = "128";
-      };
-
-      settings = {
-        trusted_domains = ["nextcloud.kosslan.dev"];
-        trusted_proxies = ["nextcloud.kosslan.dev" "127.0.0.1"];
-        "filelocking.enabled" = true;
-
-        "enabledPreviewProviders" = [
-          "OC\\Preview\\BMP"
-          "OC\\Preview\\GIF"
-          "OC\\Preview\\JPEG"
-          "OC\\Preview\\Krita"
-          "OC\\Preview\\MarkDown"
-          "OC\\Preview\\MP3"
-          "OC\\Preview\\OpenDocument"
-          "OC\\Preview\\PNG"
-          "OC\\Preview\\TXT"
-          "OC\\Preview\\XBitmap"
-          "OC\\Preview\\HEIC"
-        ];
-      };
-
-      database.createLocally = true;
-
-      config = {
-        adminpassFile = "/etc/nc-adminpass";
-        dbtype = "mysql";
-      };
-
-      caching = {
-        redis = true;
-        memcached = true;
-      };
-    };
+    # nginx.virtualHosts.${config.services.nextcloud.hostName} = {
+    #   forceSSL = true;
+    #   enableACME = true;
+    # };
 
     # NGINX
-    nginx = {
-      enable = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "nextcloud.kosslan.dev" = {
-          enableACME = true;
-          forceSSL = true;
-          locations = {
-            "\\.php" = {
-              proxyPass = "http://127.0.0.1/";
-              proxyWebsockets = true;
-              extraConfig = ''
-                proxy_ssl_server_name on;
-                proxy_pass_header Authorization;
-              '';
-            };
-          };
-        };
-      };
-    };
+    # nginx = {
+    #   enable = true;
+    #   recommendedProxySettings = true;
+    #   recommendedTlsSettings = true;
+    #   virtualHosts = {
+    #     "nextcloud.kosslan.dev" = {
+    #       enableACME = true;
+    #       forceSSL = true;
+    #       locations = {
+    #         "\\.php" = {
+    #           proxyPass = "http://127.0.0.1/";
+    #           proxyWebsockets = true;
+    #           extraConfig = ''
+    #             proxy_ssl_server_name on;
+    #             proxy_pass_header Authorization;
+    #           '';
+    #         };
+    #       };
+    #     };
+    #   };
+    # };
   };
 
   users.users.koss.openssh.authorizedKeys.keys = [''ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCpkeLOreGeqUDLcrlYgzyeSSZmBvJLY+dWOeORIpGQQVRvlko8NRcVKS/fa5EHBd9HG9gRs96FK5WF9JJCGsY4ovL++WZwlsQN3xfc0xq2Sn8TQhgDgiBFCR05JDMi1+f6v9WpaiLiQnOKiTmSGYhzvayIr/XrpcAaXo0mLDEnqZbSzqTcAcqZMcPZixmkgFJA+kUq6d1Z5XMPRRTPJNmLGY0jNbVlUiI9pWsIlGqZFcMLssNWnIZkl8SCV/lN+uyFy2G1o1LlMQ6UFziqP3Zm28gq6alt7ivFJ8A8hUffiZWeQ4uURV8TKhQ43FGSUspma7DpG5zGdionkN521rQJajdnWJLO25dXRkDdXWmkwpFuKRep0m0xv0VSxXAPYs5IrFuDuylbfo6W0N5dx2sPgBK8cQ2uj5AvVCM6g8cgWh+pxzG/WV/2XpwrT7jD8vyRUL+U6FpiMQIsepJ/WQIhA7HkQnex2QHGAsu7hP5Wr5Bs33m8JYT5XCT0KsXkzQE=''];

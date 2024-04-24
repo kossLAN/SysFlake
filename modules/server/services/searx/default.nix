@@ -15,6 +15,12 @@ in {
     #   allowedTCPPorts = [8888];
     # };
 
+    # SSL CERT
+    security.acme = {
+      acceptTerms = true;
+      defaults.email = "kosslan@kosslan.dev";
+    };
+
     services = {
       searx = {
         redisCreateLocally = true;

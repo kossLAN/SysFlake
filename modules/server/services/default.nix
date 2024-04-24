@@ -1,3 +1,3 @@
 {
-  imports = [./searx];
+  imports = [./seafile ./searx];
 }

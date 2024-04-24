@@ -1,3 +1,3 @@
 {
-  imports = [./seafile ./searx];
+  imports = [./syncthing ./wireguard ./nextcloud ./seafile ./searx];
 }

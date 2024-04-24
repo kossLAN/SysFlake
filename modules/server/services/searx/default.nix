@@ -11,9 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.customConf.enable {
-    # networking.firewall = {
-    #   allowedTCPPorts = [8888];
-    # };
+    networking.firewall.allowedTCPPorts = [80 443];
 
     # SSL CERT
     security.acme = {

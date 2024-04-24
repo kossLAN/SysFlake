@@ -9,7 +9,6 @@
   ...
 }: {
   imports = [
-    #./hardware
     outputs.universalModules
     outputs.serverModules
     ./disk-config.nix
@@ -20,6 +19,7 @@
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
+      outputs.overlays.stable-packages
     ];
     config = {
       allowUnfree = true;
@@ -54,78 +54,15 @@
   };
 
   boot = {
-    kernel.sysctl = {
-      "fs.inotify.max_user_watches" = 204800;
-    };
-
     loader.grub = {
       efiSupport = true;
       efiInstallAsRemovable = true;
     };
   };
 
-  /*
-  environment.etc."nc-adminpass".text = "root";
-  */
-
   networking = {
     hostName = "cerebrite";
-
-    firewall = {
-      allowedTCPPorts = [32400 22000 22 80 443 8384 3000 53];
-      allowedUDPPorts = [22000 51820 53];
-    };
-
-    nat = {
-      enable = true;
-      externalInterface = "eno1";
-      internalInterfaces = ["wg0"];
-    };
-
-    wireguard.interfaces = {
-      wg0 = {
-        ips = ["10.100.0.1/24"];
-        listenPort = 51820;
-
-        postSetup = ''
-          ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
-        '';
-
-        # This undoes the above command
-        postShutdown = ''
-          ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
-        '';
-
-        privateKeyFile = "/etc/wg-private";
-        peers = [
-          # Phone
-          {
-            publicKey = "VZM6vpIOfaG2HyeQ1dnlvQqlv1Qx63C3uvS1kAlnwXQ=";
-            allowedIPs = ["10.100.0.2/32"];
-          }
-          # Everything else
-          {
-            publicKey = "VZM6vpIOfaG2HyeQ1dnlvQqlv1Qx63C3uvS1kAlnwXQ=";
-            allowedIPs = ["10.100.0.3/32"];
-          }
-        ];
-      };
-    };
   };
-
-  # systemd.services."inotify-nextcloud" = {
-  #   wantedBy = ["multi-user.target"];
-  #   after = ["network.target"];
-  #   description = "Run inotify watcher for nextcloud.";
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     User = "root";
-  #     ExecStart = ''
-  #       ${config.system.path}/bin/nextcloud-occ files_external:notify -v 1 &
-  #     '';
-  #     Restart = "on-failure";
-  #   };
-  # };
 
   programs = {
     utils.enable = true;
@@ -141,15 +78,6 @@
   };
 
   virtualisation = {
-    docker = {
-      enable = true;
-      enableOnBoot = true;
-      rootless = {
-        enable = true;
-        setSocketVariable = true;
-      };
-    };
-
     portainer.enable = true;
   };
 
@@ -158,13 +86,9 @@
       enable = true;
     };
 
-    adguardhome = {
-      enable = true;
-      mutableSettings = true;
-    };
-
     plex = {
       enable = true;
+      openFirewall = true;
     };
 
     searx = {
@@ -172,98 +96,24 @@
       customConf.enable = true;
     };
 
-    seafile = {
-      enable = true;
-      customConf.enable = true;
-    };
-
     syncthing = {
       enable = true;
-      guiAddress = "0.0.0.0:8384";
-      user = "nextcloud";
-      group = "nextcloud";
-      dataDir = "/var/lib/nextcloud";
+      customConf = true;
     };
 
-    # Config.php won't reset unless rebuilt as root :P
+    wireguard = {
+      enable = true;
+      adguardhome.enable = true;
+    };
+
+    # seafile = {
+    #   enable = true;
+    #   customConf.enable = true;
+    # };
+
     # nextcloud = {
     #   enable = true;
-    #   package = pkgs.nextcloud28;
-    #   hostName = "nextcloud.kosslan.dev";
-    #   https = true;
-    #
-    #   appstoreEnable = true;
-    #   configureRedis = true;
-    #   notify_push.enable = false;
-    #   maxUploadSize = "50G";
-    #
-    #   phpExtraExtensions = all: [all.smbclient all.inotify];
-    #
-    #   phpOptions = {
-    #     "opcache.interned_strings_buffer" = "32";
-    #     "opcache.max_accelerated_files" = "10000";
-    #     "opcache.memory_consumption" = "128";
-    #   };
-    #
-    #   settings = {
-    #     trusted_domains = ["nextcloud.kosslan.dev"];
-    #     trusted_proxies = ["nextcloud.kosslan.dev"];
-    #     "filelocking.enabled" = true;
-    #
-    #     "enabledPreviewProviders" = [
-    #       "OC\\Preview\\BMP"
-    #       "OC\\Preview\\GIF"
-    #       "OC\\Preview\\JPEG"
-    #       "OC\\Preview\\Krita"
-    #       "OC\\Preview\\MarkDown"
-    #       "OC\\Preview\\MP3"
-    #       "OC\\Preview\\OpenDocument"
-    #       "OC\\Preview\\PNG"
-    #       "OC\\Preview\\TXT"
-    #       "OC\\Preview\\XBitmap"
-    #       "OC\\Preview\\HEIC"
-    #     ];
-    #   };
-    #
-    #   database.createLocally = true;
-    #
-    #   config = {
-    #     adminpassFile = "/etc/nc-adminpass";
-    #     dbtype = "mysql";
-    #   };
-    #
-    #   caching = {
-    #     redis = true;
-    #     memcached = true;
-    #   };
-    # };
-
-    # nginx.virtualHosts.${config.services.nextcloud.hostName} = {
-    #   forceSSL = true;
-    #   enableACME = true;
-    # };
-
-    # NGINX
-    # nginx = {
-    #   enable = true;
-    #   recommendedProxySettings = true;
-    #   recommendedTlsSettings = true;
-    #   virtualHosts = {
-    #     "nextcloud.kosslan.dev" = {
-    #       enableACME = true;
-    #       forceSSL = true;
-    #       locations = {
-    #         "\\.php" = {
-    #           proxyPass = "http://127.0.0.1/";
-    #           proxyWebsockets = true;
-    #           extraConfig = ''
-    #             proxy_ssl_server_name on;
-    #             proxy_pass_header Authorization;
-    #           '';
-    #         };
-    #       };
-    #     };
-    #   };
+    #   customConf.enable = true;
     # };
   };
 

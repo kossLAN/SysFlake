@@ -116,6 +116,7 @@
     #   customConf.enable = true;
     # };
 
+    # nextcloud.container.enable = true;
     # nextcloud = {
     #   enable = true;
     #   customConf.enable = true;

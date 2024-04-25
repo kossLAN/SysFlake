@@ -6,9 +6,11 @@
 }: {
   imports = [inputs.disko.nixosModules.disko];
 
-  boot.swraid.mdadmConf = ''
-    MAILADDR=kosslan@kosslan.dev
-  '';
+  boot = {
+    swraid.mdadmConf = ''
+      MAILADDR=kosslan@kosslan.dev
+    '';
+  };
 
   disko.devices = {
     disk = {

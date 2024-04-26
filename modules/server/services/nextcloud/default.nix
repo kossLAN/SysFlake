@@ -15,7 +15,7 @@ in {
     networking = {
       firewall.allowedTCPPorts = [80 443];
 
-      bridges.br0.interfaces = ["eno1" "eno2"]; # Adjust interface accordingly
+      bridges.br0.interfaces = []; # Adjust interface accordingly
 
       # Get bridge-ip with DHCP
       useDHCP = false;

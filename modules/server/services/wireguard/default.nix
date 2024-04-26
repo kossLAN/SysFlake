@@ -21,10 +21,10 @@ in {
       adguardhome = lib.mkIf cfg.adguardhome.enable {
         enable = true;
         mutableSettings = true;
-        settings = {
-          bind_port = 3000;
-          bind_host = "127.0.0.1";
-        };
+        # settings = {
+        #   bind_port = 3000;
+        #   bind_host = "127.0.0.1";
+        # };
       };
 
       nginx = {

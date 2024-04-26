@@ -15,27 +15,22 @@ in {
     networking = {
       firewall.allowedTCPPorts = [80 443];
 
-      bridges.br0.interfaces = []; # Adjust interface accordingly
-
-      # Get bridge-ip with DHCP
-      useDHCP = false;
-      interfaces."br0".useDHCP = true;
-
-      # Set bridge-ip static
-      interfaces."br0".ipv4.addresses = [
-        {
-          address = "192.168.100.3";
-          prefixLength = 24;
-        }
-      ];
-      defaultGateway = "192.168.100.1";
-      nameservers = ["192.168.100.1"];
+      nat = {
+        enable = true;
+        internalInterfaces = ["ve-+"];
+        externalInterface = "ens3";
+        # Lazy IPv6 connectivity for the container
+        enableIPv6 = true;
+      };
     };
 
     containers.nextcloud = {
+      autoStart = true;
       privateNetwork = true;
-      hostBridge = "br0"; # Specify the bridge name
-      localAddress = "192.168.100.5/24";
+      hostAddress = "192.168.100.10";
+      localAddress = "192.168.100.11";
+      hostAddress6 = "fc00::1";
+      localAddress6 = "fc00::2";
       config = {
         systemd.services."inotify-nextcloud" = {
           wantedBy = ["multi-user.target"];

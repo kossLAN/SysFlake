@@ -28,7 +28,22 @@ in {
         libreoffice-qt
         plexamp
         nh
-        vesktop
+        (vesktop.overrideAttrs
+          (old: {
+            patches = (old.patches or []) ++ [./readonlyFix.patch];
+
+            src = fetchFromGitHub {
+              rev = "0cfb1f643ced8cd53f3100d9f9014e77f4e538cf";
+              hash = "sha256-k/k5mZpfIrThVwgzB4OgL6txfnWMQ2e7uAXO763PnLM=";
+              owner = "Vencord";
+              repo = "Vesktop";
+            };
+
+            postFixup = ''
+              wrapProgram $out/bin/vesktop \
+                --add-flags "--enable-features=UseOzonePlatform --ozone-platform=wayland --enable-zero-copy --use-gl=angle --use-vulkan --enable-oop-rasterization --enable-raw-draw --enable-gpu-rasterization --enable-gpu-compositing --enable-native-gpu-memory-buffers --enable-accelerated-2d-canvas --enable-accelerated-video-decode --enable-accelerated-mjpeg-decode --disable-gpu-vsync --enable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan,VaapiIgnoreDriverChecks,VaapiVideoDecoder,PlatformHEVCDecoderSupport, VaapiVideoDecodeLinuxGL,VaapiVP8Encoder,VaapiVP9Encoder,VaapiAV1Encoder"
+            ''; # Vulkan stuff is left here because we want to make --use-angle=vulkan work.
+          }))
         # (pkgs.vesktop.overrideAttrs (old: {
         #   src = fetchFromGitHub {
         #     owner = "Vencord";

@@ -1,3 +1,3 @@
 {
-  imports = [./forgejo ./syncthing ./wireguard ./nextcloud ./seafile ./searx];
+  imports = [./forgejo ./jellyfin ./syncthing ./wireguard ./nextcloud ./seafile ./searx];
 }

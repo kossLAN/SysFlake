@@ -114,6 +114,7 @@
     amdGpu.enable = true;
     helpfulUtils.enable = true;
     sound.enable = true;
+    mullvad-vpn.enable = true;
 
     udevRules = {
       enable = true;

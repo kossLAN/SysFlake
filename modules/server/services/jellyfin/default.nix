@@ -1,16 +1,18 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.services.jellyfin;
 in {
-  options.services.jellyfin.customConf = {
-    enable = lib.mkEnableOption "";
+  options.services.jellyfin = {
+    customConf = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
   };
 
-  config = lib.mkIf cfg.customConf.enable {
+  config = lib.mkIf cfg.customConf {
     networking.firewall.allowedTCPPorts = [80 443];
 
     # SSL CERT

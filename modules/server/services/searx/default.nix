@@ -1,16 +1,18 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.services.searx;
 in {
-  options.services.searx.customConf = {
-    enable = lib.mkEnableOption "";
+  options.services.searx = {
+    customConf = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
   };
 
-  config = lib.mkIf cfg.customConf.enable {
+  config = lib.mkIf cfg.customConf {
     networking.firewall.allowedTCPPorts = [80 443];
 
     # SSL CERT

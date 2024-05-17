@@ -4,9 +4,7 @@
   inputs,
   self,
   ...
-}: let
-  cfg = config.users.defaultUser;
-in {
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];

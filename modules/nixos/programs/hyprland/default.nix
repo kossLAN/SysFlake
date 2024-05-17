@@ -12,22 +12,16 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-kde
-      ];
-      config.common.default = [
-        "hyprland"
-        "kde"
-      ];
-    };
-
-    environment.systemPackages = with pkgs; [
-      libsForQt5.dolphin
-      libsForQt5.gwenview
-      libsForQt5.ark
-    ];
+    # xdg.portal = {
+    #   enable = true;
+    #   extraPortals = with pkgs; [
+    #     xdg-desktop-portal-kde
+    #   ];
+    #   config.common.default = [
+    #     "hyprland"
+    #     "kde"
+    #   ];
+    # };
 
     programs.hyprland = {
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -48,10 +42,8 @@ in {
           networkmanagerapplet
           libnotify
           playerctl
-          inputs.anyrun.packages.${system}.anyrun
 
-          qt6.qt5compat
-          qt6.qtsvg
+          inputs.anyrun.packages.${system}.anyrun
           inputs.quickshell.packages.${system}.default
         ];
 

@@ -106,6 +106,15 @@ in {
             '';
           }
 
+          # Wilder (command suggestions)
+          {
+            type = "viml";
+            plugin = wilder-nvim;
+            config = ''
+              call wilder#setup({'modes': [':', '/', '?']})
+            '';
+          }
+
           # Telescope
           {
             type = "lua";

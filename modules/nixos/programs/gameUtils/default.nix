@@ -15,6 +15,13 @@ in {
       steam = {
         enable = true;
         remotePlay.openFirewall = true;
+        extest.enable = true;
+
+        # package = pkgs.steam.override {
+        #   extraEnv = {
+        #     SDL_VIDEODRIVER = "x11";
+        #   };
+        # };
       };
 
       gamemode.enable = true;

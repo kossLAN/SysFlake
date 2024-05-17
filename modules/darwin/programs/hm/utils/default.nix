@@ -1,13 +1,12 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
-let
-  cfg = config.programs.hm.utils;
-in
 {
-  imports = [ ./trampoline ];
+  pkgs,
+  lib,
+  config,
+  ...
+}: let
+  cfg = config.programs.hm.utils;
+in {
+  imports = [./trampoline];
 
   options.programs.hm.utils = {
     enable = lib.mkEnableOption "utils";
@@ -20,6 +19,7 @@ in
         spotify
         discord
         gimp
+        prismlauncher
       ];
     };
   };

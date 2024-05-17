@@ -21,8 +21,6 @@ in {
         enable = true;
         internalInterfaces = ["ve-+"];
         externalInterface = "eno1";
-        # Lazy IPv6 connectivity for the container
-        enableIPv6 = true;
       };
     };
 
@@ -36,8 +34,6 @@ in {
       privateNetwork = true;
       hostAddress = "192.168.100.10";
       localAddress = "192.168.100.11";
-      hostAddress6 = "fc00::1";
-      localAddress6 = "fc00::2";
       config = {
         systemd.services."inotify-nextcloud" = {
           wantedBy = ["multi-user.target"];
@@ -76,7 +72,7 @@ in {
 
           nextcloud = {
             enable = true;
-            package = pkgs.nextcloud28;
+            package = pkgs.nextcloud29;
             hostName = "localhost";
             https = true;
 
@@ -95,7 +91,7 @@ in {
 
             settings = {
               trusted_domains = ["cloud.kosslan.dev"];
-              trusted_proxies = ["cloud.kosslan.dev" "192.168.100.10"];
+              trusted_proxies = ["192.168.100.11"];
               "filelocking.enabled" = true;
 
               "enabledPreviewProviders" = [

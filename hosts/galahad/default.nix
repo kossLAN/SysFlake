@@ -4,7 +4,6 @@
   lib,
   config,
   pkgs,
-  username,
   hostname,
   ...
 }: {
@@ -77,11 +76,11 @@
   };
 
   environment = {
-    variables = rec {
+    variables = {
       "DXVK_ASYNC" = "1";
     };
 
-    sessionVariables = rec {
+    sessionVariables = {
       NIXOS_OZONE_WL = "1";
       SHELL = "/run/current-system/sw/bin/zsh";
       FLAKE = "/home/koss/.nixos-conf";
@@ -102,6 +101,12 @@
 
   theme.oled.enable = true;
 
+  virt = {
+    docker.enable = true;
+    qemu.enable = true;
+    vmware.enable = false;
+  };
+
   services = {
     printing = {
       enable = true;
@@ -110,6 +115,7 @@
 
     tablet.enable = true;
     bluetooth.enable = true;
+    ssh.enable = true;
 
     amdGpu.enable = true;
     helpfulUtils.enable = true;

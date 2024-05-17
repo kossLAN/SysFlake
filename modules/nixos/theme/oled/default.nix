@@ -13,11 +13,24 @@ in {
   config = lib.mkIf cfg.enable {
     qt = {
       enable = true;
-      # platformTheme = "qtct";
-      # style = {
-      #   name = "breeze";
-      # };
+      platformTheme = "qt5ct";
+      style = "breeze";
     };
+
+    # QT Common Apps
+    environment.systemPackages = with pkgs; [
+      qt6.qtwayland
+      kdePackages.breeze
+      kdePackages.breeze-icons
+      qt6.qtsvg
+      qt6.qt5compat
+
+      kdePackages.qqc2-desktop-style
+
+      libsForQt5.dolphin
+      libsForQt5.gwenview
+      libsForQt5.ark
+    ];
 
     home-manager.users.${config.users.defaultUser} = {
       # GTK
@@ -28,56 +41,79 @@ in {
         (nerdfonts.override {fonts = ["FiraCode" "FantasqueSansMono" "JetBrainsMono"];})
         */
       ];
-      xdg.systemDirs.data = let
-        schema = pkgs.gsettings-desktop-schemas;
-      in ["${schema}/share/gsettings-schemas/${schema.name}"];
+
       gtk = {
         enable = true;
         theme = {
-          name = "Orchis-Dark";
-          package = pkgs.orchis-theme.override {
-            tweaks = ["black" "solid"];
-          };
+          package = pkgs.kdePackages.breeze-gtk;
+          name = "Breeze-Dark";
         };
         iconTheme = {
-          package = pkgs.colloid-icon-theme;
-          name = "Colloid";
+          package = pkgs.kdePackages.breeze-icons;
+          name = "breeze-dark";
         };
-        font = {
-          name = "FantasqueSansMono Nerd Font";
-          size = 11;
-        };
-        gtk3.extraConfig = {
-          gtk-xft-antialias = 1;
-          gtk-xft-hinting = 1;
-          gtk-xft-hintstyle = "hintslight";
-          gtk-xft-rgba = "rgb";
-        };
-        gtk2.extraConfig = ''
-          gtk-xft-antialias=1
-          gtk-xft-hinting=1
-          gtk-xft-hintstyle="hintslight"
-          gtk-xft-rgba="rgb"
-        '';
+
+        gtk3.extraConfig.gtk-xft-rgba = "rgb";
+        gtk4.extraConfig.gtk-xft-rgba = "rgb";
       };
 
-      # xdg.configFile = {
-      #   "qt5ct/qt5ct.conf".text = ''
-      #     [Appearance]
-      #     color_scheme_path=/home/koss/.nix-profile/share/qt6ct/colors/darker.conf
-      #     custom_palette=true
-      #     icon_theme=Colloid-light
-      #     standard_dialogs=xdgdesktopportal
-      #     style=Breeze
-      #   '';
-      #   "qt6ct/qt6ct.conf".text = ''
-      #     [Appearance]
-      #     color_scheme_path=/home/koss/.nix-profile/share/qt6ct/colors/darker.conf
-      #     custom_palette=true
-      #     standard_dialogs=xdgdesktopportal
-      #     style=Breeze
-      #   '';
-      # };
+      xdg.configFile = {
+        "kdeglobals".source = "${pkgs.kdePackages.breeze}/share/color-schemes/BreezeDark.colors";
+
+        "qt5ct/qt5ct.conf".text = ''
+          [Appearance]
+          style=Breeze
+          icon_theme=breeze-dark
+          standard_dialogs=xdgdesktopportal
+
+          color_scheme_path=${./colors-qt5.conf}
+          custom_palette=true
+
+          [Fonts]
+          fixed="DejaVu Sans,10,-1,5,50,0,0,0,0,0,Condensed"
+          general="DejaVu Sans,10,-1,5,50,0,0,0,0,0,Condensed"
+
+          [Interface]
+          buttonbox_layout=0
+          cursor_flash_time=1000
+          dialog_buttons_have_icons=2
+          double_click_interval=400
+          gui_effects=General, AnimateMenu, AnimateCombo
+          keyboard_scheme=2
+          menus_have_icons=true
+          show_shortcuts_in_context_menus=true
+          toolbutton_style=4
+          underline_shortcut=1
+          wheel_scroll_lines=2
+        '';
+
+        "qt6ct/qt6ct.conf".text = ''
+          [Appearance]
+          style=Breeze
+          icon_theme=breeze-dark
+          standard_dialogs=xdgdesktopportal
+
+          color_scheme_path=${./colors-qt6.conf}
+          custom_palette=true
+
+          [Fonts]
+          fixed="DejaVu Sans,10,-1,5,50,0,0,0,0,0,Condensed"
+          general="DejaVu Sans,10,-1,5,50,0,0,0,0,0,Condensed"
+
+          [Interface]
+          buttonbox_layout=0
+          cursor_flash_time=1000
+          dialog_buttons_have_icons=2
+          double_click_interval=400
+          gui_effects=General, AnimateMenu, AnimateCombo
+          keyboard_scheme=2
+          menus_have_icons=true
+          show_shortcuts_in_context_menus=true
+          toolbutton_style=4
+          underline_shortcut=1
+          wheel_scroll_lines=2
+        '';
+      };
 
       # Cursor
       home.pointerCursor = let

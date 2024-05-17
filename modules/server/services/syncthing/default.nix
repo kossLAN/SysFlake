@@ -1,28 +1,19 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.services.syncthing;
 in {
   options.services.syncthing = {
-    container.enable = lib.mkEnableOption "syncthing container";
+    customConf = lib.mkEnableOption "Syncthing config";
   };
 
-  config = lib.mkIf cfg.container.enable {
+  config = lib.mkIf cfg.customConf {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443 22000];
         allowedUDPPorts = [21027];
-      };
-
-      nat = {
-        enable = true;
-        internalInterfaces = ["ve-+"];
-        externalInterface = "eno1";
-        # Lazy IPv6 connectivity for the container
-        enableIPv6 = true;
       };
     };
 
@@ -35,69 +26,25 @@ in {
       defaults.email = "kosslan@kosslan.dev";
     };
 
-    containers.syncthing = {
-      autoStart = true;
-      privateNetwork = true;
-      hostAddress = "192.168.100.10";
-      localAddress = "192.168.100.12";
-      hostAddress6 = "fc00::1";
-      localAddress6 = "fc00::3";
-      config = {
-        networking = {
-          firewall = {
-            enable = true;
-            allowedTCPPorts = [8384 22000];
-            allowedUDPPorts = [21027];
-          };
-          # Use systemd-resolved inside the container
-          # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
-          useHostResolvConf = lib.mkForce false;
-        };
-
-        boot.kernel.sysctl = {
-          "fs.inotify.max_user_watches" = 204800;
-        };
-
-        users = {
-          users.storage = {
-            isSystemUser = true;
-            group = "storage";
-            uid = 8000;
-          };
-          groups.storage.gid = 8000;
-        };
-
-        systemd.tmpfiles.rules = [
-          "d /var/lib/syncthing 0700 8000 8000"
-        ];
-
-        services = {
-          resolved.enable = true;
-          syncthing = {
-            guiAddress = "0.0.0.0:8384";
-            user = "storage";
-            group = "storage";
-
-            dataDir = "/var/lib/syncthing/files";
-            configDir = "/var/lib/syncthing";
-            settings = {
-              gui.insecureSkipHostcheck = true;
-            };
-            enable = true;
-          };
-        };
-        system.stateVersion = "23.11";
+    # Set syncthing to a unique ID that has a low low chance of being used elsewhere
+    users = {
+      users.syncthing = {
+        isSystemUser = true;
+        group = "syncthing";
+        uid = lib.mkForce 8000;
       };
-
-      bindMounts = {
-        "/var/lib/storage" = {
-          isReadOnly = false;
-          hostPath = "/var/lib/storage";
-        };
-      };
+      groups.syncthing.gid = lib.mkForce 8000;
     };
 
     services = {
+      syncthing = {
+        guiAddress = "127.0.0.1:8384";
+
+        settings = {
+          gui.insecureSkipHostcheck = true;
+        };
+      };
+
       nginx = {
         enable = true;
         recommendedProxySettings = true;
@@ -107,7 +54,7 @@ in {
             forceSSL = true;
             locations = {
               "/" = {
-                proxyPass = "http://192.168.100.12:8384";
+                proxyPass = "http://127.0.0.1:8384";
                 extraConfig = ''
                   proxy_set_header X-Forwarded-Host $host;
                   proxy_set_header X-Forwarded-Server $host;

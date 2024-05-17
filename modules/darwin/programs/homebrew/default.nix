@@ -23,7 +23,6 @@ in {
         "blender"
         "steam"
         "stats"
-        "vmware-fusion"
         "firefox"
         "keepassxc"
         "dotnet"
@@ -35,6 +34,7 @@ in {
         "microsoft-powerpoint"
         "microsoft-outlook"
         "microsoft-excel"
+        "microsoft-teams"
         "plexamp"
       ];
 

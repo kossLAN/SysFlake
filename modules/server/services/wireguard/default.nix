@@ -17,6 +17,10 @@ in {
       defaults.email = "kosslan@kosslan.dev";
     };
 
+    # boot.kernel.sysctl = {
+    #   "net.ipv4.ip_forward" = 1;
+    # };
+
     services = {
       adguardhome = lib.mkIf cfg.adguardhome.enable {
         enable = true;
@@ -68,25 +72,19 @@ in {
           listenPort = 51820;
 
           postSetup = ''
-            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eno1 -j MASQUERADE
           '';
 
           # This undoes the above command
           postShutdown = ''
-            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eno1 -j MASQUERADE
           '';
 
           privateKeyFile = "/etc/wg-private";
           peers = [
-            # Phone
             {
               publicKey = "VZM6vpIOfaG2HyeQ1dnlvQqlv1Qx63C3uvS1kAlnwXQ=";
-              allowedIPs = ["10.100.0.2/32"];
-            }
-            # Everything else
-            {
-              publicKey = "VZM6vpIOfaG2HyeQ1dnlvQqlv1Qx63C3uvS1kAlnwXQ=";
-              allowedIPs = ["10.100.0.3/32"];
+              allowedIPs = ["10.100.0.2/32" "10.100.0.3/32" "10.100.0.4/32"];
             }
           ];
         };

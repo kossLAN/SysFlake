@@ -14,7 +14,6 @@ in {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
         blender-hip
-        kicad
         gimp
       ];
     };

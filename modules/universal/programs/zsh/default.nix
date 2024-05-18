@@ -14,7 +14,7 @@ in {
   };
 
   config = lib.mkIf cfg.customConf {
-    users.defaultUserShell = pkgs.zsh;
+    # users.defaultUserShell = pkgs.zsh;
 
     home-manager.users.${config.users.defaultUser} = {
       programs.zsh = let

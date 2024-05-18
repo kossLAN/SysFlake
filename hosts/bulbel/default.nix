@@ -1,13 +1,6 @@
 {
-  inputs,
   outputs,
-  config,
-  lib,
   pkgs,
-  stateVersion,
-  hostname,
-  homeDir,
-  platform,
   ...
 }: {
   imports = [
@@ -28,14 +21,14 @@
     zsh = {
       enable = true;
       interactiveShellInit = ''
-        alias nix-rebuild="darwin-rebuild --flake /Users/koss/.config/nix-darwin switch"
+        alias nix-rebuild="darwin-rebuild --flake ~/.config/nix-darwin#bulbel switch"
       '';
       customConf = true;
     };
 
     hm = {
       nvim.enable = true;
-      vscodium.enable = true;
+      #vscodium.enable = true;
       syncthing.enable = true;
 
       dev = {

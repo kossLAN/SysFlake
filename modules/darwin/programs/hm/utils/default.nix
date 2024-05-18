@@ -15,8 +15,8 @@ in {
   config = lib.mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
+        nerdfonts
         iterm2
-        spotify
         discord
         gimp
         prismlauncher

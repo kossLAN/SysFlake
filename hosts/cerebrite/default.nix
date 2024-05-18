@@ -61,6 +61,7 @@
 
   networking = {
     hostName = hostname;
+    firewall.enable = true;
   };
 
   programs = {

@@ -17,14 +17,10 @@ in {
 
     networking = {
       firewall = {
-        allowedTCPPorts = [80 443 2222];
+        allowedTCPPorts = [80 443 22];
         extraCommands = ''
-          ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING -p tcp -i eno1 --dport 2222 -j DNAT --to-destination 192.168.100.12:2222
-          ${pkgs.iptables}/bin/iptables -A FORWARD -p tcp -d 192.168.100.12 --dport 2222 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
-        '';
-        extraStopCommands = ''
-          ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING -p tcp -i eno1 --dport 2222 -j DNAT --to-destination 192.168.100.12:2222
-          ${pkgs.iptables}/bin/iptables -A FORWARD -p tcp -d 192.168.100.12 --dport 2222 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+          iptables -t nat -A PREROUTING -i eno1 -p tcp --dport 22 -j DNAT --to-destination 192.168.100.12:2000
+          iptables -t nat -A POSTROUTING -d 192.168.100.12 -p tcp --dport 2000 -j MASQUERADE
         '';
       };
 
@@ -32,6 +28,13 @@ in {
         enable = true;
         internalInterfaces = ["ve-+"];
         externalInterface = "eno1";
+        forwardPorts = [
+          {
+            destination = "192.168.100.12:2000";
+            proto = "tcp";
+            sourcePort = 22;
+          }
+        ];
       };
     };
 
@@ -51,7 +54,7 @@ in {
         networking = {
           firewall = {
             enable = true;
-            allowedTCPPorts = [4000 2222];
+            allowedTCPPorts = [4000 2000];
           };
           # Use systemd-resolved inside the container
           # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
@@ -70,14 +73,15 @@ in {
             enable = true;
             settings = {
               server = {
-                HTTP_ADDR = "0.0.0.0";
+                HTTP_ADDR = "192.168.100.12";
                 HTTP_PORT = 4000;
                 DOMAIN = "git.kossland.dev";
                 ROOT_URL = "https://git.kosslan.dev";
 
                 START_SSH_SERVER = true;
                 BUILTIN_SSH_SERVER_USER = "git";
-                SSH_LISTEN_PORT = 2222;
+                SSH_LISTEN_HOST = "192.168.100.12";
+                SSH_LISTEN_PORT = 2000;
               };
 
               service.DISABLE_REGISTRATION = true;
@@ -97,7 +101,7 @@ in {
                 DESCRIPTION = "kossLAN's self-hosted git instance";
               };
 
-              # metrics.ENABLED = true;
+              metrics.ENABLED = true;
             };
           };
         };

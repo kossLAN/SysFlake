@@ -52,7 +52,7 @@ in {
 
     networking = {
       firewall = {
-        allowedTCPPorts = [3000 80 443];
+        allowedTCPPorts = [80 443];
         allowedUDPPorts = [51820];
       };
 

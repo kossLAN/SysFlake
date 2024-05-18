@@ -11,8 +11,22 @@ in {
   };
 
   config = lib.mkIf cfg.container.enable {
+    boot.kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+    };
+
     networking = {
-      firewall.allowedTCPPorts = [80 443 2222];
+      firewall = {
+        allowedTCPPorts = [80 443 2222];
+        extraCommands = ''
+          ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING -p tcp -i eno1 --dport 2222 -j DNAT --to-destination 192.168.100.12:2222
+          ${pkgs.iptables}/bin/iptables -A FORWARD -p tcp -d 192.168.100.12 --dport 2222 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+        '';
+        extraStopCommands = ''
+          ${pkgs.iptables}/bin/iptables -t nat -A PREROUTING -p tcp -i eno1 --dport 2222 -j DNAT --to-destination 192.168.100.12:2222
+          ${pkgs.iptables}/bin/iptables -A FORWARD -p tcp -d 192.168.100.12 --dport 2222 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+        '';
+      };
 
       nat = {
         enable = true;

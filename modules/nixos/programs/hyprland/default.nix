@@ -12,16 +12,16 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    # xdg.portal = {
-    #   enable = true;
-    #   extraPortals = with pkgs; [
-    #     xdg-desktop-portal-kde
-    #   ];
-    #   config.common.default = [
-    #     "hyprland"
-    #     "kde"
-    #   ];
-    # };
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-kde
+      ];
+      config.common.default = [
+        "hyprland"
+        "kde"
+      ];
+    };
 
     programs.hyprland = {
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;

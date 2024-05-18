@@ -17,10 +17,6 @@ in {
       defaults.email = "kosslan@kosslan.dev";
     };
 
-    # boot.kernel.sysctl = {
-    #   "net.ipv4.ip_forward" = 1;
-    # };
-
     services = {
       adguardhome = lib.mkIf cfg.adguardhome.enable {
         enable = true;
@@ -56,8 +52,8 @@ in {
 
     networking = {
       firewall = {
-        allowedTCPPorts = [53 3000 80 443];
-        allowedUDPPorts = [51820 53];
+        allowedTCPPorts = [3000 80 443];
+        allowedUDPPorts = [51820];
       };
 
       nat = {

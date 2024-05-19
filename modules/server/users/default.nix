@@ -3,6 +3,7 @@
   config,
   inputs,
   self,
+  pkgs,
   ...
 }: {
   imports = [
@@ -15,10 +16,13 @@
   };
 
   config = {
-    users.users.${config.users.defaultUser} = {
-      isNormalUser = true;
-      extraGroups = ["wheel" "docker"];
-      initialPassword = "root";
+    users = {
+      defaultUserShell = pkgs.zsh; # Default shell.
+      users.${config.users.defaultUser} = {
+        isNormalUser = true;
+        extraGroups = ["wheel" "docker"];
+        initialPassword = "root";
+      };
     };
 
     home-manager = {

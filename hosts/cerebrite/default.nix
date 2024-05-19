@@ -88,7 +88,7 @@
 
     plex = {
       enable = true;
-      openFirewall = true;
+      customConf = true; # Opens port 3005 but doesn't use it?
     };
 
     jellyfin = {

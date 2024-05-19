@@ -47,7 +47,7 @@ in {
 
         extraPackages = with pkgs; [
           alejandra
-          clang
+          clang-tools
           ripgrep
         ];
 
@@ -72,32 +72,36 @@ in {
               require('lualine').setup()
             '';
           }
-          {
-            type = "lua";
-            plugin = noice-nvim;
-            config = ''
-              require("noice").setup({
-                 lsp = {
-                   override = {
-                     ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-                     ["vim.lsp.util.stylize_markdown"] = true,
-                     ["cmp.entry.get_documentation"] = true,
-                   },
-                 },
-                 presets = {
-                   bottom_search = true,
-                   command_palette = true,
-                   long_message_to_split = true,
-                   inc_rename = false,
-                   lsp_doc_border = false,
-                 },
-               })
-            '';
-          }
+
+          # Don't really care about this, but will keep it here in case
+          # {
+          #   type = "lua";
+          #   plugin = noice-nvim;
+          #   config = ''
+          #     require("noice").setup({
+          #        lsp = {
+          #          override = {
+          #            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          #            ["vim.lsp.util.stylize_markdown"] = true,
+          #            ["cmp.entry.get_documentation"] = true,
+          #          },
+          #        },
+          #        presets = {
+          #          bottom_search = true,
+          #          command_palette = true,
+          #          long_message_to_split = true,
+          #          inc_rename = false,
+          #          lsp_doc_border = false,
+          #        },
+          #      })
+          #   '';
+          # }
 
           # Misc plugins/quality of life
           vim-qml
           vim-nix
+
+          # Easy comment management
           {
             type = "lua";
             plugin = comment-nvim;
@@ -160,12 +164,23 @@ in {
           }
 
           # Buffer line
+          nvim-web-devicons
           {
             type = "lua";
             plugin = bufferline-nvim;
             config = ''
               vim.opt.termguicolors = true
-              require("bufferline").setup{}
+              require("bufferline").setup{
+                options = {
+                  color_icons = true,
+                  show_buffer_icons = true,
+                  show_close_icon = true,
+                  show_tab_indicators = true,
+                }
+              }
+
+              vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
             '';
           }
 

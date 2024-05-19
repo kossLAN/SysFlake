@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.programs.hm.foot;
@@ -11,6 +12,10 @@ in {
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
+      home.packages = with pkgs; [
+        wl-clipboard
+      ];
+
       programs.foot = {
         enable = true;
         settings = {
@@ -25,6 +30,7 @@ in {
           };
 
           colors = {
+            alpha = 0.9;
             foreground = "cdcdcd";
             background = "000000";
             regular0 = "000000";
@@ -46,8 +52,36 @@ in {
           };
 
           key-bindings = {
-            clipboard-copy = "Control+c";
-            clipboard-paste = "Control+v";
+            scrollback-up-page = "Shift+Page_Up";
+            scrollback-up-half-page = "none";
+            scrollback-up-line = "none";
+            scrollback-down-page = "Shift+Page_Down";
+            scrollback-down-half-page = "none";
+            scrollback-down-line = "none";
+            scrollback-home = "none";
+            scrollback-end = "none";
+            clipboard-copy = "Control+Shift+c XF86Copy";
+            clipboard-paste = "Control+Shift+v XF86Paste";
+            primary-paste = "Shift+Insert";
+            search-start = "Control+Shift+r";
+            font-increase = "Control+plus Control+equal Control+KP_Add";
+            font-decrease = "Control+minus Control+KP_Subtract";
+            font-reset = "Control+0 Control+KP_0";
+            spawn-terminal = "Control+Shift+n";
+            minimize = "none";
+            maximize = "none";
+            fullscreen = "none";
+            pipe-visible = "[sh -c 'xurls | fuzzel | xargs -r firefox'] none";
+            pipe-scrollback = "[sh -c 'xurls | fuzzel | xargs -r firefox'] none";
+            pipe-selected = "[xargs -r firefox] none";
+            pipe-command-output = "[wl-copy] none"; # Copy last command's output to the clipboard
+            show-urls-launch = "Control+Shift+o";
+            show-urls-copy = "none";
+            show-urls-persistent = "none";
+            prompt-prev = "Control+Shift+z";
+            prompt-next = "Control+Shift+x";
+            unicode-input = "Control+Shift+u";
+            noop = "none";
           };
         };
       };

@@ -14,7 +14,8 @@ in {
   };
 
   config = lib.mkIf cfg.customConf {
-    # users.defaultUserShell = pkgs.zsh;
+    # The darwin module doesn't have defaultUserShell
+    users.defaultUserShell = lib.mkIf (pkgs.system == "x86_64-linux") pkgs.zsh;
 
     home-manager.users.${config.users.defaultUser} = {
       programs.zsh = let

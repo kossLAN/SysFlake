@@ -34,15 +34,18 @@ in {
         '';
 
         extraLuaConfig = ''
-          -- vim.opt.number = true
+           -- vim.opt.number = true
 
-          -- Restore cursor position
-          vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-            pattern = { "*" },
-            callback = function()
-              vim.api.nvim_exec('silent! normal! g`"zv', false)
-            end,
-          })
+           -- Restore cursor position
+           vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+             pattern = { "*" },
+             callback = function()
+               vim.api.nvim_exec('silent! normal! g`"zv', false)
+             end,
+           })
+
+           -- Exit terminal mode, the default binding is way to aids imo
+          vim.api.nvim_set_keymap('t', '<C-Space>', [[<C-\><C-n>]], { noremap = true, silent = true })
         '';
 
         extraPackages = with pkgs; [

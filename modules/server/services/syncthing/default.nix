@@ -38,6 +38,7 @@ in {
 
     services = {
       syncthing = {
+        relay.enable = false;
         overrideFolders = false;
         overrideDevices = false;
         guiAddress = "127.0.0.1:8384";

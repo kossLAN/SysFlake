@@ -53,13 +53,13 @@ in {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443];
-        allowedUDPPorts = [51820];
+        allowedUDPPorts = [51820 51821 53];
       };
 
       nat = {
         enable = true;
         externalInterface = "eno1";
-        internalInterfaces = ["wg0"];
+        internalInterfaces = ["wg0" "wg1"];
       };
 
       wireguard.interfaces = {
@@ -80,7 +80,30 @@ in {
           peers = [
             {
               publicKey = "VZM6vpIOfaG2HyeQ1dnlvQqlv1Qx63C3uvS1kAlnwXQ=";
-              allowedIPs = ["10.100.0.2/32" "10.100.0.3/32" "10.100.0.4/32"];
+              allowedIPs = ["10.100.0.4/32"]; # Its this because I'm too lazy to change on the client ;-)
+            }
+          ];
+        };
+
+        # Phone
+        wg1 = {
+          ips = ["10.100.1.1/24"];
+          listenPort = 51821;
+
+          postSetup = ''
+            ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.1.0/24 -o eno1 -j MASQUERADE
+          '';
+
+          # This undoes the above command
+          postShutdown = ''
+            ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.1.0/24 -o eno1 -j MASQUERADE
+          '';
+
+          privateKeyFile = "/etc/wg-private1";
+          peers = [
+            {
+              publicKey = "2/+PNTrRyJeiXRhXDNKLVjG6WeOEjkehHV/BsoWFyU4=";
+              allowedIPs = ["10.100.1.2/32"];
             }
           ];
         };

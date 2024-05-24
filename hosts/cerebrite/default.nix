@@ -9,6 +9,7 @@
   imports = [
     outputs.universalModules
     outputs.serverModules
+    inputs.secrets.secretModules
     ./disk-config.nix
   ];
 

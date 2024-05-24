@@ -1,13 +1,10 @@
 {
   lib,
   config,
-  inputs,
   ...
 }: let
   cfg = config.services.ssh;
 in {
-  imports = [inputs.secrets.secretModules];
-
   options.services.ssh = {
     enable = lib.mkEnableOption "ssh";
   };

@@ -11,6 +11,7 @@
     ./hardware
     outputs.universalModules
     outputs.nixosModules
+    inputs.secrets.secretModules
   ];
 
   nixpkgs = {

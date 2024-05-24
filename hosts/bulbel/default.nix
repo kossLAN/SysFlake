@@ -1,11 +1,13 @@
 {
   outputs,
+  inputs,
   pkgs,
   ...
 }: {
   imports = [
     outputs.universalModules
     outputs.darwinModules
+    inputs.secrets.secretModules
   ];
 
   networking = {

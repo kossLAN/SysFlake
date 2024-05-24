@@ -1,13 +1,10 @@
 {
   lib,
   config,
-  inputs,
   ...
 }: let
   cfg = config.programs.hm.dev.git;
 in {
-  imports = [inputs.secrets.secretModules];
-
   options.programs.hm.dev.git = {
     enable = lib.mkEnableOption "git";
   };

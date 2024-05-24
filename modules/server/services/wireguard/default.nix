@@ -2,13 +2,10 @@
   pkgs,
   config,
   lib,
-  inputs,
   ...
 }: let
   cfg = config.services.wireguard;
 in {
-  imports = [inputs.secrets.secretModules];
-
   options.services.wireguard = {
     enable = lib.mkEnableOption "Wireguard VPN";
     adguardhome.enable = lib.mkEnableOption "Wireguard with adguardhome support";

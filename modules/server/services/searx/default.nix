@@ -35,12 +35,28 @@ in {
           server = {
             port = 8888;
             bind_address = "127.0.0.1";
-            secret_key = "asecretkeychangethis";
+            secret_key = config.secrets.searx.privateKey;
+            base_url = false;
+            image_proxy = false;
+
+            default_http_headers = {
+              X-Content-Type-Options = "nosniff";
+              X-XSS-Protection = "1; mode=block";
+              X-Download-Options = "noopen";
+              X-Robots-Tag = "noindex, nofollow";
+              Referrer-Policy = "no-referrer";
+            };
+          };
+
+          outgoing = {
+            request_timeout = 2.0;
+            pool_connections = 100;
+            pool_maxsize = 10;
           };
 
           search = {
             safe_search = 2;
-            autocomplete = "duckduckgo";
+            autocomplete = "google";
           };
 
           ui.static_use_hash = true;

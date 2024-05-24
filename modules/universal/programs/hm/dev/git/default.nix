@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  inputs,
   ...
 }: let
   cfg = config.programs.hm.dev.git;
@@ -11,6 +12,8 @@ in {
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
+      imports = [inputs.secrets.secretModules];
+
       programs.git = {
         enable = true;
         userName = "kossLAN";
@@ -21,9 +24,12 @@ in {
         enable = true;
         gitCredentialHelper = {
           enable = true;
-          hosts = ["https://github.com" "https://github.example.com"];
+          hosts = ["https://github.com" "https://git.kosslan.dev"];
         };
       };
+
+      # Default git key.
+      home.file.".ssh/id_ed25519".text = config.secrets.git1.privateKey;
     };
   };
 }

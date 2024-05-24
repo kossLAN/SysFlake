@@ -2,10 +2,13 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }: let
   cfg = config.services.wireguard;
 in {
+  imports = [inputs.secrets.secretModules];
+
   options.services.wireguard = {
     enable = lib.mkEnableOption "Wireguard VPN";
     adguardhome.enable = lib.mkEnableOption "Wireguard with adguardhome support";
@@ -76,10 +79,10 @@ in {
             ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eno1 -j MASQUERADE
           '';
 
-          privateKeyFile = "/etc/wg-private";
+          privateKey = config.secrets.wg0server.privateKey;
           peers = [
             {
-              publicKey = "VZM6vpIOfaG2HyeQ1dnlvQqlv1Qx63C3uvS1kAlnwXQ=";
+              publicKey = config.secrets.wg0client1.publicKey;
               allowedIPs = ["10.100.0.4/32"]; # Its this because I'm too lazy to change on the client ;-)
             }
           ];
@@ -99,10 +102,10 @@ in {
             ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.1.0/24 -o eno1 -j MASQUERADE
           '';
 
-          privateKeyFile = "/etc/wg-private1";
+          privateKey = config.secrets.wg1server.privateKey;
           peers = [
             {
-              publicKey = "2/+PNTrRyJeiXRhXDNKLVjG6WeOEjkehHV/BsoWFyU4=";
+              publicKey = config.secrets.wg1client1.publicKey;
               allowedIPs = ["10.100.1.2/32"];
             }
           ];

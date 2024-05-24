@@ -6,14 +6,14 @@
 }: let
   cfg = config.programs.hm.dev.git;
 in {
+  imports = [inputs.secrets.secretModules];
+
   options.programs.hm.dev.git = {
     enable = lib.mkEnableOption "git";
   };
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
-      imports = [inputs.secrets.secretModules];
-
       programs.git = {
         enable = true;
         userName = "kossLAN";

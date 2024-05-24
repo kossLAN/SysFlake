@@ -39,6 +39,11 @@
         enable = true;
         trampoline.enable = true;
       };
+
+      ssh = {
+        importConfig = true;
+        importKeys = true;
+      };
     };
   };
 

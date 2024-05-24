@@ -91,7 +91,7 @@ in {
 
             settings = {
               trusted_domains = ["cloud.kosslan.dev"];
-              trusted_proxies = ["192.168.100.11"];
+              trusted_proxies = ["192.168.100.10"];
               "filelocking.enabled" = true;
 
               "enabledPreviewProviders" = [

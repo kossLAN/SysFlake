@@ -38,8 +38,10 @@ in {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
+
         virtualHosts = {
           "prometheus.kosslan.dev" = {
+            basicAuth = {koss = config.secrets.prometheus.privateKey;};
             enableACME = true;
             forceSSL = true;
             locations = {

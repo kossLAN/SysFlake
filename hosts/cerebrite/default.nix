@@ -119,6 +119,11 @@
     nextcloud = {
       container.enable = true;
     };
+
+    prometheus = {
+      enable = true;
+      customConf = true;
+    };
   };
 
   system.stateVersion = "23.11";

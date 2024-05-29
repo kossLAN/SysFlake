@@ -23,14 +23,7 @@ in {
       ];
     };
 
-    programs.hyprland = {
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    };
-
-    #TODO: move hyprland configuration into this.
     home-manager.users.${config.users.defaultUser} = {
-      # imports = [./waybar ];
-
       home = {
         packages = with pkgs; [
           swaybg
@@ -41,7 +34,6 @@ in {
           swaynotificationcenter
           networkmanagerapplet
           libnotify
-          playerctl
 
           inputs.anyrun.packages.${system}.anyrun
           inputs.quickshell.packages.${system}.default
@@ -55,7 +47,6 @@ in {
 
       wayland.windowManager.hyprland = {
         enable = true;
-        package = inputs.hyprland.packages.${pkgs.system}.hyprland;
         systemd.enable = true;
 
         extraConfig = ''
@@ -67,7 +58,6 @@ in {
             exec = ${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
             exec = nm-applet
 
-            env = WLR_DRM_NO_ATOMIC,1
             env = GDK_BACKEND=wayland
 
             #Monitors
@@ -82,15 +72,15 @@ in {
               col.inactive_border = rgba(64727db3)
               layout              = dwindle
               resize_on_border    = true
-              allow_tearing       = true
+
+              allow_tearing     = true
             }
 
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            decoration {
-            rounding               = 5
+          # See https://wiki.hyprland.org/Configuring/Variables/ for more
+          decoration {
+            rounding            = 5
 
             blur {
-              # blur
               enabled           = true
               size              = 8
               passes            = 2
@@ -144,9 +134,7 @@ in {
           bind = $mainMod         , S         , togglefloating ,
           bind = $mainMod         , SPACE     , exec           , anyrun
           bind = $mainMod         , J         , togglesplit    , # dwindle
-          #bind = $mainMod         , L         , exit           ,
-          #bind = $mainMod         , Print         , exec           , hyprpicker
-          bind = $mainMod                 , P      , exec           , grimblast --notify copysave area ~/Pictures/Screenshots/$(date +'Screenshot_%s.png')
+          bind = $mainMod         , P         , exec           , grimblast --notify copysave area ~/Pictures/Screenshots/$(date +'Screenshot_%s.png')
           bind =                  , Print     , exec           , grimblast --notify copysave area ~/Pictures/Screenshots/$(date +'Screenshot_%s.png')
 
           # Move focus with mainMod + arrow keys
@@ -207,31 +195,24 @@ in {
 
           # Define window behaviour
 
+          # Tearing
           windowrulev2 = immediate , class:^(cs2)$
-          windowrulev2 = immediate , class:^(osu!.exe)$
-          windowrulev2 = immediate , class:^(osu!)$
-          windowrulev2 = immediate , class:^(osu!lazer)$
-          windowrulev2 = immediate , class:^(r5apex.exe)$
-          windowrulev2 = immediate , class:^(r5apex)$
           windowrulev2 = immediate , xwayland:1
+
+          # Custom Rules
           windowrule=float,title:^(foot_float)$
 
 
           # Default Startup
-
-          #windowrule = workspace 2, plexamp
+          windowrule = workspace 2, plexamp
           windowrule = workspace 2, vesktop
           windowrule = workspace 4, codium
           windowrule = workspace 5, keepassxc
 
           exec-once = [workspace 2 silent] vesktop
-          #exec-once = [workspace 2 silent] plexamp
+          exec-once = [workspace 2 silent] plexamp
           exec-once = [workspace 3 silent] firefox
           exec-once = [workspace 5 silent] keepassxc
-
-
-          # Some default env vars.
-          #env = XCURSOR_SIZE , 32
 
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
@@ -245,29 +226,12 @@ in {
               accel_profile  = flat
           }
 
-          # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-          # master {
-          #     new_is_master = true
-          # }
-
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          gestures {
-              workspace_swipe = true
-          }
-
-          # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
-          # device:logitech-mx-master-2s-1 {
-          #     sensitivity = 50
-          # }
-
           misc {
-              vfr                      = true
-              vrr                      = 0
+              vrr                      = 1
               animate_manual_resizes   = false
               focus_on_activate        = false
-              render_ahead_of_time     = false
-              disable_hyprland_logo    = false
-              no_direct_scanout        = false
+              disable_hyprland_logo    = true
+              no_direct_scanout        = true
           }
 
           debug {

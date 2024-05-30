@@ -82,7 +82,6 @@
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       SHELL = "/run/current-system/sw/bin/zsh";
-      FLAKE = "/home/${username}/.nixos-conf";
     };
 
     localBinInPath = true;
@@ -168,6 +167,11 @@
       utils.enable = true; # Misc game programs
       steam.enable = true;
       mangohud.enable = true;
+    };
+
+    nh = {
+      enable = true;
+      flake = ../..;
     };
   };
 

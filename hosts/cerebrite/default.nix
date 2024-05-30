@@ -69,13 +69,18 @@
 
   programs = {
     utils.enable = true;
+    customNeovim.enable = true;
+    dev.git.enable = true;
+
     zsh = {
       enable = true;
       customConf = true;
     };
 
-    customNeovim.enable = true;
-    dev.git.enable = true;
+    nh = {
+      enable = true;
+      flake = ../..;
+    };
   };
 
   virtualisation = {

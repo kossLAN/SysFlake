@@ -42,6 +42,11 @@
       importConfig = true;
       importKeys = true;
     };
+
+    nh = {
+      enable = true;
+      flake = ../..;
+    };
   };
 
   system.keyboard = {

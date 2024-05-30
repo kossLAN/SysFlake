@@ -24,7 +24,6 @@ in {
         bambu-studio
         libreoffice-qt
         plexamp
-        nh
         vesktop
 
         # (vesktop.overrideAttrs (old: {

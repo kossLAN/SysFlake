@@ -44,7 +44,11 @@ in {
         guiAddress = "127.0.0.1:8384";
 
         settings = {
-          gui.insecureSkipHostcheck = true;
+          gui = {
+            insecureSkipHostcheck = true;
+            user = "koss";
+            password = config.secrets.syncthing.privateKey;
+          };
         };
       };
 

@@ -331,11 +331,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1716602154,
-        "narHash": "sha256-/E0jzHM+hMepEAVo5E+tsmEP2ay/dk8Idbtzug4Qq4c=",
+        "lastModified": 1717037908,
+        "narHash": "sha256-7r6EBPU+Vdx008f57lLn2iX7PXB15TEama1bIAtKSRA=",
         "ref": "master",
-        "rev": "aac4bce9e5fa07617d821019c23f8eca91e424f1",
-        "revCount": 39,
+        "rev": "1ac389300ab032e7bdfb2185f3d2f33f3d2e6b5a",
+        "revCount": 40,
         "type": "git",
         "url": "ssh://git@git.kosslan.dev/kossLAN/SecretFlake"
       },

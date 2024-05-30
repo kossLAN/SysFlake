@@ -73,7 +73,7 @@ in {
               layout              = dwindle
               resize_on_border    = true
 
-              allow_tearing     = true
+              # allow_tearing     = true
             }
 
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
@@ -195,9 +195,9 @@ in {
 
           # Define window behaviour
 
-          # Tearing
-          windowrulev2 = immediate , class:^(cs2)$
-          windowrulev2 = immediate , xwayland:1
+          # Tearing - broken
+          # windowrulev2 = immediate , class:^(cs2)$
+          # windowrulev2 = immediate , xwayland:1
 
           # Custom Rules
           windowrule=float,title:^(foot_float)$

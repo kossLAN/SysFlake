@@ -20,6 +20,10 @@
   };
 
   programs = {
+    customNeovim.enable = true;
+    syncthing.usermodeEnable = true;
+    dev.git.enable = true;
+
     zsh = {
       enable = true;
       interactiveShellInit = ''
@@ -28,24 +32,14 @@
       customConf = true;
     };
 
-    hm = {
-      nvim.enable = true;
-      #vscodium.enable = true;
-      syncthing.enable = true;
+    utils = {
+      enable = true;
+      trampoline.enable = true;
+    };
 
-      dev = {
-        git.enable = true;
-      };
-
-      utils = {
-        enable = true;
-        trampoline.enable = true;
-      };
-
-      ssh = {
-        importConfig = true;
-        importKeys = true;
-      };
+    ssh = {
+      importConfig = true;
+      importKeys = true;
     };
   };
 

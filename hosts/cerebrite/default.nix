@@ -72,10 +72,8 @@
       customConf = true;
     };
 
-    hm = {
-      nvim.enable = true;
-      dev.git.enable = true;
-    };
+    customNeovim.enable = true;
+    dev.git.enable = true;
   };
 
   virtualisation = {

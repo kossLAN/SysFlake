@@ -1,6 +1,9 @@
 {
   imports = [
-    ./hm
     ./zsh
+    ./dev
+    ./customNeovim
+    ./syncthing
+    ./vscodium
   ];
 }

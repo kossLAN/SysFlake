@@ -4,6 +4,8 @@
   lib,
   config,
   hostname,
+  username,
+  stateVersion,
   ...
 }: {
   imports = [
@@ -35,7 +37,7 @@
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
-      trusted-users = ["koss"];
+      trusted-users = [username];
     };
   };
 
@@ -124,5 +126,5 @@
     };
   };
 
-  system.stateVersion = "23.11";
+  system.stateVersion = stateVersion;
 }

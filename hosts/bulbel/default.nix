@@ -2,6 +2,7 @@
   outputs,
   inputs,
   pkgs,
+  hostname,
   ...
 }: {
   imports = [
@@ -11,7 +12,7 @@
   ];
 
   networking = {
-    hostName = "bulbel";
+    hostName = hostname;
   };
 
   homebrew = {

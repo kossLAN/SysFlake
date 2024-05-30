@@ -1,61 +1,29 @@
-{ inputs
-, outputs
-, nix-darwin
-, stateVersion
-, username
-, ...
+{
+  inputs,
+  outputs,
+  nix-darwin,
+  stateVersion,
+  username,
+  ...
 }: {
-  # Helper function for generating home-manager configs
-  mkHome =
-    { hostname
-    , platform ? "desktop"
-    , homeDir ? "/home/${username}"
-    , user ? username
-    , desktop ? null
-    ,
-    }:
-    inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = {
-        inherit inputs outputs stateVersion hostname desktop platform homeDir;
-        username = user;
-      };
-      modules = [
-        # As of now I only have one user, it will probably stay that way for obvious reasons...
-        ../../home
-      ];
-    };
-
   # Helper function for generating host configs
-  mkHost =
-    { hostname
-    , desktop ? null
-    , pkgsInput ? inputs.nixpkgs
-    , username ? username
-    ,
-    }:
+  mkHost = {
+    hostname,
+    pkgsInput ? inputs.nixpkgs,
+  }:
     pkgsInput.lib.nixosSystem {
       specialArgs = {
-        inherit inputs outputs stateVersion username hostname desktop;
+        inherit inputs outputs stateVersion username hostname;
       };
-      modules = [ ../../hosts/${hostname} ];
+      modules = [../../hosts/${hostname}];
     };
 
-  mkDarwin =
-    { hostname
-    , platform ? "macbook"
-    , homeDir ? "/Users/${username}"
-    , user ? username
-    ,
-    }:
+  mkDarwin = {hostname}:
     nix-darwin.lib.darwinSystem {
       specialArgs = {
-        inherit inputs outputs stateVersion hostname platform;
-        username = user;
+        inherit inputs outputs stateVersion username hostname;
       };
-      modules = [
-        ../../hosts/${hostname}
-      ];
+      modules = [../../hosts/${hostname}];
     };
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [

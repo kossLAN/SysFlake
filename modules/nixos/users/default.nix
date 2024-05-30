@@ -4,6 +4,7 @@
   inputs,
   self,
   pkgs,
+  stateVersion,
   ...
 }: {
   imports = [
@@ -34,7 +35,7 @@
       users.${config.users.defaultUser} = {
         programs.home-manager.enable = true;
         home = {
-          stateVersion = "23.11";
+          stateVersion = stateVersion;
         };
         xdg.enable = true;
       };

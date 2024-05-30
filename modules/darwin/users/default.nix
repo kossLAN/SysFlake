@@ -1,12 +1,12 @@
-{ lib
-, config
-, inputs
-, ...
-}:
-let
-  cfg = config.users.defaultUser;
-in
 {
+  lib,
+  config,
+  inputs,
+  stateVersion,
+  ...
+}: let
+  cfg = config.users.defaultUser;
+in {
   imports = [
     inputs.home-manager.darwinModules.home-manager
   ];
@@ -31,7 +31,7 @@ in
       users.${cfg} = {
         programs.home-manager.enable = true;
         home = {
-          stateVersion = "23.11";
+          stateVersion = stateVersion;
         };
       };
     };

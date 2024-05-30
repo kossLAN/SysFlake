@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  stateVersion,
   ...
 }: let
   cfg = config.services.forgejo;
@@ -106,7 +107,7 @@ in {
           };
         };
 
-        system.stateVersion = "23.11";
+        system.stateVersion = stateVersion;
       };
 
       bindMounts = {

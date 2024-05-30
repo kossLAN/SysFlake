@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  stateVersion,
   ...
 }: let
   cfg = config.services.nextcloud;
@@ -123,7 +124,7 @@ in {
           };
         };
 
-        system.stateVersion = "23.11";
+        system.stateVersion = stateVersion;
       };
 
       bindMounts = {

@@ -21,12 +21,13 @@ in {
     };
 
     services = {
+      libinput.enable = true;
+
       xserver = {
         enable = true;
-        libinput.enable = true;
 
         videoDrivers = ["amdgpu"];
-        layout = "us";
+        xkb.layout = "us";
       };
     };
   };

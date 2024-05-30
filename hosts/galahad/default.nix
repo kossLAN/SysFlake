@@ -5,6 +5,8 @@
   config,
   pkgs,
   hostname,
+  username,
+  stateVersion,
   ...
 }: {
   imports = [
@@ -80,7 +82,7 @@
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
       SHELL = "/run/current-system/sw/bin/zsh";
-      FLAKE = "/home/koss/.nixos-conf";
+      FLAKE = "/home/${username}/.nixos-conf";
     };
 
     localBinInPath = true;
@@ -169,5 +171,5 @@
     };
   };
 
-  system.stateVersion = "23.11";
+  system.stateVersion = stateVersion;
 }

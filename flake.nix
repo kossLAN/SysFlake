@@ -20,26 +20,22 @@
 
     # NixOS Configurations
     nixosConfigurations = {
+      # Main desktop
       galahad = libx.mkHost {
         hostname = "galahad";
-        desktop = "hyprland";
-        username = "koss";
       };
 
+      # OVH Server
       cerebrite = libx.mkHost {
         hostname = "cerebrite";
-        desktop = "";
-        username = "koss";
       };
     };
 
     # MacOS Configuration: this setups home-manager as well...
     darwinConfigurations = {
+      # Laptop
       bulbel = libx.mkDarwin {
         hostname = "bulbel";
-        user = "koss";
-        homeDir = "/Users/koss";
-        platform = "macbook";
       };
     };
   };

@@ -22,6 +22,7 @@
 
   programs = {
     customNeovim.enable = true;
+    vscodium.enable = true;
     syncthing.usermodeEnable = true;
     dev.git.enable = true;
 
@@ -43,10 +44,11 @@
       importKeys = true;
     };
 
-    nh = {
-      enable = true;
-      flake = ../..;
-    };
+    # Wait for https://github.com/LnL7/nix-darwin/pull/942 merges
+    # nh = {
+    #   enable = true;
+    #   flake = ../..;
+    # };
   };
 
   system.keyboard = {
@@ -75,5 +77,10 @@
       automatic = true;
       options = "--delete-older-than 1d";
     };
+  };
+
+  system = {
+    configurationRevision = outputs.rev or outputs.dirtyRev or null;
+    stateVersion = 4;
   };
 }

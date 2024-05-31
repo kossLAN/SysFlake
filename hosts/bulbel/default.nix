@@ -22,7 +22,7 @@
 
   programs = {
     customNeovim.enable = true;
-    vscodium.enable = true;
+    # vscodium.enable = true;
     syncthing.usermodeEnable = true;
     dev.git.enable = true;
 

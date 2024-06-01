@@ -17,14 +17,6 @@ in {
         userEmail = "kosslan@kosslan.dev";
       };
 
-      programs.gh = {
-        enable = true;
-        gitCredentialHelper = {
-          enable = true;
-          hosts = ["https://github.com" "https://git.kosslan.dev"];
-        };
-      };
-
       # Default git key.
       home.file.".ssh/id_ed25519".text = config.secrets.git1.privateKey;
     };

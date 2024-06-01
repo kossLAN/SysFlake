@@ -30,6 +30,11 @@ in {
           Port 1000
       '';
 
+      programs.gpg = {
+        enable = true;
+        mutableTrust = true;
+      };
+
       home.file.".ssh/id_rsa".text = config.secrets.ssh1.privateKey;
     };
   };

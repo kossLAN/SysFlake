@@ -15,10 +15,20 @@ in {
         enable = true;
         userName = "kossLAN";
         userEmail = "kosslan@kosslan.dev";
-      };
+        extraConfig = {
+          user = {
+            signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHrZvFPiVH1pHCm5XhA3ZQCL8fUsgJQxvfqY0pbg+5NI kosslan@kosslan.dev";
+          };
 
-      # Default git key.
-      home.file.".ssh/id_ed25519".text = config.secrets.git1.privateKey;
+          gpg = {
+            format = "ssh";
+          };
+
+          commit = {
+            gpgsign = true;
+          };
+        };
+      };
     };
   };
 }

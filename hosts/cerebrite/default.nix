@@ -79,7 +79,7 @@
 
     nh = {
       enable = true;
-      flake = ../..;
+      flake = "/home/${username}/.nixos-conf";
     };
   };
 

@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   cfg = config.services.firefox-syncserver;
@@ -22,10 +23,23 @@ in {
     };
 
     services = {
+      mysql = {
+        package = pkgs.mariadb;
+      };
+
       firefox-syncserver = {
+        secrets = "${pkgs.writeText "secrets" config.secrets.firefox-syncserver.privateKey}";
+
         singleNode = {
+          url = "https://firefox.kosslan.dev";
+          hostname = "localhost";
           enable = true;
           capacity = 5;
+        };
+
+        settings = {
+          tokenserver.enabled = true;
+          port = 5000;
         };
 
         database = {
@@ -37,7 +51,7 @@ in {
         enable = true;
         recommendedProxySettings = true;
         virtualHosts = {
-          "sync.kosslan.dev" = {
+          "firefox.kosslan.dev" = {
             enableACME = true;
             forceSSL = true;
             locations = {

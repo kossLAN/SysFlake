@@ -97,6 +97,11 @@
       customConf = true; # Opens port 3005 but doesn't use it?
     };
 
+    firefox-syncserver = {
+      enable = true;
+      customConf = true;
+    };
+
     jellyfin = {
       enable = true;
       customConf = true;

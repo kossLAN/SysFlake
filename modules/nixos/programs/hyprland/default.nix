@@ -5,13 +5,13 @@
   inputs,
   ...
 }: let
-  cfg = config.programs.hyprland.customConf;
+  cfg = config.programs.hyprland;
 in {
-  options.programs.hyprland.customConf = {
-    enable = lib.mkEnableOption "hyprland config";
+  options.programs.hyprland = {
+    customConf = lib.mkEnableOption "hyprland config";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.customConf {
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [

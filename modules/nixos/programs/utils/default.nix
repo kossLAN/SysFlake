@@ -17,7 +17,6 @@ in {
         deluge
         pavucontrol
         mpv
-        firefox
         via
         keepassxc
         BeatSaberModManager

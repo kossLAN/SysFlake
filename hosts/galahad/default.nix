@@ -139,10 +139,16 @@
       flake = "/home/${username}/.nixos-conf";
     };
 
+    firefox = {
+      enable = true;
+      customPreferences = true;
+      customExtensions = true;
+    };
+
     hyprland = {
       enable = true;
       xwayland.enable = true;
-      customConf.enable = true;
+      customConf = true;
     };
 
     zsh = {

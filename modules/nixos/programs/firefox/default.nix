@@ -8,13 +8,76 @@ in {
   options.programs.firefox = {
     customExtensions = lib.mkEnableOption "A list of firefox extenions to install.";
     customPreferences = lib.mkEnableOption "A list of firefox preferences to install.";
+    customPolicies = lib.mkEnableOption "A list of firefox policies that I like to enable";
+    customSearchEngine = lib.mkEnableOption "Personal search engine, that I want to default to";
   };
 
   config = {
     programs.firefox = {
-      policies = lib.mkIf cfg.customExtensions {
+      policies = {
+        # Default policies - these shouldn't be opt out :/
+        OverrideFirstRunPage = "";
+        DisableTelemetry = true;
+        DisableFirefoxStudies = true;
+        DisablePocket = true;
+        DisableFormHistory = true;
+        DisplayBookmarksToolbar = true;
+        DontCheckDefaultBrowser = true;
+        DisableSetDesktopBackground = true;
+        PasswordManagerEnabled = false;
+        OfferToSaveLogins = false;
+        NoDefaultBookmarks = true;
+
+        # Additional policies
+        EnableTrackingProtection = lib.mkIf cfg.customPolicies {
+          Cryptomining = true;
+          Fingerprinting = true;
+          Locked = true;
+          Value = true;
+        };
+
+        FirefoxHome = lib.mkIf cfg.customPolicies {
+          Search = true;
+          Pocket = false;
+          Snippets = false;
+          TopSites = false;
+          Highlights = false;
+        };
+
+        UserMessaging = lib.mkIf cfg.customPolicies {
+          ExtensionRecommendations = false;
+          SkipOnboarding = true;
+        };
+
+        Cookies = lib.mkIf cfg.customPolicies {
+          Behavior = "accept";
+          ExpireAtSessionEnd = false;
+          Locked = false;
+        };
+
+        # Search Engine
+        SearchEngines = lib.mkIf cfg.customSearchEngine {
+          Add = [
+            {
+              Name = "Searx";
+              Description = "Searx";
+              Alias = "!sx";
+              Method = "GET";
+              URLTemplate = "https://search.kosslan.dev/search?q={searchTerms}";
+            }
+            {
+              Name = "nixpkgs";
+              Description = "Nixpkgs query";
+              Alias = "!nix";
+              Method = "GET";
+              URLTemplate = "https://search.nixos.org/packages?&query={searchTerms}";
+            }
+          ];
+          default = "Searx";
+        };
+
         # Declarative Extensions
-        ExtensionSettings = {
+        ExtensionSettings = lib.mkIf cfg.customExtensions {
           "uBlock0@raymondhill.net" = {
             "installation_mode" = "force_installed";
             "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";

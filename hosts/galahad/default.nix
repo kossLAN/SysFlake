@@ -143,6 +143,8 @@
       enable = true;
       customPreferences = true;
       customExtensions = true;
+      customPolicies = true;
+      customSearchEngine = true;
     };
 
     hyprland = {

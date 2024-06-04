@@ -130,7 +130,7 @@ in {
           bind = $mainMod         , Q         , killactive     ,
           bind = $mainMod         , R         , exec           , dolphin
           bind = $mainMod         , F         , fullscreen           ,
-          bind = $mainMod         , B         , exec           , firefox
+          bind = $mainMod         , B         , exec           , firefox-esr
           bind = $mainMod         , S         , togglefloating ,
           bind = $mainMod         , SPACE     , exec           , anyrun
           bind = $mainMod         , J         , togglesplit    , # dwindle
@@ -211,7 +211,7 @@ in {
 
           exec-once = [workspace 2 silent] vesktop
           exec-once = [workspace 2 silent] plexamp
-          exec-once = [workspace 3 silent] firefox
+          exec-once = [workspace 3 silent] firefox-esr
           exec-once = [workspace 5 silent] keepassxc
 
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/

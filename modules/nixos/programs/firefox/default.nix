@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   cfg = config.programs.firefox;
@@ -14,6 +15,7 @@ in {
 
   config = {
     programs.firefox = {
+      package = pkgs.firefox-esr;
       policies = {
         # Default policies - these shouldn't be opt out :/
         OverrideFirstRunPage = "";
@@ -26,6 +28,7 @@ in {
         DisableSetDesktopBackground = true;
         PasswordManagerEnabled = false;
         OfferToSaveLogins = false;
+        PromptForDownloadLocation = true;
         NoDefaultBookmarks = true;
 
         # Additional policies
@@ -73,7 +76,7 @@ in {
               URLTemplate = "https://search.nixos.org/packages?&query={searchTerms}";
             }
           ];
-          default = "Searx";
+          Default = "Searx";
         };
 
         # Declarative Extensions
@@ -97,8 +100,9 @@ in {
         };
       };
       preferences = lib.mkIf cfg.customPreferences {
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
         "identity.sync.tokenserver.uri" = "https://firefox.kosslan.dev/1.0/sync/1.5"; # Custom Sync Server, see server modules
-        "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":["_762f9885-5a13-4abd-9c77-433dcd38b8fd_-browser-action","user-agent-switcher_ninetailed_ninja-browser-action"],"nav-bar":["back-button","forward-button","stop-reload-button","urlbar-container","search-container","downloads-button","sync-button","unified-extensions-button","ublock0_raymondhill_net-browser-action","sponsorblocker_ajay_app-browser-action","keepassxc-browser_keepassxc_org-browser-action","dark-mode-website-switcher_rugk_github_io-browser-action","_174b2d58-b983-4501-ab4b-07e71203cb43_-browser-action","brandon_subdavis_com-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["firefox-view-button","tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","ublock0_raymondhill_net-browser-action","_762f9885-5a13-4abd-9c77-433dcd38b8fd_-browser-action","sponsorblocker_ajay_app-browser-action","user-agent-switcher_ninetailed_ninja-browser-action","keepassxc-browser_keepassxc_org-browser-action","dark-mode-website-switcher_rugk_github_io-browser-action","_174b2d58-b983-4501-ab4b-07e71203cb43_-browser-action","brandon_subdavis_com-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","unified-extensions-area","toolbar-menubar","TabsToolbar"],"currentVersion":20,"newElementCount":3}'';
+        "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":["_762f9885-5a13-4abd-9c77-433dcd38b8fd_-browser-action"],"nav-bar":["back-button","forward-button","stop-reload-button","urlbar-container","search-container","developer-button","sync-button","downloads-button","ublock0_raymondhill_net-browser-action","sponsorblocker_ajay_app-browser-action","keepassxc-browser_keepassxc_org-browser-action","dark-mode-website-switcher_rugk_github_io-browser-action","_174b2d58-b983-4501-ab4b-07e71203cb43_-browser-action","brandon_subdavis_com-browser-action","user-agent-switcher_ninetailed_ninja-browser-action","unified-extensions-button"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["firefox-view-button","tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["import-button","personal-bookmarks"]},"seen":["save-to-pocket-button","developer-button","ublock0_raymondhill_net-browser-action","_762f9885-5a13-4abd-9c77-433dcd38b8fd_-browser-action","sponsorblocker_ajay_app-browser-action","user-agent-switcher_ninetailed_ninja-browser-action","keepassxc-browser_keepassxc_org-browser-action","dark-mode-website-switcher_rugk_github_io-browser-action","_174b2d58-b983-4501-ab4b-07e71203cb43_-browser-action","brandon_subdavis_com-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","unified-extensions-area","toolbar-menubar","TabsToolbar"],"currentVersion":19,"newElementCount":5}'';
       };
     };
   };

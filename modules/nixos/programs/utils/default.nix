@@ -19,7 +19,6 @@ in {
         mpv
         via
         keepassxc
-        BeatSaberModManager
         bambu-studio
         libreoffice-qt
         plexamp

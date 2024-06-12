@@ -6,13 +6,14 @@
   hostname,
   username,
   stateVersion,
+  pkgs,
   ...
 }: {
   imports = [
     outputs.universalModules
     outputs.nixosModules
-    inputs.jovian.nixosModules
-    ./disk-config.nix
+    inputs.jovian.nixosModules.jovian
+    ./hardware.nix
   ];
 
   nixpkgs = {
@@ -36,6 +37,7 @@
     settings = {
       experimental-features = "nix-command flakes";
       auto-optimise-store = true;
+      require-sigs = false;
     };
   };
 
@@ -76,6 +78,8 @@
       SHELL = "/run/current-system/sw/bin/zsh";
     };
 
+    systemPackages = [pkgs.maliit-keyboard];
+
     localBinInPath = true;
     enableDebugInfo = true;
   };
@@ -85,16 +89,41 @@
     hostName = hostname;
   };
 
-  theme.oled.enable = true;
+  jovian = {
+    hardware.has.amd.gpu = true;
+    steamos.useSteamOSConfig = true;
+
+    devices = {
+      steamdeck = {
+        enable = true;
+        autoUpdate = true;
+        enableGyroDsuService = true;
+      };
+    };
+
+    steam = {
+      enable = true;
+      user = config.users.defaultUser;
+      autoStart = true;
+      desktopSession = "plasma";
+    };
+
+    decky-loader = {
+      enable = true;
+    };
+  };
+
+  # theme.oled.enable = true;
 
   services = {
-    bluetooth.enable = true;
     ssh.enable = true;
-    amdGpu.enable = true;
-    sound.enable = true;
+
+    displayManager.sddm.wayland.enable = true;
+    desktopManager.plasma6.enable = true;
   };
 
   programs = {
+    utils.enable = true;
     customNeovim.enable = true;
     syncthing.usermodeEnable = true;
     vscodium.enable = true;
@@ -117,24 +146,13 @@
       customConf = true;
     };
 
-    foot = {
-      enable = true;
-      customConf = true;
-    };
-
     dev = {
       git.enable = true;
     };
 
     game = {
       utils.enable = true; # Misc game programs
-      mangohud.enable = true;
-    };
-
-    jovian = {
-      steam = {
-        enable = true;
-      };
+      #mangohud.enable = true;
     };
   };
 

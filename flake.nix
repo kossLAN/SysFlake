@@ -29,6 +29,11 @@
       cerebrite = libx.mkHost {
         hostname = "cerebrite";
       };
+
+      # Steamdeck
+      compass = libx.mkHost {
+        hostname = "compass";
+      };
     };
 
     # MacOS Configuration: this setups home-manager as well...
@@ -86,6 +91,11 @@
 
     disko = {
       url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    jovian = {
+      url = "github:Jovian-Experiments/Jovian-Nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

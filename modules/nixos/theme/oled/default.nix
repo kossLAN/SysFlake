@@ -17,7 +17,7 @@ in {
       style = "breeze";
     };
 
-    # QT Common Apps
+    # QT Common Apps - Move Elsewhere Maybe idk
     environment.systemPackages = with pkgs; [
       qt6.qtwayland
       kdePackages.breeze

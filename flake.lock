@@ -149,6 +149,27 @@
         "type": "github"
       }
     },
+    "jovian": {
+      "inputs": {
+        "nix-github-actions": "nix-github-actions",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1717685136,
+        "narHash": "sha256-S+C/DX5HOhlhJAmcGxbB+Tv6oqZOkr3z/WzPuydXI14=",
+        "owner": "Jovian-Experiments",
+        "repo": "Jovian-Nixos",
+        "rev": "fd13986ede9b94c50e84aecb2c88863e297bbb52",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Jovian-Experiments",
+        "repo": "Jovian-Nixos",
+        "type": "github"
+      }
+    },
     "mac-app-util": {
       "inputs": {
         "cl-nix-lite": "cl-nix-lite",
@@ -212,6 +233,28 @@
         "type": "github"
       }
     },
+    "nix-github-actions": {
+      "inputs": {
+        "nixpkgs": [
+          "jovian",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1690328911,
+        "narHash": "sha256-fxtExYk+aGf2YbjeWQ8JY9/n9dwuEt+ma1eUFzF8Jeo=",
+        "owner": "zhaofengli",
+        "repo": "nix-github-actions",
+        "rev": "96df4a39c52f53cb7098b923224d8ce941b64747",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zhaofengli",
+        "ref": "matrix-name",
+        "repo": "nix-github-actions",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1710066242,
@@ -262,11 +305,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1716509168,
-        "narHash": "sha256-4zSIhSRRIoEBwjbPm3YiGtbd8HDWzFxJjw5DYSDy1n8=",
+        "lastModified": 1717196966,
+        "narHash": "sha256-yZKhxVIKd2lsbOqYd5iDoUIwsRZFqE87smE2Vzf6Ck0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "bfb7a882678e518398ce9a31a881538679f6f092",
+        "rev": "57610d2f8f0937f39dbd72251e9614b1561942d8",
         "type": "github"
       },
       "original": {
@@ -299,11 +342,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716516968,
-        "narHash": "sha256-nt3SFh6PHZZCUuVcZJ73PH9n/W5QSWQddW3Nd5XcgRs=",
+        "lastModified": 1717534134,
+        "narHash": "sha256-pu6smF0p3+HlgOZSbRD3uz4XnSU1aWVAjvWBZGdsPR8=",
         "ref": "refs/heads/master",
-        "rev": "5a84e734426fc73e6a4bef993244ea422782e68b",
-        "revCount": 186,
+        "rev": "be237b6ab5f4e3ec875d11359b71d4cbb543314d",
+        "revCount": 204,
         "type": "git",
         "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
       },
@@ -317,6 +360,7 @@
         "anyrun": "anyrun",
         "disko": "disko",
         "home-manager": "home-manager",
+        "jovian": "jovian",
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-gaming": "nix-gaming",

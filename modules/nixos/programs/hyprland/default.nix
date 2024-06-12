@@ -52,6 +52,7 @@ in {
         extraConfig = ''
             exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
             exec-once = quickshell &
+            exec-once = noisetorch -i
             # exec-once = swaync -s ~/.config/swaync/style.css -c ~/.config/swaync/config.js
 
             exec = swaybg -m fill -i ${./wallpapers/wallhaven-vqv3ml.jpg}
@@ -59,6 +60,7 @@ in {
             exec = nm-applet
 
             env = GDK_BACKEND=wayland
+            env = WLR_DRM_NO_ATOMIC,1
 
             #Monitors
             monitor=WL-1,1200x800, 0x0, 1
@@ -73,7 +75,7 @@ in {
               layout              = dwindle
               resize_on_border    = true
 
-              # allow_tearing     = true
+              #allow_tearing     = true
             }
 
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
@@ -196,8 +198,8 @@ in {
           # Define window behaviour
 
           # Tearing - broken
-          # windowrulev2 = immediate , class:^(cs2)$
-          # windowrulev2 = immediate , xwayland:1
+          windowrulev2 = immediate , class:^(cs2)$
+          windowrulev2 = immediate , xwayland:1
 
           # Custom Rules
           windowrule=float,title:^(foot_float)$
@@ -216,22 +218,24 @@ in {
 
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
-              kb_layout      = us
-              kb_variant     =
-              kb_model       =
-              kb_options     =
-              kb_rules       =
-              follow_mouse   = 1
-              sensitivity    = 0 # -1.0 - 1.0, 0 means no modification.
-              accel_profile  = flat
+            kb_layout      = us
+            kb_variant     =
+            kb_model       =
+            kb_options     =
+            kb_rules       =
+            follow_mouse   = 1
+            sensitivity    = 0 # -1.0 - 1.0, 0 means no modification.
+            accel_profile  = flat
           }
 
           misc {
-              vrr                      = 1
-              animate_manual_resizes   = false
-              focus_on_activate        = false
-              disable_hyprland_logo    = true
-              no_direct_scanout        = true
+            vfr                      = true
+            vrr                      = 1
+            animate_manual_resizes   = false
+            focus_on_activate        = false
+            render_ahead_of_time     = false
+            disable_hyprland_logo    = false
+            no_direct_scanout        = false
           }
 
           debug {

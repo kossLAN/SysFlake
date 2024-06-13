@@ -1,16 +1,19 @@
 {
-  lib,
   config,
   pkgs,
+  lib,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.firefox;
 in {
   options.programs.firefox = {
-    customExtensions = lib.mkEnableOption "A list of firefox extenions to install.";
-    customPreferences = lib.mkEnableOption "A list of firefox preferences to install.";
-    customPolicies = lib.mkEnableOption "A list of firefox policies that I like to enable";
-    customSearchEngine = lib.mkEnableOption "Personal search engine, that I want to default to";
+    customExtensions = mkEnableOption "A list of firefox extenions to install.";
+    customPreferences = mkEnableOption "A list of firefox preferences to install.";
+    customPolicies = mkEnableOption "A list of firefox policies that I like to enable";
+    customSearchEngine = mkEnableOption "Personal search engine, that I want to default to";
   };
 
   config = {
@@ -32,14 +35,14 @@ in {
         NoDefaultBookmarks = true;
 
         # Additional policies
-        EnableTrackingProtection = lib.mkIf cfg.customPolicies {
+        EnableTrackingProtection = mkIf cfg.customPolicies {
           Cryptomining = true;
           Fingerprinting = true;
           Locked = true;
           Value = true;
         };
 
-        FirefoxHome = lib.mkIf cfg.customPolicies {
+        FirefoxHome = mkIf cfg.customPolicies {
           Search = true;
           Pocket = false;
           Snippets = false;
@@ -47,19 +50,19 @@ in {
           Highlights = false;
         };
 
-        UserMessaging = lib.mkIf cfg.customPolicies {
+        UserMessaging = mkIf cfg.customPolicies {
           ExtensionRecommendations = false;
           SkipOnboarding = true;
         };
 
-        Cookies = lib.mkIf cfg.customPolicies {
+        Cookies = mkIf cfg.customPolicies {
           Behavior = "accept";
           ExpireAtSessionEnd = false;
           Locked = false;
         };
 
         # Search Engine
-        SearchEngines = lib.mkIf cfg.customSearchEngine {
+        SearchEngines = mkIf cfg.customSearchEngine {
           Add = [
             {
               Name = "Searx";
@@ -80,7 +83,7 @@ in {
         };
 
         # Declarative Extensions
-        ExtensionSettings = lib.mkIf cfg.customExtensions {
+        ExtensionSettings = mkIf cfg.customExtensions {
           "uBlock0@raymondhill.net" = {
             "installation_mode" = "force_installed";
             "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
@@ -99,7 +102,7 @@ in {
           };
         };
       };
-      preferences = lib.mkIf cfg.customPreferences {
+      preferences = mkIf cfg.customPreferences {
         "widget.use-xdg-desktop-portal.file-picker" = 1;
         "identity.sync.tokenserver.uri" = "https://firefox.kosslan.dev/1.0/sync/1.5"; # Custom Sync Server, see server modules
       };

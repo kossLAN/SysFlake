@@ -5,16 +5,19 @@
   stateVersion,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.nextcloud;
 in {
   options.services.nextcloud = {
     container = {
-      enable = lib.mkEnableOption "Nextcloud container";
+      enable = mkEnableOption "Nextcloud container";
     };
   };
 
   # Don't really use this much anymore...
-  config = lib.mkIf cfg.container.enable {
+  config = mkIf cfg.container.enable {
     networking = {
       firewall.allowedTCPPorts = [80 443];
 

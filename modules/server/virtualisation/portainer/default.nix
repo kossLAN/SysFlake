@@ -1,18 +1,19 @@
 {
   config,
   lib,
-  inputs,
-  pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.virtualisation.portainer;
 in {
   options.virtualisation.portainer = {
-    enable = lib.mkEnableOption "docker in docker management";
+    enable = mkEnableOption "docker in docker management";
   };
 
   # Mostly used for temp services I want to try out quickly without having to configure entirely...
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     # networking.firewall = {
     #   allowedTCPPorts = [9000 9443];
     # };

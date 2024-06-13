@@ -4,16 +4,19 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkOption;
+
   cfg = config.programs.zsh;
 in {
   options.programs.zsh = {
-    customConf = lib.mkOption {
+    customConf = mkOption {
       type = lib.types.bool;
       default = false;
     };
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     home-manager.users.${config.users.defaultUser} = {
       programs.zsh = let
         # Oh My Zsh has alot of good plugins, thankfully we can use them without needing oh-my-zsh!

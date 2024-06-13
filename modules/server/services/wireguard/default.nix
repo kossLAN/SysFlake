@@ -4,21 +4,24 @@
   lib,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.wireguard;
 in {
   options.services.wireguard = {
-    enable = lib.mkEnableOption "Wireguard VPN";
-    adguardhome.enable = lib.mkEnableOption "Wireguard with adguardhome support";
+    enable = mkEnableOption "Wireguard VPN";
+    adguardhome.enable = mkEnableOption "Wireguard with adguardhome support";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     security.acme = {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
 
     services = {
-      adguardhome = lib.mkIf cfg.adguardhome.enable {
+      adguardhome = mkIf cfg.adguardhome.enable {
         enable = true;
         mutableSettings = true;
         # settings = {

@@ -5,13 +5,16 @@
   inputs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.hyprland;
 in {
   options.programs.hyprland = {
-    customConf = lib.mkEnableOption "hyprland config";
+    customConf = mkEnableOption "hyprland config";
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [

@@ -3,16 +3,19 @@
   lib,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkOption;
+
   cfg = config.services.jellyfin;
 in {
   options.services.jellyfin = {
-    customConf = lib.mkOption {
+    customConf = mkOption {
       type = lib.types.bool;
       default = false;
     };
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     networking.firewall.allowedTCPPorts = [80 443];
 
     # SSL CERT

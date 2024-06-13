@@ -3,14 +3,17 @@
   config,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.sound;
 in {
   # This is also going to be the same across my linux installs so best to abstract.
   options.services.sound = {
-    enable = lib.mkEnableOption "sound";
+    enable = mkEnableOption "sound";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services = {
       pipewire = {
         wireplumber.enable = true;

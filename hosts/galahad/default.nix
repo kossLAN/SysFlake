@@ -1,12 +1,8 @@
 {
   inputs,
   outputs,
-  lib,
-  config,
   pkgs,
-  hostname,
   username,
-  stateVersion,
   ...
 }: {
   imports = [
@@ -16,59 +12,9 @@
     inputs.secrets.secretModules
   ];
 
-  nixpkgs = {
-    hostPlatform = "x86_64-linux";
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-    ];
-    config = {
-      allowUnfree = true;
-    };
-  };
+  system.defaults.enable = true;
 
-  nix = {
-    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-    optimise.automatic = true;
-    gc.automatic = true;
-    gc.options = "--delete-older-than 1d";
-
-    settings = {
-      experimental-features = "nix-command flakes";
-      auto-optimise-store = true;
-    };
-  };
-
-  # Internationalisation and Timezone
-  time.timeZone = "America/New_York";
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_US.UTF-8";
-    LC_IDENTIFICATION = "en_US.UTF-8";
-    LC_MEASUREMENT = "en_US.UTF-8";
-    LC_MONETARY = "en_US.UTF-8";
-    LC_NAME = "en_US.UTF-8";
-    LC_NUMERIC = "en_US.UTF-8";
-    LC_PAPER = "en_US.UTF-8";
-    LC_TELEPHONE = "en_US.UTF-8";
-    LC_TIME = "en_US.UTF-8";
-  };
-
-  # Boot
   boot = {
-    # Bootloader
-    loader.efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
-    };
-    loader.grub = {
-      efiSupport = true;
-      enable = true;
-      device = "nodev";
-      useOSProber = true;
-    };
-
     # Cross Compilation
     binfmt.emulatedSystems = [
       "riscv32-linux"
@@ -88,10 +34,7 @@
     enableDebugInfo = true;
   };
 
-  networking = {
-    nm.enable = true;
-    hostName = hostname;
-  };
+  networking.nm.enable = true;
 
   loginmanager.greetd = {
     gtkgreet.enable = true;
@@ -183,6 +126,4 @@
       mangohud.enable = true;
     };
   };
-
-  system.stateVersion = stateVersion;
 }

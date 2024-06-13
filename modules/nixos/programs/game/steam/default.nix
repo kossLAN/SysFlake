@@ -4,13 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.game.steam;
 in {
   options.programs.game.steam = {
-    enable = lib.mkEnableOption "gameUtils";
+    enable = mkEnableOption "gameUtils";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     programs = {
       steam = {
         enable = true;

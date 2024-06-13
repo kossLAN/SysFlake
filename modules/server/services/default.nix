@@ -9,7 +9,6 @@
     ./syncthing
     ./wireguard
     ./nextcloud
-    ./seafile
     ./searx
   ];
 }

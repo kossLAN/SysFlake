@@ -4,14 +4,17 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.foot;
 in {
   options.programs.foot = {
-    enable = lib.mkEnableOption "Enable foot termninal emulator";
-    customConf = lib.mkEnableOption "Custom foot configuration";
+    enable = mkEnableOption "Enable foot termninal emulator";
+    customConf = mkEnableOption "Custom foot configuration";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
         wl-clipboard

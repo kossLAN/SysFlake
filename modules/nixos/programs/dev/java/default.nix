@@ -4,13 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.dev.java;
 in {
   options.programs.dev.java = {
-    enable = lib.mkEnableOption "Java support";
+    enable = mkEnableOption "Java support";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     programs = {
       java = {
         enable = true;

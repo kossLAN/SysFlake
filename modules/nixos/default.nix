@@ -6,5 +6,6 @@
     ./virtualization
     ./theme
     ./users
+    ./system
   ];
 }

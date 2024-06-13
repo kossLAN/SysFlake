@@ -110,6 +110,7 @@
 
     decky-loader = {
       enable = true;
+      user = config.users.defaultUser;
     };
   };
 

@@ -4,13 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.firefox-syncserver;
 in {
   options.services.firefox-syncserver = {
-    customConf = lib.mkEnableOption "Firefox sync server configuration";
+    customConf = mkEnableOption "Firefox sync server configuration";
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443];

@@ -4,6 +4,9 @@
   inputs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.utils.trampoline;
   hmLib = inputs.home-manager.lib;
 in {
@@ -13,10 +16,10 @@ in {
 
   # Adds apps to applications folder on mac
   options.programs.utils.trampoline = {
-    enable = lib.mkEnableOption "trampoline";
+    enable = mkEnableOption "trampoline";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       home.activation = {
         trampolineApps = let

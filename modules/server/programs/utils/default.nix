@@ -1,17 +1,19 @@
 {
   config,
   lib,
-  inputs,
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.utils;
 in {
   options.programs.utils = {
-    enable = lib.mkEnableOption "Utils and what not";
+    enable = mkEnableOption "Utils and what not";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       btop
       fastfetch

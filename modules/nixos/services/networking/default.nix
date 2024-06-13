@@ -3,13 +3,16 @@
   lib,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.networking.nm;
 in {
   options.networking.nm = {
-    enable = lib.mkEnableOption "nm";
+    enable = mkEnableOption "nm";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     networking = {
       networkmanager.enable = true;
     };

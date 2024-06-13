@@ -4,13 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.vscodium;
 in {
   options.programs.vscodium = {
-    enable = lib.mkEnableOption "vscodium";
+    enable = mkEnableOption "vscodium";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       programs.vscode = {
         package = pkgs.vscodium;

@@ -3,13 +3,16 @@
   config,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.virt.vmware;
 in {
   options.virt.vmware = {
-    enable = lib.mkEnableOption "vmware";
+    enable = mkEnableOption "vmware";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     virtualisation = {
       vmware = {
         host = {

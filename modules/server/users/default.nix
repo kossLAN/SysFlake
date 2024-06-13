@@ -6,12 +6,14 @@
   pkgs,
   stateVersion,
   ...
-}: {
+}: let
+  inherit (lib.options) mkOption;
+in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  options.users.defaultUser = lib.mkOption {
+  options.users.defaultUser = mkOption {
     type = lib.types.str;
     default = "koss";
   };

@@ -4,14 +4,17 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.udevRules;
 in {
   options.services.udevRules = {
-    enable = lib.mkEnableOption "udevRules";
+    enable = mkEnableOption "udevRules";
     keyboard.enable = lib.mkEnableOption "keyboard";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     services = lib.mkIf cfg.keyboard.enable {
       udev = {
         packages = with pkgs; [

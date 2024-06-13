@@ -1,16 +1,18 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.prometheus;
 in {
   options.services.prometheus = {
-    customConf = lib.mkEnableOption "Prometheus custom configuration";
+    customConf = mkEnableOption "Prometheus custom configuration";
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     services = {
       prometheus = {
         port = 3255;

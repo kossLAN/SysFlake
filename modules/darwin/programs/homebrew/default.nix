@@ -3,16 +3,19 @@
   config,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkOption;
+
   cfg = config.homebrew;
 in {
   options.homebrew = {
-    customConf = lib.mkOption {
+    customConf = mkOption {
       type = lib.types.bool;
       default = false;
     };
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     homebrew = {
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;

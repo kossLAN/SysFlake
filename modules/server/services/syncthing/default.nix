@@ -3,13 +3,16 @@
   lib,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.syncthing;
 in {
   options.services.syncthing = {
-    customConf = lib.mkEnableOption "Syncthing config";
+    customConf = mkEnableOption "Syncthing config";
   };
 
-  config = lib.mkIf cfg.customConf {
+  config = mkIf cfg.customConf {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443 22000];

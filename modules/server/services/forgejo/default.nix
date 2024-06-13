@@ -5,13 +5,16 @@
   stateVersion,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.services.forgejo;
 in {
   options.services.forgejo = {
-    container.enable = lib.mkEnableOption "Forgjo custom configuration";
+    container.enable = mkEnableOption "Forgjo custom configuration";
   };
 
-  config = lib.mkIf cfg.container.enable {
+  config = mkIf cfg.container.enable {
     boot.kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
     };

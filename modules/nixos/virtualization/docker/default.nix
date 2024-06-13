@@ -3,13 +3,16 @@
   config,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.virt.docker;
 in {
   options.virt.docker = {
-    enable = lib.mkEnableOption "docker";
+    enable = mkEnableOption "docker";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     virtualisation = {
       docker.enable = true;
       docker.rootless = {

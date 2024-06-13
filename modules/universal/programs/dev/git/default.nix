@@ -3,13 +3,16 @@
   config,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.dev.git;
 in {
   options.programs.dev.git = {
-    enable = lib.mkEnableOption "git";
+    enable = mkEnableOption "git";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       programs.git = {
         enable = true;

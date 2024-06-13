@@ -4,13 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.theme.oled;
 in {
   options.theme.oled = {
-    enable = lib.mkEnableOption "oled";
+    enable = mkEnableOption "oled";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     qt = {
       enable = true;
       platformTheme = "qt5ct";

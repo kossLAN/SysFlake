@@ -3,11 +3,13 @@
   config,
   ...
 }: let
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.ssh;
 in {
   options.programs.ssh = {
-    importKeys = lib.mkEnableOption "Import key files";
-    importConfig = lib.mkEnableOption "Import config";
+    importKeys = mkEnableOption "Import key files";
+    importConfig = mkEnableOption "Import config";
   };
 
   config = {

@@ -2,13 +2,15 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.loginmanager.greetd.gtkgreet;
 in {
   options.loginmanager.greetd.gtkgreet = {
-    enable = lib.mkEnableOption "gtkgreet";
+    enable = mkEnableOption "gtkgreet";
   };
 
   config = let
@@ -20,7 +22,7 @@ in {
       exec-once = ${pkgs.greetd.gtkgreet}/bin/gtkgreet -s ${./style.css} -c Hyprland; hyprctl dispatch exit
     '';
   in
-    lib.mkIf cfg.enable {
+    mkIf cfg.enable {
       # I use hyprland for launching the login-manager, however I also have it installed
       # via home-manager for regular use, so this is a weird situation of which I don't
       # know what the proper solution is...

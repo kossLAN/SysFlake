@@ -4,13 +4,16 @@
   config,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.programs.customNeovim;
 in {
   options.programs.customNeovim = {
-    enable = lib.mkEnableOption "Enable neovim";
+    enable = mkEnableOption "Enable neovim";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     # nixpkgs = {
     #   config = {
     #     allowBroken = true;

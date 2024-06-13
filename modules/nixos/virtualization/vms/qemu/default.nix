@@ -4,13 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
+
   cfg = config.virt.qemu;
 in {
   options.virt.qemu = {
-    enable = lib.mkEnableOption "qemu";
+    enable = mkEnableOption "qemu";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     programs = {
       virt-manager = {
         enable = true;

@@ -5,6 +5,8 @@
   username,
   ...
 }: {
+  # TODO: SPLIT THIS MESS INTO MUTIPLE FILES
+
   imports = [
     ./hardware
     outputs.universalModules
@@ -15,6 +17,32 @@
   system.defaults.enable = true;
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_xanmod;
+
+    initrd = {
+      availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "usbhid"
+        "sd_mod"
+      ];
+      kernelModules = [
+        "snd_aloop"
+        "i2c-dev"
+        "amdgpu"
+      ];
+    };
+
+    kernelModules = ["kvm-amd"];
+    kernelParams = [
+      "amd_iommu=on"
+      "iommu=pt"
+      "kvm.ignore_msrs=1"
+      "kvm.report_ignored_msrs=0"
+      "amdgpu.vm_update_mode=3"
+    ];
+
     # Cross Compilation
     binfmt.emulatedSystems = [
       "riscv32-linux"

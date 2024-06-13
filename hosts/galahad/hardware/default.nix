@@ -4,15 +4,12 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/383ac71a-0b70-43fc-bdd1-8f8d6ff30120";

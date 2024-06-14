@@ -10,7 +10,10 @@
     inputs.jovian.nixosModules.jovian
   ];
 
-  system.defaults.enable = true;
+  system.defaults = {
+    enable = true;
+    systemd-boot.enable = true;
+  };
 
   environment = {
     sessionVariables = {

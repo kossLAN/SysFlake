@@ -12,7 +12,10 @@
     inputs.secrets.secretModules
   ];
 
-  system.defaults.enable = true;
+  system.defaults = {
+    enable = true;
+    grub.enable = true;
+  };
 
   environment = {
     sessionVariables = {

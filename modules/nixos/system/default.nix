@@ -15,6 +15,16 @@
 in {
   options.system = {
     defaults.enable = lib.mkEnableOption "My opionated system config";
+
+    defaults.grub.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = config.system.defaults.enable && !config.system.defaults.systemd-boot.enable;
+    };
+
+    defaults.systemd-boot.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
   };
 
   config = mkIf cfg.defaults.enable {
@@ -67,18 +77,18 @@ in {
 
     # Boot Settings - yes I use grub, fuck you
     boot = {
-      # Bootloader
       loader.efi = {
         canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot/efi";
       };
 
-      loader.grub = {
+      loader.grub = mkIf cfg.defaults.grub.enable {
         efiSupport = true;
         enable = true;
         device = "nodev";
         useOSProber = false;
       };
+
+      loader.systemd-boot.enable = cfg.defaults.systemd-boot.enable;
     };
 
     # Just setting hostname

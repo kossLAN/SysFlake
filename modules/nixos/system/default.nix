@@ -5,6 +5,7 @@
   outputs,
   stateVersion,
   hostname,
+  username,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -47,6 +48,7 @@ in {
       settings = {
         experimental-features = "nix-command flakes";
         auto-optimise-store = true;
+        trusted-users = [username];
       };
     };
 

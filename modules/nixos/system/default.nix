@@ -72,11 +72,12 @@ in {
         canTouchEfiVariables = true;
         efiSysMountPoint = "/boot/efi";
       };
+
       loader.grub = {
         efiSupport = true;
         enable = true;
         device = "nodev";
-        useOSProber = true;
+        useOSProber = false;
       };
     };
 

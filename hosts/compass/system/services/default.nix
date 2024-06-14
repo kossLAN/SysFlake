@@ -14,7 +14,7 @@
     steam = {
       enable = true;
       user = config.users.defaultUser;
-      autoStart = true;
+      autoStart = false;
       desktopSession = "plasma";
     };
 
@@ -28,8 +28,11 @@
 
   services = {
     ssh.enable = true;
+    displayManager.sddm.enable = true;
 
-    displayManager.sddm.wayland.enable = true;
-    xserver.desktopManager.plasma5.enable = true;
+    xserver = {
+      enable = true;
+      desktopManager.plasma5.enable = true;
+    };
   };
 }

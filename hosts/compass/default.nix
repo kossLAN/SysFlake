@@ -1,7 +1,6 @@
 {
   inputs,
   outputs,
-  pkgs,
   ...
 }: {
   imports = [
@@ -18,8 +17,6 @@
       NIXOS_OZONE_WL = "1";
       SHELL = "/run/current-system/sw/bin/zsh";
     };
-
-    systemPackages = [pkgs.maliit-keyboard];
 
     localBinInPath = true;
     enableDebugInfo = true;

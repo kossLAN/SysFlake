@@ -1,0 +1,7 @@
+{
+  imports = [
+    ./disks
+    ./programs
+    ./services
+  ];
+}

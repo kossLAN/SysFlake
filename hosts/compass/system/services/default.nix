@@ -14,14 +14,18 @@
     steam = {
       enable = true;
       user = config.users.defaultUser;
-      autoStart = false;
-      desktopSession = "plasma";
+
+      # I couldn't get this to work, so I'll just use SDDM to switch
+      # autoStart = true;
+      # desktopSession = "plasmax11";
     };
 
-    decky-loader = {
-      enable = true;
-      user = config.users.defaultUser;
-    };
+    # I couldn't get this to work either, probably also broken on latest release
+    # decky-loader = {
+    #   enable = true;
+    #   package = pkgs.decky-loader-prerelease;
+    #   user = "root";
+    # };
   };
 
   # theme.oled.enable = true;

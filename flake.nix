@@ -34,6 +34,11 @@
       compass = libx.mkHost {
         hostname = "compass";
       };
+
+      # MacBook (NixOS Counterpart)
+      lily = libx.mkHost {
+        hostname = "lily";
+      };
     };
 
     # MacOS Configuration: this setups home-manager as well...
@@ -92,6 +97,10 @@
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    apple-silicon-support = {
+      url = "github:tpwrules/nixos-apple-silicon";
     };
 
     jovian = {

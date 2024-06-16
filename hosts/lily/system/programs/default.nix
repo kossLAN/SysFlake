@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  username,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     keepassxc
     armcord
@@ -6,12 +10,14 @@
     libreoffice-qt
     mpv
     pavucontrol
+    jellyfin-media-player
   ];
 
   programs = {
     utils.enable = true;
     customNeovim.enable = true;
     syncthing.usermodeEnable = true;
+    dev.git.enable = true;
 
     hyprland = {
       enable = true;
@@ -19,8 +25,21 @@
       defaults = {
         enable = true;
 
+        additionalSettings = {
+          device = {
+            name = "apple-internal-keyboard-/-trackpad-1";
+            sensitivity = "0.10";
+            accel_profile = "adaptive";
+
+            tap-to-click = false;
+            clickfinger_behavior = true;
+            disable_while_typing = true;
+          };
+        };
+
         additionalExecOnce = [
           #Autostart
+          "[workspace 2 silent] jellyfinmediaplayer"
           "[workspace 2 silent] armcord"
           "[workspace 3 silent] firefox-esr"
           "[workspace 5 silent] keepassxc"
@@ -43,6 +62,11 @@
       customConf = true;
     };
 
+    nh = {
+      enable = true;
+      flake = "/home/${username}/.nixos-conf";
+    };
+
     firefox = {
       enable = true;
       customPreferences = true;
@@ -50,7 +74,5 @@
       customPolicies = true;
       customSearchEngine = true;
     };
-
-    dev.git.enable = true;
   };
 }

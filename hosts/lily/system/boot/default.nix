@@ -13,6 +13,8 @@
       efi.canTouchEfiVariables = false;
     };
 
+    kernelParams = ["psmouse.synaptics_intertouch=0"];
+
     extraModprobeConfig = ''
       options hid_apple iso_layout=0
     '';

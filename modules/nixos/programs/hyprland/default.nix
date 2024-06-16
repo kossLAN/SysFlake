@@ -97,7 +97,7 @@ in {
           grim
           slurp
           networkmanagerapplet
-          libnotify
+          # libnotify
 
           inputs.quickshell.packages.${pkgs.system}.default
         ];

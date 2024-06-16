@@ -25,30 +25,32 @@
       defaults = {
         enable = true;
 
-        additionalSettings = {
-          device = {
-            name = "apple-internal-keyboard-/-trackpad-1";
-            sensitivity = "0.10";
-            accel_profile = "adaptive";
+        additional = {
+          settings = {
+            device = {
+              name = "apple-internal-keyboard-/-trackpad-1";
+              sensitivity = "0.10";
+              accel_profile = "adaptive";
 
-            tap-to-click = false;
-            clickfinger_behavior = true;
-            disable_while_typing = true;
+              tap-to-click = false;
+              clickfinger_behavior = true;
+              disable_while_typing = true;
+            };
           };
+
+          exec-once = [
+            #Autostart
+            "[workspace 2 silent] jellyfinmediaplayer"
+            "[workspace 2 silent] armcord"
+            "[workspace 3 silent] firefox-esr"
+            "[workspace 5 silent] keepassxc"
+          ];
+
+          windowrules = [
+            "workspace 2, armcord"
+            "workspace 5, keepassxc"
+          ];
         };
-
-        additionalExecOnce = [
-          #Autostart
-          "[workspace 2 silent] jellyfinmediaplayer"
-          "[workspace 2 silent] armcord"
-          "[workspace 3 silent] firefox-esr"
-          "[workspace 5 silent] keepassxc"
-        ];
-
-        additionalWindowRules = [
-          "workspace 2, armcord"
-          "workspace 5, keepassxc"
-        ];
       };
     };
 

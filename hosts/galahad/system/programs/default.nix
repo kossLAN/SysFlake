@@ -48,21 +48,23 @@
       defaults = {
         enable = true;
 
-        additionalExecOnce = [
-          #Autostart
-          "[workspace 2 silent] vesktop"
-          "[workspace 2 silent] plexamp"
-          "[workspace 3 silent] firefox-esr"
-          "[workspace 5 silent] keepassxc"
+        additional = {
+          exec-once = [
+            #Autostart
+            "[workspace 2 silent] vesktop"
+            "[workspace 2 silent] plexamp"
+            "[workspace 3 silent] firefox-esr"
+            "[workspace 5 silent] keepassxc"
 
-          "noisetorch -i"
-        ];
+            "noisetorch -i"
+          ];
 
-        additionalWindowRules = [
-          "workspace 2, plexamp"
-          "workspace 2, vesktop"
-          "workspace 5, keepassxc"
-        ];
+          windowrules = [
+            "workspace 2, plexamp"
+            "workspace 2, vesktop"
+            "workspace 5, keepassxc"
+          ];
+        };
       };
     };
 

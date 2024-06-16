@@ -8,75 +8,77 @@
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption mkOption;
 
-  cfg = config.programs.hyprland;
+  cfg = config.programs.hyprland.defaults;
 in {
   imports = [./anyrun];
 
-  options.programs.hyprland = {
-    defaults.enable = mkEnableOption ''
+  options.programs.hyprland.defaults = {
+    enable = mkEnableOption ''
       My opioninated hyprland configuration, check module for everything this does.
       It's alot...
     '';
 
-    defaults.additionalExecOnce = mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-    };
+    additional = {
+      exec-once = mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+      };
 
-    defaults.additionalExec = mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-    };
+      exec = mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+      };
 
-    defaults.additionalWindowRules = mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-    };
+      windowrules = mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+      };
 
-    defaults.additionalWindowRulesV2 = mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-    };
+      windowrulesv2 = mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+      };
 
-    defaults.additionalBinds = mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-    };
+      binds = mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [];
+      };
 
-    defaults.additionalSettings = mkOption {
-      type = with lib.types; let
-        valueType =
-          nullOr (oneOf [
-            bool
-            int
-            float
-            str
-            path
-            (attrsOf valueType)
-            (listOf valueType)
-          ])
-          // {
-            description = "Hyprland configuration value";
-          };
-      in
-        valueType;
-      default = {};
-      description = ''
-        Hyprland configuration written in nix that is added to the home-manager settings
-        option for hyprland.
-      '';
-      example = lib.literalExpression ''
-        {
-          decoration = {
-            shadow_offset = "0 5";
-            "col.shadow" = "rgba(00000099)";
-          };
-        }
-      '';
+      settings = mkOption {
+        type = with lib.types; let
+          valueType =
+            nullOr (oneOf [
+              bool
+              int
+              float
+              str
+              path
+              (attrsOf valueType)
+              (listOf valueType)
+            ])
+            // {
+              description = "Hyprland configuration value";
+            };
+        in
+          valueType;
+        default = {};
+        description = ''
+          Hyprland configuration written in nix that is added to the home-manager settings
+          option for hyprland.
+        '';
+        example = lib.literalExpression ''
+          {
+            decoration = {
+              shadow_offset = "0 5";
+              "col.shadow" = "rgba(00000099)";
+            };
+          }
+        '';
+      };
     };
   };
 
-  config = mkIf cfg.defaults.enable {
+  config = mkIf cfg.enable {
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [
@@ -198,13 +200,13 @@ in {
                 "quickshell &"
                 "swaybg -m fill -i ${./wallpapers/wallhaven-vqv3ml.jpg}"
               ]
-              ++ cfg.defaults.additionalExecOnce;
+              ++ cfg.additional.exec-once;
 
             exec =
               [
                 "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1"
               ]
-              ++ cfg.defaults.additionalExec;
+              ++ cfg.additional.exec;
 
             env = [
               "GDK_BACKEND=wayland"
@@ -221,12 +223,12 @@ in {
                 "float                  , title:^(foot_float)$"
                 "suppressevent maximize , class:.*"
               ]
-              ++ cfg.defaults.additionalWindowRulesV2;
+              ++ cfg.additional.windowrulesv2;
 
             windowrule =
               [
               ]
-              ++ cfg.defaults.additionalWindowRules;
+              ++ cfg.additional.windowrules;
 
             layerrule = [
               "ignorezero , quickshell"
@@ -297,14 +299,14 @@ in {
                 "${mainMod}, SPACE  , exec, anyrun"
                 "${mainMod}, P      , exec, grimblast --notify copysave  area ~/Pictures/Screenshots/$(data + 'Screenshot_%s.png')"
               ]
-              ++ cfg.defaults.additionalBinds;
+              ++ cfg.additional.binds;
 
             bindm = [
               "${mainMod}, mouse:272 , movewindow"
               "${mainMod}, mouse:273 , resizewindow"
             ];
           }
-          // config.programs.hyprland.defaults.additionalSettings;
+          // cfg.additional.settings;
         # This is a fucking cool operator that I wasn't aware of.
       };
     };

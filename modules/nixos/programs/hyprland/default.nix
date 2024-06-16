@@ -192,12 +192,6 @@ in {
               "suppressevent maximize , class:.*"
             ];
 
-            windowrule = [
-              "workspace 2, plexamp"
-              "workspace 2, vesktop"
-              "workspace 5, keepassxc"
-            ];
-
             layerrule = [
               "ignorezero , quickshell"
               "blur       , quickshell"

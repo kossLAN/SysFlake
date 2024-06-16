@@ -57,6 +57,12 @@
 
             "noisetorch -i"
           ];
+
+          windowrule = [
+            "workspace 2, plexamp"
+            "workspace 2, vesktop"
+            "workspace 5, keepassxc"
+          ];
         };
       };
     };

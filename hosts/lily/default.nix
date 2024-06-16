@@ -8,6 +8,12 @@
   system.defaults.enable = true;
   networking.nm.enable = true;
 
+  environment = {
+    sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+    };
+  };
+
   loginmanager.greetd = {
     gtkgreet.enable = true;
   };

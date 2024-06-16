@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     keepassxc
-    vesktop
+    armcord
     bambu-studio
     libreoffice-qt
     mpv
@@ -11,6 +11,7 @@
   programs = {
     utils.enable = true;
     customNeovim.enable = true;
+    syncthing.usermodeEnable = true;
 
     hyprland = {
       enable = true;
@@ -20,9 +21,14 @@
         additionalSettings = {
           exec-once = [
             #Autostart
-            "[workspace 2 silent] vesktop"
+            "[workspace 2 silent] armcord"
             "[workspace 3 silent] firefox-esr"
             "[workspace 5 silent] keepassxc"
+          ];
+
+          windowrule = [
+            "workspace 2, armcord"
+            "workspace 5, keepassxc"
           ];
         };
       };

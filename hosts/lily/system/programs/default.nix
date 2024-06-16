@@ -18,19 +18,18 @@
       anyrun.enable = true;
       defaults = {
         enable = true;
-        additionalSettings = {
-          exec-once = [
-            #Autostart
-            "[workspace 2 silent] armcord"
-            "[workspace 3 silent] firefox-esr"
-            "[workspace 5 silent] keepassxc"
-          ];
 
-          windowrule = [
-            "workspace 2, armcord"
-            "workspace 5, keepassxc"
-          ];
-        };
+        additionalExecOnce = [
+          #Autostart
+          "[workspace 2 silent] armcord"
+          "[workspace 3 silent] firefox-esr"
+          "[workspace 5 silent] keepassxc"
+        ];
+
+        additionalWindowRules = [
+          "workspace 2, armcord"
+          "workspace 5, keepassxc"
+        ];
       };
     };
 

@@ -47,23 +47,22 @@
       # Look into the module, this adds alot of shit
       defaults = {
         enable = true;
-        additionalSettings = {
-          exec-once = [
-            #Autostart
-            "[workspace 2 silent] vesktop"
-            "[workspace 2 silent] plexamp"
-            "[workspace 3 silent] firefox-esr"
-            "[workspace 5 silent] keepassxc"
 
-            "noisetorch -i"
-          ];
+        additionalExecOnce = [
+          #Autostart
+          "[workspace 2 silent] vesktop"
+          "[workspace 2 silent] plexamp"
+          "[workspace 3 silent] firefox-esr"
+          "[workspace 5 silent] keepassxc"
 
-          windowrule = [
-            "workspace 2, plexamp"
-            "workspace 2, vesktop"
-            "workspace 5, keepassxc"
-          ];
-        };
+          "noisetorch -i"
+        ];
+
+        additionalWindowRules = [
+          "workspace 2, plexamp"
+          "workspace 2, vesktop"
+          "workspace 5, keepassxc"
+        ];
       };
     };
 

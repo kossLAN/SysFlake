@@ -20,6 +20,6 @@
 
   theme.oled = {
     enable = true;
-    cursorSize = 28;
+    cursorSize = 24;
   };
 }

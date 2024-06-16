@@ -18,6 +18,31 @@ in {
       It's alot...
     '';
 
+    defaults.additionalExecOnce = mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
+
+    defaults.additionalExec = mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
+
+    defaults.additionalWindowRules = mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
+
+    defaults.additionalWindowRulesV2 = mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
+
+    defaults.additionalBinds = mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+    };
+
     defaults.additionalSettings = mkOption {
       type = with lib.types; let
         valueType =
@@ -167,30 +192,41 @@ in {
               no_direct_scanout = false;
             };
 
-            exec-once = [
-              "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-              "quickshell &"
-              "swaybg -m fill -i ${./wallpapers/wallhaven-vqv3ml.jpg}"
-            ];
+            exec-once =
+              [
+                "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+                "quickshell &"
+                "swaybg -m fill -i ${./wallpapers/wallhaven-vqv3ml.jpg}"
+              ]
+              ++ cfg.defaults.additionalExecOnce;
 
-            exec = [
-              "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1"
-            ];
+            exec =
+              [
+                "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1"
+              ]
+              ++ cfg.defaults.additionalExec;
 
             env = [
               "GDK_BACKEND=wayland"
               "WLR_DRM_NO_ATOMIC=1"
             ];
 
-            windowrulev2 = [
-              # Tearing
-              "immediate  , class:^(cs2)$"
-              "immediate  , xwayland:1"
+            windowrulev2 =
+              [
+                # Tearing
+                "immediate  , class:^(cs2)$"
+                "immediate  , xwayland:1"
 
-              # Custom
-              "float                  , title:^(foot_float)$"
-              "suppressevent maximize , class:.*"
-            ];
+                # Custom
+                "float                  , title:^(foot_float)$"
+                "suppressevent maximize , class:.*"
+              ]
+              ++ cfg.defaults.additionalWindowRulesV2;
+
+            windowrule =
+              [
+              ]
+              ++ cfg.defaults.additionalWindowRules;
 
             layerrule = [
               "ignorezero , quickshell"
@@ -198,68 +234,70 @@ in {
               "blurpopups , quickshell"
             ];
 
-            bind = [
-              # General Keybinds
-              "${mainMod}, F, fullscreen, "
-              "${mainMod}, Q, killactive, "
-              "${mainMod}, S, togglefloating, "
-              "${mainMod}, M, exit, "
-              "${mainMod}, J, togglesplit, " # Dwindle
+            bind =
+              [
+                # General Keybinds
+                "${mainMod}, F, fullscreen, "
+                "${mainMod}, Q, killactive, "
+                "${mainMod}, S, togglefloating, "
+                "${mainMod}, M, exit, "
+                "${mainMod}, J, togglesplit, " # Dwindle
 
-              # Navigation
-              "${mainMod}, up   , movefocus, u"
-              "${mainMod}, down , movefocus, d"
-              "${mainMod}, left , movefocus, l"
-              "${mainMod}, right, movefocus, r"
+                # Navigation
+                "${mainMod}, up   , movefocus, u"
+                "${mainMod}, down , movefocus, d"
+                "${mainMod}, left , movefocus, l"
+                "${mainMod}, right, movefocus, r"
 
-              "${mainMod} ALT , left  , movewindow, l"
-              "${mainMod} ALT , right , movewindow, r"
-              "${mainMod} ALT , up    , movewindow, u"
-              "${mainMod} ALT , down  , movewindow, d"
+                "${mainMod} ALT , left  , movewindow, l"
+                "${mainMod} ALT , right , movewindow, r"
+                "${mainMod} ALT , up    , movewindow, u"
+                "${mainMod} ALT , down  , movewindow, d"
 
-              # Workspaces
-              "${mainMod} , 1   , workspace , 1"
-              "${mainMod} , 2   , workspace , 2"
-              "${mainMod} , 3   , workspace , 3"
-              "${mainMod} , 4   , workspace , 4"
-              "${mainMod} , 5   , workspace , 5"
-              "${mainMod} , 6   , workspace , 6"
-              "${mainMod} , 7   , workspace , 7"
-              "${mainMod} , 8   , workspace , 8"
-              "${mainMod} , 9   , workspace , 9"
-              "${mainMod} , 0   , workspace , 10"
+                # Workspaces
+                "${mainMod} , 1   , workspace , 1"
+                "${mainMod} , 2   , workspace , 2"
+                "${mainMod} , 3   , workspace , 3"
+                "${mainMod} , 4   , workspace , 4"
+                "${mainMod} , 5   , workspace , 5"
+                "${mainMod} , 6   , workspace , 6"
+                "${mainMod} , 7   , workspace , 7"
+                "${mainMod} , 8   , workspace , 8"
+                "${mainMod} , 9   , workspace , 9"
+                "${mainMod} , 0   , workspace , 10"
 
-              # Move window to specific workspace
-              "${mainMod} SHIFT , 1 , movetoworkspace , 1"
-              "${mainMod} SHIFT , 2 , movetoworkspace , 2"
-              "${mainMod} SHIFT , 3 , movetoworkspace , 3"
-              "${mainMod} SHIFT , 4 , movetoworkspace , 4"
-              "${mainMod} SHIFT , 5 , movetoworkspace , 5"
-              "${mainMod} SHIFT , 6 , movetoworkspace , 6"
-              "${mainMod} SHIFT , 7 , movetoworkspace , 7"
-              "${mainMod} SHIFT , 8 , movetoworkspace , 8"
-              "${mainMod} SHIFT , 9 , movetoworkspace , 9"
-              "${mainMod} SHIFT , 0 , movetoworkspace , 10"
+                # Move window to specific workspace
+                "${mainMod} SHIFT , 1 , movetoworkspace , 1"
+                "${mainMod} SHIFT , 2 , movetoworkspace , 2"
+                "${mainMod} SHIFT , 3 , movetoworkspace , 3"
+                "${mainMod} SHIFT , 4 , movetoworkspace , 4"
+                "${mainMod} SHIFT , 5 , movetoworkspace , 5"
+                "${mainMod} SHIFT , 6 , movetoworkspace , 6"
+                "${mainMod} SHIFT , 7 , movetoworkspace , 7"
+                "${mainMod} SHIFT , 8 , movetoworkspace , 8"
+                "${mainMod} SHIFT , 9 , movetoworkspace , 9"
+                "${mainMod} SHIFT , 0 , movetoworkspace , 10"
 
-              # Window Resize
-              "${mainMod} CONTROL, right , resizeactive , 30  0"
-              "${mainMod} CONTROL, left  , resizeactive , -30 0"
-              "${mainMod} CONTROL, up    , resizeactive , 0   -30"
-              "${mainMod} CONTROL, down  , resizeactive , 0   30"
+                # Window Resize
+                "${mainMod} CONTROL, right , resizeactive , 30  0"
+                "${mainMod} CONTROL, left  , resizeactive , -30 0"
+                "${mainMod} CONTROL, up    , resizeactive , 0   -30"
+                "${mainMod} CONTROL, down  , resizeactive , 0   30"
 
-              # Audio Control
-              ", XF86AudioRaiseVolume , exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"
-              ", XF86AudioLowerVolume , exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1.0"
-              ", XF86AudioMute        , exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+                # Audio Control
+                ", XF86AudioRaiseVolume , exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0"
+                ", XF86AudioLowerVolume , exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- -l 1.0"
+                ", XF86AudioMute        , exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
 
-              # Program Launch Keybinds
-              "${mainMod}, return , exec, foot"
-              "${mainMod}, T      , exec, foot - T foot_float"
-              "${mainMod}, R      , exec, dolphin"
-              "${mainMod}, B      , exec, firefox-esr"
-              "${mainMod}, SPACE  , exec, anyrun"
-              "${mainMod}, P      , exec, grimblast --notify copysave  area ~/Pictures/Screenshots/$(data + 'Screenshot_%s.png')"
-            ];
+                # Program Launch Keybinds
+                "${mainMod}, return , exec, foot"
+                "${mainMod}, T      , exec, foot - T foot_float"
+                "${mainMod}, R      , exec, dolphin"
+                "${mainMod}, B      , exec, firefox-esr"
+                "${mainMod}, SPACE  , exec, anyrun"
+                "${mainMod}, P      , exec, grimblast --notify copysave  area ~/Pictures/Screenshots/$(data + 'Screenshot_%s.png')"
+              ]
+              ++ cfg.defaults.additionalBinds;
 
             bindm = [
               "${mainMod}, mouse:272 , movewindow"

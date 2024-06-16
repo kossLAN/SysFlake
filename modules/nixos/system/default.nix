@@ -6,6 +6,7 @@
   stateVersion,
   hostname,
   username,
+  platform,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -15,16 +16,6 @@
 in {
   options.system = {
     defaults.enable = lib.mkEnableOption "My opionated system config";
-
-    defaults.grub.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = config.system.defaults.enable && !config.system.defaults.systemd-boot.enable;
-    };
-
-    defaults.systemd-boot.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-    };
   };
 
   config = mkIf cfg.defaults.enable {
@@ -53,19 +44,29 @@ in {
       nixPath = mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
       optimise.automatic = true;
       gc.automatic = true;
-      gc.options = "--delete-older-than 1d";
+      gc.options = "--delete-older-than 14d";
 
       settings = {
         experimental-features = "nix-command flakes";
+        keep-outputs = true;
+        keep-derivations = true;
         auto-optimise-store = true;
         trusted-users = [username];
+
+        substituters = [
+          "https://nix-community.cachix.org"
+          "https://cache.nixos.org/"
+        ];
+        trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        ];
       };
     };
 
     # Nixpkgs settings - for now I only own x86 computers running nixos for personal use, however this will
     # need to change when I get some arm systems
     nixpkgs = {
-      hostPlatform = "x86_64-linux";
+      hostPlatform = platform;
       overlays = [
         outputs.overlays.additions # Additional Packages
         outputs.overlays.modifications # Modified Packages
@@ -73,22 +74,6 @@ in {
       config = {
         allowUnfree = true;
       };
-    };
-
-    # Boot Settings - yes I use grub, fuck you
-    boot = {
-      loader.efi = {
-        canTouchEfiVariables = true;
-      };
-
-      loader.grub = mkIf cfg.defaults.grub.enable {
-        efiSupport = true;
-        enable = true;
-        device = "nodev";
-        useOSProber = false;
-      };
-
-      loader.systemd-boot.enable = cfg.defaults.systemd-boot.enable;
     };
 
     # Just setting hostname

@@ -9,11 +9,12 @@
   # Helper function for generating host configs
   mkHost = {
     hostname,
+    platform ? "x86_64-linux",
     pkgsInput ? inputs.nixpkgs,
   }:
     pkgsInput.lib.nixosSystem {
       specialArgs = {
-        inherit inputs outputs stateVersion username hostname;
+        inherit inputs outputs stateVersion username hostname platform;
       };
       modules = [../../hosts/${hostname}];
     };

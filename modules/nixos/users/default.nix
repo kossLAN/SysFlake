@@ -7,6 +7,7 @@
   stateVersion,
   ...
 }: let
+  inherit (lib.modules) mkIf;
   inherit (lib.options) mkOption;
 in {
   imports = [
@@ -20,7 +21,7 @@ in {
 
   config = {
     users = {
-      defaultUserShell = pkgs.zsh; # Default shell.
+      defaultUserShell = mkIf config.programs.zsh.enable pkgs.zsh;
       users.${config.users.defaultUser} = {
         isNormalUser = true;
         extraGroups = ["wheel"];
@@ -28,12 +29,18 @@ in {
       };
     };
 
+    environment.sessionVariables = {
+      SHELL = mkIf config.programs.zsh.enable "/run/current-system/sw/bin/zsh";
+    };
+
     home-manager = {
+      useGlobalPkgs = true;
+      backupFileExtension = "backup";
+
       extraSpecialArgs = {
         inherit self inputs;
       };
 
-      useGlobalPkgs = true;
       users.${config.users.defaultUser} = {
         programs.home-manager.enable = true;
         home = {

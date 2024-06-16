@@ -1,3 +1,3 @@
 {
-  imports = [./hardware ./firmware];
+  imports = [./hardware ./boot ./programs ./services];
 }

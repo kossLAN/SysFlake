@@ -38,6 +38,7 @@
       # MacBook (NixOS Counterpart)
       lily = libx.mkHost {
         hostname = "lily";
+        platform = "aarch64-linux";
       };
     };
 

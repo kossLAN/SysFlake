@@ -12,15 +12,11 @@
     inputs.secrets.secretModules
   ];
 
-  system.defaults = {
-    enable = true;
-    grub.enable = true;
-  };
+  system.defaults.enable = true;
 
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
-      SHELL = "/run/current-system/sw/bin/zsh";
     };
 
     localBinInPath = true;

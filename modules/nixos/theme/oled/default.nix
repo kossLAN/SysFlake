@@ -5,12 +5,16 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.theme.oled;
 in {
   options.theme.oled = {
     enable = mkEnableOption "oled";
+    cursorSize = mkOption {
+      type = lib.types.int;
+      default = 18;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -124,7 +128,7 @@ in {
           gtk.enable = true;
           x11.enable = true;
           inherit name;
-          size = 18;
+          size = cfg.cursorSize;
           package = pkgs.runCommand "moveUp" {} ''
             mkdir -p $out/share/icons
             ln -s ${pkgs.fetchzip {

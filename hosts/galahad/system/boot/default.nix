@@ -2,6 +2,17 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_xanmod;
 
+    loader.efi = {
+      canTouchEfiVariables = true;
+    };
+
+    loader.grub = {
+      efiSupport = true;
+      enable = true;
+      device = "nodev";
+      useOSProber = true;
+    };
+
     initrd = {
       availableKernelModules = [
         "nvme"

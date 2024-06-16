@@ -17,15 +17,9 @@ in {
   config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
-        deluge
-        pavucontrol
-        mpv
-        via
-        keepassxc
-        bambu-studio
-        libreoffice-qt
-        plexamp
-        vesktop
+        nmap
+        ripgrep
+        fastfetch
       ];
     };
   };

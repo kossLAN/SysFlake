@@ -3,7 +3,7 @@
   username,
   ...
 }: {
-  environment.systemPackages = with pkgs; [
+  users.packages = with pkgs; [
     deluge
     pavucontrol
     mpv

@@ -9,14 +9,26 @@
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkOption;
+
+  cfg = config.users;
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
 
-  options.users.defaultUser = mkOption {
-    type = lib.types.str;
-    default = "koss";
+  options.users = {
+    defaultUser = mkOption {
+      type = lib.types.str;
+      default = "koss";
+    };
+
+    packages = mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = [];
+      description = ''
+        A easy way to pass through packages from regular configuration to home manager
+      '';
+    };
   };
 
   config = {
@@ -45,6 +57,7 @@ in {
         programs.home-manager.enable = true;
         home = {
           stateVersion = stateVersion;
+          packages = cfg.packages;
         };
         xdg.enable = true;
       };

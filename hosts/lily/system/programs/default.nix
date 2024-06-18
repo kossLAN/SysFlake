@@ -1,16 +1,17 @@
 {
   pkgs,
   username,
+  lib,
   ...
 }: {
   environment.systemPackages = with pkgs; [
     keepassxc
     armcord
     bambu-studio
-    libreoffice-qt
     mpv
     pavucontrol
     jellyfin-media-player
+    prismlauncher
   ];
 
   programs = {

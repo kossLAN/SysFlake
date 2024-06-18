@@ -11,6 +11,7 @@
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
+      WLR_DRM_DEVICES = "/dev/dri/card0";
     };
   };
 

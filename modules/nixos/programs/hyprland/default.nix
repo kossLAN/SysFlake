@@ -90,6 +90,10 @@ in {
       ];
     };
 
+    programs.hyprland = {
+      package = inputs.hyprland.packages.${pkgs.system}.default;
+    };
+
     home-manager.users.${config.users.defaultUser} = {
       home = {
         packages = with pkgs; [
@@ -110,7 +114,7 @@ in {
 
       wayland.windowManager.hyprland = {
         enable = true;
-        # systemd.enable = true;
+        systemd.enable = true;
 
         settings = let
           mainMod = "SUPER";

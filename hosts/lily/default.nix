@@ -5,6 +5,10 @@
     outputs.universalModules
   ];
 
+  nixpkgs.overlays = [
+    outputs.overlays.unstable-packages
+  ];
+
   system.defaults.enable = true;
   networking.nm.enable = true;
 

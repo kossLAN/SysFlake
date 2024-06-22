@@ -1,7 +1,6 @@
 {
   pkgs,
   username,
-  lib,
   ...
 }: {
   environment.systemPackages = with pkgs; [
@@ -19,6 +18,11 @@
     customNeovim.enable = true;
     syncthing.usermodeEnable = true;
     dev.git.enable = true;
+
+    light = {
+      enable = true;
+      brightnessKeys.enable = true;
+    };
 
     hyprland = {
       enable = true;

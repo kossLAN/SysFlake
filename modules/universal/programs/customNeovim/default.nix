@@ -28,27 +28,73 @@ in {
         vimdiffAlias = true;
 
         extraConfig = ''
-          autocmd FileType cpp setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-          autocmd FileType c setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-          autocmd FileType rs setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType nix setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-          autocmd FileType qml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType * setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
         '';
 
         extraLuaConfig = ''
-           -- vim.opt.number = true
+          -- vim.opt.number = true
 
-           -- Restore cursor position
-           vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-             pattern = { "*" },
-             callback = function()
-               vim.api.nvim_exec('silent! normal! g`"zv', false)
-             end,
-           })
+          -- Restore cursor position
+          vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+            pattern = { "*" },
+            callback = function()
+              vim.api.nvim_exec('silent! normal! g`"zv', false)
+            end,
+          })
 
-           -- Exit terminal mode, the default binding is way to aids imo
+          -- Exit terminal mode, the default binding is way to aids imo
           vim.api.nvim_set_keymap('t', '<C-Space>', [[<C-\><C-n>]], { noremap = true, silent = true })
+
+
+          -- Cheatsheet for custom keybinds
+          function print_cheatsheet()
+            local cheatsheetContent = [[
+              === Custom Neovim Keybindings ===
+              ## General Keybindings ##
+              <C-Space>           Exit terminal mode (<C-\\><C-n>)
+
+              ## Buffer Navigation ##
+              <Tab>               Cycle forward through buffers (:BufferLineCycleNext)
+              <S-Tab>             Cycle backward through buffers (:BufferLineCyclePrev)
+
+              ## Telescope Plugin ##
+              <leader>ff          Find files (telescope.builtin.find_files)
+              <leader>fg          Live grep (telescope.builtin.live_grep)
+              <leader>fb          Buffers (telescope.builtin.buffers)
+              <leader>fh          Help tags (telescope.builtin.help_tags)
+              <C-h>               Show telescope mappings in insert mode (actions.which_key)
+
+              ## DAP (Debugger) Plugin ##
+              <leader>b           Toggle breakpoint (require'dap'.toggle_breakpoint())
+              <leader>c           Continue execution (require'dap'.continue())
+              <leader>n           Step over (require'dap'.step_over())
+              <leader>i           Step into (require'dap'.step_into())
+              <leader>r           Open REPL (require'dap'.repl.open())
+
+              ## Completion (nvim-cmp Plugin) ##
+              <C-p>               Select previous item (cmp.mapping.select_prev_item())
+              <C-n>               Select next item (cmp.mapping.select_next_item())
+              <C-b>               Scroll documentation up (cmp.mapping.scroll_docs(-4))
+              <C-f>               Scroll documentation down (cmp.mapping.scroll_docs(4))
+              <C-Space>           Trigger completion (cmp.mapping.complete())
+              <C-e>               Abort completion (cmp.mapping.abort())
+              <CR>                Confirm selection (cmp.mapping.confirm({ select = true }))
+
+              ## LSP (Language Server Protocol) Keybindings ##
+              gD                  Go to declaration (vim.lsp.buf.declaration())
+              gd                  Go to definition (vim.lsp.buf.definition())
+
+            ]]
+            print(cheatsheetContent)
+          end
+
+          -- Register the command ':cheatsheet' to print the cheatsheet
+          vim.cmd('command! Cheatsheet lua print_cheatsheet()')
+
+          -- Optionally bind the command to a keymap
+          vim.api.nvim_set_keymap('n', '<leader>cs', ':Cheatsheet<CR>', { noremap = true, silent = true })
+
         '';
 
         extraPackages = with pkgs; [
@@ -213,6 +259,51 @@ in {
                       autocmd BufWritePre *.c,*.cpp,*.rs,*.nix,*.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.json,*.md,*.html,*.yaml,*.yml,*.lua :lua vim.lsp.buf.format({timeout_ms = 2000})
                   augroup END
               ]])
+            '';
+          }
+
+          # DAP
+          {
+            type = "lua";
+            plugin = nvim-dap;
+            config = ''
+              vim.api.nvim_set_keymap('n', '<leader>b', ':lua require"dap".toggle_breakpoint()<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<leader>c', ':lua require"dap".continue()<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<leader>n', ':lua require"dap".step_over()<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<leader>i', ':lua require"dap".step_into()<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<leader>r', ':lua require"dap".repl.open()<CR>', { noremap = true, silent = true })
+
+              local dap = require("dap")
+              dap.adapters.gdb = {
+                type = "executable",
+                command = "${pkgs.gdb}/bin/gdb",
+                args = { "-i", "dap" }
+              }
+
+              local dap = require("dap")
+              dap.configurations.c = {
+                {
+                  name = "Launch",
+                  type = "gdb",
+                  request = "launch",
+                  program = function()
+                    return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                  end,
+                  stopAtBeginningOfMainSubprogram = false,
+                },
+              }
+
+              dap.configurations.cpp = {
+                {
+                  name = "Launch",
+                  type = "gdb",
+                  request = "launch",
+                  program = function()
+                    return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                  end,
+                  stopAtBeginningOfMainSubprogram = false,
+                },
+              }
             '';
           }
 

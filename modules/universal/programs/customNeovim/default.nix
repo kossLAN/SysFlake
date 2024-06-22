@@ -101,6 +101,7 @@ in {
           alejandra
           clang-tools
           ripgrep
+          black
         ];
 
         plugins = with pkgs.vimPlugins; [
@@ -250,13 +251,14 @@ in {
                           null_ls.builtins.formatting.stylua,
                           null_ls.builtins.formatting.clang_format,
                           null_ls.builtins.formatting.alejandra,
+                          null_ls.builtins.formatting.black,
                       },
                   })
 
                   vim.cmd([[
                   augroup FormatAutogroup
                       autocmd!
-                      autocmd BufWritePre *.c,*.cpp,*.rs,*.nix,*.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.json,*.md,*.html,*.yaml,*.yml,*.lua :lua vim.lsp.buf.format({timeout_ms = 2000})
+                      autocmd BufWritePre *.c,*.cpp,*.rs,*.py,*.nix,*.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.json,*.md,*.html,*.yaml,*.yml,*.lua :lua vim.lsp.buf.format({timeout_ms = 2000})
                   augroup END
               ]])
             '';
@@ -399,6 +401,11 @@ in {
               lspconfig.rust_analyzer.setup {
                 capabilities = capabilities,
                 cmd = { "${pkgs.rust-analyzer}/bin/rust-analyzer" },
+              }
+
+              lspconfig.pylyzer.setup {
+                capabilities = capabilities,
+                cmd = { "${pkgs.pyright}/bin/pyright-langserver", "--stdio" },
               }
             '';
           }

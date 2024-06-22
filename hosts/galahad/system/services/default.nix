@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   virt = {
-    docker.enable = false;
+    docker.enable = true;
     qemu.enable = true;
   };
 

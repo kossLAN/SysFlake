@@ -190,7 +190,7 @@ shadeSortColumn=true
 [KDE]
 contrast=4
 ScaleFactor=1.5
-ScreenScaleFactors=DP-2=1.5
+ScreenScaleFactors=DP-2=1.5;
 
 [WM]
 activeBackground=49,54,59

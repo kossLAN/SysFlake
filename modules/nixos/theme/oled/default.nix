@@ -65,7 +65,7 @@ in {
       };
 
       xdg.configFile = {
-        # "kdeglobals".source = ./kdeglobals;
+        "kdeglobals".source = ./kdeglobals;
 
         "qt5ct/qt5ct.conf".text = ''
           [Appearance]

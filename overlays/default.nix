@@ -19,9 +19,9 @@ in {
     # });
 
     xdg-desktop-portal-kde = prev.xdg-desktop-portal-kde.overrideAttrs (old: {
-      postFixup = ''
-        wrapProgram $out/libexec/xdg-desktop-portal-kde \
-          --set QT_QPA_PLATFORM wayland
+      postfixup = ''
+        wrapprogram $out/libexec/xdg-desktop-portal-kde \
+          --set qt_qpa_platform wayland
       '';
     });
   };

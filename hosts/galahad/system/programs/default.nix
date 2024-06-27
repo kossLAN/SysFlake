@@ -55,7 +55,7 @@
           exec-once = [
             #Autostart
             "[workspace 2 silent] vesktop"
-            "[workspace 2 silent] plexamp"
+            "[workspace 2 silent] plexamp --force-device-scale-factor=1.25"
             "[workspace 3 silent] firefox-esr"
             "[workspace 5 silent] keepassxc"
             "nm-applet"

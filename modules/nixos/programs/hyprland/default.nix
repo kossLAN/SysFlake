@@ -225,6 +225,7 @@ in {
 
             env = [
               "GDK_BACKEND,wayland"
+              "QT_QPA_PLATFORM,wayland"
               "WLR_DRM_NO_ATOMIC,1"
             ];
 

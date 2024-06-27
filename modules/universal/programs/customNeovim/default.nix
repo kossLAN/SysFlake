@@ -33,7 +33,7 @@ in {
         '';
 
         extraLuaConfig = ''
-          -- vim.opt.number = true
+          vim.opt.number = true
 
           -- Restore cursor position
           vim.api.nvim_create_autocmd({ "BufReadPost" }, {
@@ -310,84 +310,75 @@ in {
           }
 
           # Autocompletion (nvim-cmp - this is just the github config but setup properly)
-          nvim-lspconfig
+          vim-vsnip
+          friendly-snippets
           cmp-nvim-lsp
           cmp-buffer
           cmp-path
           cmp-cmdline
           cmp-treesitter
-          luasnip
+          cmp-vsnip
           {
             type = "lua";
             plugin = nvim-cmp;
             config = ''
               local cmp = require'cmp'
-              local lspconfig = require('lspconfig')
 
               cmp.setup({
-              snippet = {
-                expand = function(args)
-                  require('luasnip').lsp_expand(args.body)
-                end,
-              },
-              window = {
-                documentation = cmp.config.window.bordered(),
-              },
-              mapping = {
-                ['<C-p>'] = cmp.mapping.select_prev_item(),
-                ['<C-n>'] = cmp.mapping.select_next_item(),
-                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-                ['<C-Space>'] = cmp.mapping.complete(),
-                ['<C-e>'] = cmp.mapping.abort(),
-                ['<CR>'] = cmp.mapping.confirm({ select = true }),
-              },
-              sources = cmp.config.sources({
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' },
-              }, {
-                { name = 'buffer' },
-                })
-              })
-
-              -- Set configuration for specific filetype.
-              cmp.setup.buffer({
+                snippet = {
+                  -- REQUIRED - you must specify a snippet engine
+                  expand = function(args)
+                    vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+                  end,
+                },
+                window = {
+                  -- completion = cmp.config.window.bordered(),
+                  -- documentation = cmp.config.window.bordered(),
+                },
+                mapping = cmp.mapping.preset.insert({
+                  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+                  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+                  ['<C-Space>'] = cmp.mapping.complete(),
+                  ['<C-e>'] = cmp.mapping.abort(),
+                  ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                }),
                 sources = cmp.config.sources({
-                  { name = 'git' },
+                  { name = 'nvim_lsp' },
+                  { name = 'vsnip' },
                 }, {
                   { name = 'buffer' },
                 })
               })
 
-              -- Use buffer source for '/' and '?'.
-              cmp.setup.cmdline({
+              cmp.setup.cmdline({ '/', '?' }, {
+                mapping = cmp.mapping.preset.cmdline(),
                 sources = {
                   { name = 'buffer' }
                 }
               })
 
-              -- Use cmdline & path source for ':'.
-              cmp.setup.cmdline({
-                sources = cmp.config.sources({
-                  { name = 'path' }
-                }, {
-                  { name = 'cmdline' }
+              cmp.setup.cmdline(':', {
+                  mapping = cmp.mapping.preset.cmdline(),
+                  sources = cmp.config.sources({
+                    { name = 'path' }
+                  }, {
+                    { name = 'cmdline' }
+                  }),
+                  matching = { disallow_symbol_nonprefix_matching = false }
                 })
-              })
+            '';
+          }
+          {
+            type = "lua";
+            plugin = nvim-lspconfig;
+            config = ''
+               -- LSP Configs
+              local lspconfig = require('lspconfig')
+              local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-              -- LSP Configs
-              local capabilities = vim.tbl_deep_extend(
-                'force',
-                vim.lsp.protocol.make_client_capabilities(),
-                require('cmp_nvim_lsp').default_capabilities(),
-                -- File watching is disabled by default for neovim.
-                -- See: https://github.com/neovim/neovim/pull/22405
-                { workspace = { didChangeWatchedFiles = { dynamicRegistration = true } } }
-              );
-
+              -- Why did I put this here?
               vim.api.nvim_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
               vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-
 
               lspconfig.clangd.setup {
                 capabilities = capabilities,

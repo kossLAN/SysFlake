@@ -17,6 +17,13 @@ in {
     #     v8
     #   ]);
     # });
+
+    xdg-desktop-portal-kde = prev.xdg-desktop-portal-kde.overrideAttrs (old: {
+      postFixup = ''
+        wrapProgram $out/libexec/xdg-desktop-portal-kde \
+          --set QT_QPA_PLATFORM wayland --set GDK_BACKEND wayland
+      '';
+    });
   };
 
   # Allows me to use stable packages where I need them.

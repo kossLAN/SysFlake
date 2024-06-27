@@ -92,6 +92,7 @@ in {
 
     programs.hyprland = {
       package = inputs.hyprland.packages.${pkgs.system}.default;
+      portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
     home-manager.users.${config.users.defaultUser} = {
@@ -109,12 +110,18 @@ in {
         ];
 
         file = {
+          ".config/hypr/xdph.conf".text = ''
+            screencopy {
+              max_fps = 60
+            }
+          '';
         };
       };
 
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
+        package = inputs.hyprland.packages.${pkgs.system}.default;
 
         settings = let
           mainMod = "SUPER";
@@ -127,7 +134,7 @@ in {
               layout = "dwindle";
               resize_on_border = true;
 
-              # allow_tearing = true;
+              allow_tearing = true;
 
               "col.active_border" = "rgba(ffffffff)";
               "col.inactive_border" = "rgba(64727db3)";
@@ -141,7 +148,7 @@ in {
               "col.shadow" = "rgba(1a1a1aee)";
 
               blur = {
-                enabled = true;
+                enabled = false;
                 size = "8";
                 passes = "5";
                 noise = "0";
@@ -195,7 +202,11 @@ in {
               focus_on_activate = false;
               render_ahead_of_time = false;
               disable_hyprland_logo = false;
-              no_direct_scanout = false;
+              no_direct_scanout = true;
+            };
+
+            xwayland = {
+              force_zero_scaling = true;
             };
 
             exec-once =
@@ -213,8 +224,8 @@ in {
               ++ cfg.additional.exec;
 
             env = [
-              "GDK_BACKEND=wayland"
-              "WLR_DRM_NO_ATOMIC=1"
+              "GDK_BACKEND,wayland"
+              "WLR_DRM_NO_ATOMIC,1"
             ];
 
             windowrulev2 =

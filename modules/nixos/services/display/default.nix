@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -18,10 +19,14 @@ in {
     hardware = {
       opengl = {
         enable = true;
-        driSupport = true;
+        # driSupport = true;
         driSupport32Bit = true;
       };
     };
+
+    systemd.tmpfiles.rules = [
+      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+    ];
 
     services = {
       libinput.enable = true;

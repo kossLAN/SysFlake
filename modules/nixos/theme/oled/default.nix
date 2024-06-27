@@ -65,7 +65,7 @@ in {
       };
 
       xdg.configFile = {
-        "kdeglobals".source = "${pkgs.kdePackages.breeze}/share/color-schemes/BreezeDark.colors";
+        # "kdeglobals".source = ./kdeglobals;
 
         "qt5ct/qt5ct.conf".text = ''
           [Appearance]

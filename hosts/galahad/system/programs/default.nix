@@ -49,12 +49,16 @@
         enable = true;
 
         additional = {
+          settings = {
+            monitor = ["DP-2,preferred,auto,1.25"];
+          };
           exec-once = [
             #Autostart
             "[workspace 2 silent] vesktop"
             "[workspace 2 silent] plexamp"
             "[workspace 3 silent] firefox-esr"
             "[workspace 5 silent] keepassxc"
+            "nm-applet"
 
             "noisetorch -i"
           ];

@@ -12,7 +12,12 @@
     bambu-studio
     libreoffice-qt
     plexamp
+    nerdfonts
+
     vesktop
+    # (vesktop.override {
+    #   electron = electron_31-bin;
+    # })
   ];
 
   programs = {
@@ -37,39 +42,6 @@
       customExtensions = true;
       customPolicies = true;
       customSearchEngine = true;
-    };
-
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-      anyrun.enable = true;
-
-      # Look into the module, this adds alot of shit
-      defaults = {
-        enable = true;
-
-        additional = {
-          settings = {
-            monitor = ["DP-2,preferred,auto,1.25"];
-          };
-          exec-once = [
-            #Autostart
-            "[workspace 2 silent] vesktop"
-            "[workspace 2 silent] plexamp --force-device-scale-factor=1.25"
-            "[workspace 3 silent] firefox-esr"
-            "[workspace 5 silent] keepassxc"
-            "nm-applet"
-
-            "noisetorch -i"
-          ];
-
-          windowrules = [
-            "workspace 2, plexamp"
-            "workspace 2, vesktop"
-            "workspace 5, keepassxc"
-          ];
-        };
-      };
     };
 
     zsh = {

@@ -18,12 +18,12 @@ in {
     #   ]);
     # });
 
-    xdg-desktop-portal-kde = prev.xdg-desktop-portal-kde.overrideAttrs (old: {
-      postfixup = ''
-        wrapprogram $out/libexec/xdg-desktop-portal-kde \
-          --set qt_qpa_platform wayland
-      '';
-    });
+    # xdg-desktop-portal-kde = prev.xdg-desktop-portal-kde.overrideAttrs (old: {
+    #   postFixup = ''
+    #     wrapProgram $out/libexec/xdg-desktop-portal-kde \
+    #       --set QT_QPA_PLATFORM wayland
+    #   '';
+    # });
   };
 
   # Allows me to use stable packages where I need them.

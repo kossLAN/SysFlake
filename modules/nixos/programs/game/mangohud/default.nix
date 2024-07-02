@@ -47,7 +47,7 @@ in {
           position = "top-right";
           text_color = "ffffff";
           round_corners = 5;
-          toggle_hud = "Shift_R+F12";
+          toggle_hud = "Shift_L+F10";
           toggle_logging = "Shift_L+F2";
           upload_log = "F5";
           output_folder = "/home/koss";

@@ -10,4 +10,6 @@
     outputs.serverModules
     inputs.secrets.secretModules
   ];
+
+  system.defaults.enable = true;
 }

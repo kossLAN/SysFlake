@@ -118,6 +118,10 @@ in {
         enable = true;
       };
 
+      radarr = mkIf cfg.arr.enable {
+        enable = true;
+      };
+
       prowlarr = mkIf cfg.arr.enable {
         enable = true;
       };
@@ -137,6 +141,21 @@ in {
             locations = {
               "/" = {
                 proxyPass = "http://127.0.0.1:8989/";
+                proxyWebsockets = true;
+                extraConfig = ''
+                  proxy_ssl_server_name on;
+                  proxy_pass_header Authorization;
+                '';
+              };
+            };
+          };
+
+          "radarr.kosslan.dev" = mkIf cfg.arr.enable {
+            enableACME = true;
+            forceSSL = true;
+            locations = {
+              "/" = {
+                proxyPass = "http://127.0.0.1:7878/";
                 proxyWebsockets = true;
                 extraConfig = ''
                   proxy_ssl_server_name on;

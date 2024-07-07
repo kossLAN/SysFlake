@@ -25,6 +25,10 @@ in {
       defaults.email = "kosslan@kosslan.dev";
     };
 
+    systemd.tmpfiles.rules = [
+      "d /srv/torrents 0775 0 0"
+    ];
+
     containers.arr = mkIf cfg.arr.enable {
       autoStart = true;
       privateNetwork = true;
@@ -73,6 +77,8 @@ in {
             enable = true;
             declarative = true;
             authFile = pkgs.writeText "authFile" config.secrets.deluge.privateKey;
+            group = "root";
+            user = "root";
 
             web = {
               enable = true;
@@ -94,6 +100,13 @@ in {
 
         system.stateVersion = stateVersion;
       };
+
+      bindMounts = {
+        "/srv/torrents" = {
+          isReadOnly = false;
+          hostPath = "/srv/torrents";
+        };
+      };
     };
 
     services = {
@@ -106,6 +119,10 @@ in {
       };
 
       prowlarr = mkIf cfg.arr.enable {
+        enable = true;
+      };
+
+      jellyseerr = mkIf cfg.arr.enable {
         enable = true;
       };
 
@@ -135,6 +152,21 @@ in {
             locations = {
               "/" = {
                 proxyPass = "http://127.0.0.1:9696/";
+                proxyWebsockets = true;
+                extraConfig = ''
+                  proxy_ssl_server_name on;
+                  proxy_pass_header Authorization;
+                '';
+              };
+            };
+          };
+
+          "seer.kosslan.dev" = mkIf cfg.arr.enable {
+            enableACME = true;
+            forceSSL = true;
+            locations = {
+              "/" = {
+                proxyPass = "http://127.0.0.1:5055/";
                 proxyWebsockets = true;
                 extraConfig = ''
                   proxy_ssl_server_name on;

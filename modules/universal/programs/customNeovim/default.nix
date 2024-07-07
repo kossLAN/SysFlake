@@ -398,6 +398,21 @@ in {
                 capabilities = capabilities,
                 cmd = { "${pkgs.pyright}/bin/pyright-langserver", "--stdio" },
               }
+
+              lspconfig.html.setup {
+                capabilities = capabilities,
+                cmd = { "${pkgs.vscode-langservers-extracted}/bin/vscode-html-language-server", "--stdio" },
+              }
+
+              lspconfig.cssls.setup {
+                capabilities = capabilities,
+                cmd = { "${pkgs.vscode-langservers-extracted}/bin/vscode-css-language-server", "--stdio" },
+              }
+
+              lspconfig.tsserver.setup {
+                capabilities = capabilities,
+                cmd = { "${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server", "--stdio" },
+              }
             '';
           }
 

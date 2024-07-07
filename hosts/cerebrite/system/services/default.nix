@@ -4,6 +4,7 @@
   # would be better off with a few more boxes idk
   virtualisation = {
     portainer.enable = true;
+    flaresolverr.enable = true;
   };
 
   services = {
@@ -14,6 +15,7 @@
     plex = {
       enable = true;
       customConf = true; # Opens port 3005 but doesn't use it?
+      arr.enable = true;
     };
 
     firefox-syncserver = {

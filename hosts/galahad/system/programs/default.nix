@@ -13,6 +13,7 @@
     libreoffice-qt
     plexamp
     nerdfonts
+    ocs-url
 
     vesktop
     # (vesktop.override {

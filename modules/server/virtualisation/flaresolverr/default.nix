@@ -28,7 +28,7 @@ in {
         image = "flaresolverr/flaresolverr:latest";
         ports = ["127.0.0.1:8191:8191"];
         volumes = [
-          "portainer_data:/data"
+          "flaresolverr_data:/data"
         ];
       };
     };

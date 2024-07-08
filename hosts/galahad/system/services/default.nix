@@ -13,15 +13,6 @@
     amdGpu.enable = true;
     helpfulUtils.enable = true;
     sound.enable = true;
-    mullvad-vpn.enable = true;
-    desktopManager.plasma6.enable = true;
-
-    displayManager = {
-      sddm = {
-        enable = true;
-        wayland.enable = true;
-      };
-    };
 
     printing = {
       enable = true;

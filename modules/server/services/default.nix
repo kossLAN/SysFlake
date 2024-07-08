@@ -10,5 +10,11 @@
     ./wireguard
     ./nextcloud
     ./searx
+    ./jellyseerr
+    ./radarr
+    ./prowlarr
+    ./sonarr
+    ./deluge
+    ./arr
   ];
 }

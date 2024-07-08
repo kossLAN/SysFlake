@@ -3,8 +3,6 @@
   outputs,
   ...
 }: {
-  # TODO: SPLIT THIS MESS INTO MUTIPLE FILES
-
   imports = [
     ./system
     outputs.universalModules
@@ -24,4 +22,12 @@
     localBinInPath = true;
     enableDebugInfo = true;
   };
+
+  networking.nm.enable = true;
+
+  loginmanager.greetd = {
+    gtkgreet.enable = true;
+  };
+
+  theme.oled.enable = true;
 }

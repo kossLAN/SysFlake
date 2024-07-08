@@ -32,6 +32,35 @@
     syncthing.usermodeEnable = true;
     vscodium.enable = true;
 
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      anyrun.enable = true;
+
+      # Look into the module, this adds alot of shit
+      defaults = {
+        enable = true;
+
+        additional = {
+          exec-once = [
+            #Autostart
+            "[workspace 2 silent] vesktop"
+            "[workspace 2 silent] plexamp"
+            "[workspace 3 silent] firefox-esr"
+            "[workspace 5 silent] keepassxc"
+
+            "noisetorch -i"
+          ];
+
+          windowrules = [
+            "workspace 2, plexamp"
+            "workspace 2, vesktop"
+            "workspace 5, keepassxc"
+          ];
+        };
+      };
+    };
+
     nh = {
       enable = true;
       flake = "/home/${username}/.nixos-conf";

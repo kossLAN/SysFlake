@@ -14,8 +14,7 @@
 
     plex = {
       enable = true;
-      customConf = true; # Opens port 3005 but doesn't use it?
-      arr.enable = true;
+      customConf = true;
     };
 
     firefox-syncserver = {
@@ -26,6 +25,11 @@
     jellyfin = {
       enable = true;
       customConf = true;
+    };
+
+    arr = {
+      enable = true;
+      domain = "kosslan.dev";
     };
 
     searx = {

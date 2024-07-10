@@ -20,6 +20,10 @@
     customConf = true;
   };
 
+  environment.systemPackages = with pkgs; [
+    rustup
+  ];
+
   programs = {
     customNeovim.enable = true;
     # vscodium.enable = true;

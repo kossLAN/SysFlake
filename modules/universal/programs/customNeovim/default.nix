@@ -233,6 +233,8 @@ in {
                 }
               }
 
+              vim.api.nvim_set_keymap('n', '<S-Left>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<S-Right>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
               vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
               vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
             '';

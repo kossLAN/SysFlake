@@ -47,7 +47,7 @@ in {
 
     home-manager = {
       useGlobalPkgs = true;
-      backupFileExtension = "abak";
+      backupFileExtension = "old";
 
       extraSpecialArgs = {
         inherit self inputs;

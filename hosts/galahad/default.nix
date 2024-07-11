@@ -29,5 +29,8 @@
     gtkgreet.enable = true;
   };
 
-  theme.oled.enable = true;
+  theme.oled = {
+    enable = true;
+    cursorSize = 24;
+  };
 }

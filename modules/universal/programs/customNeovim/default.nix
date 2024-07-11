@@ -102,6 +102,7 @@ in {
           clang-tools
           ripgrep
           black
+          nodePackages.prettier
         ];
 
         plugins = with pkgs.vimPlugins; [

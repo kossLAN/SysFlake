@@ -13,7 +13,6 @@
     libreoffice-qt
     plexamp
     nerdfonts
-    ocs-url
 
     vesktop
     # (vesktop.override {
@@ -30,7 +29,7 @@
     utils.enable = true;
     obs-studio.enable = true;
     syncthing.usermodeEnable = true;
-    vscodium.enable = true;
+    # vscodium.enable = true;
 
     hyprland = {
       enable = true;
@@ -42,10 +41,14 @@
         enable = true;
 
         additional = {
+          settings = {
+            monitor = ["DP-2,preferred,auto,1.25"];
+          };
+
           exec-once = [
             #Autostart
             "[workspace 2 silent] vesktop"
-            "[workspace 2 silent] plexamp"
+            "[workspace 2 silent] plexamp --force-device-scale-factor=1.25"
             "[workspace 3 silent] firefox-esr"
             "[workspace 5 silent] keepassxc"
 

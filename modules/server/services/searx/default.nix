@@ -60,6 +60,7 @@ in {
           search = {
             safe_search = 2;
             autocomplete = "google";
+            formats = ["html" "json"];
           };
 
           ui.static_use_hash = true;

@@ -108,5 +108,11 @@
       url = "github:Jovian-Experiments/Jovian-Nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Testing Cosmic DE
+    # nixos-cosmic = {
+    #   url = "github:lilyinstarlight/nixos-cosmic";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 }

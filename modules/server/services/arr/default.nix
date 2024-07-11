@@ -34,6 +34,14 @@ in {
         };
       };
 
+      lidarr = {
+        enable = true;
+        reverseProxy = {
+          enable = true;
+          domain = cfg.domain;
+        };
+      };
+
       prowlarr = {
         enable = true;
         reverseProxy = {

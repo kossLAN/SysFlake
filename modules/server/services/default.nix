@@ -14,6 +14,7 @@
     ./radarr
     ./prowlarr
     ./sonarr
+    ./lidarr
     ./deluge
     ./arr
   ];

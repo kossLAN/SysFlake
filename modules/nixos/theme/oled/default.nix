@@ -25,19 +25,28 @@ in {
     };
 
     # QT Common Apps - Move Elsewhere Maybe idk
-    environment.systemPackages = with pkgs; [
-      qt6.qtwayland
-      kdePackages.breeze
-      kdePackages.breeze-icons
-      qt6.qtsvg
-      qt6.qt5compat
+    environment = {
+      systemPackages = with pkgs; [
+        qt6.qtwayland
+        kdePackages.breeze
+        kdePackages.breeze-icons
+        qt6.qtsvg
+        qt6.qt5compat
 
-      kdePackages.qqc2-desktop-style
+        kdePackages.qqc2-desktop-style
 
-      libsForQt5.dolphin
-      libsForQt5.gwenview
-      libsForQt5.ark
-    ];
+        libsForQt5.dolphin
+        libsForQt5.gwenview
+        libsForQt5.ark
+      ];
+
+      sessionVariables = {
+        QT_SCALE_FACTOR = 1.0;
+        ELM_SCALE = 1.0;
+        GDK_SCALE = 1.0;
+        XCURSOR_SIZE = cfg.cursorSize;
+      };
+    };
 
     home-manager.users.${config.users.defaultUser} = {
       # GTK

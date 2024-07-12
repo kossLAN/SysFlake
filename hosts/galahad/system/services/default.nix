@@ -1,11 +1,11 @@
 {
   # pkgs,
-  # inputs,
+  inputs,
   ...
 }: {
-  # imports = [
-  #   inputs.nixos-cosmic.nixosModules.default
-  # ];
+  imports = [
+    inputs.nixos-cosmic.nixosModules.default
+  ];
 
   virt = {
     docker.enable = true;
@@ -22,8 +22,12 @@
     helpfulUtils.enable = true;
     sound.enable = true;
 
-    # desktopManager.cosmic.enable = true;
     # displayManager.cosmic-greeter.enable = true;
+
+    # desktopManager = {
+    #   plasma6.enable = true;
+    #   cosmic.enable = true;
+    # };
 
     # printing = {
     #   enable = true;

@@ -10,8 +10,6 @@
 
   cfg = config.programs.hyprland.defaults;
 in {
-  imports = [./anyrun];
-
   options.programs.hyprland.defaults = {
     enable = mkEnableOption ''
       My opioninated hyprland configuration, check module for everything this does.

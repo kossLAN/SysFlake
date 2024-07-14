@@ -31,10 +31,14 @@
     syncthing.usermodeEnable = true;
     # vscodium.enable = true;
 
+    sway = {
+      enable = true;
+      defaults.enable = true;
+    };
+
     hyprland = {
       enable = true;
       xwayland.enable = true;
-      anyrun.enable = true;
 
       # Look into the module, this adds alot of shit
       defaults = {

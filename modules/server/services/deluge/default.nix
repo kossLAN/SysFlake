@@ -54,7 +54,7 @@ in {
           # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
           useHostResolvConf = lib.mkForce false;
 
-          # Find a fix for this not starting before the first interface
+          # This doesn't start automatically, rather it fails
           wg-quick.interfaces = {
             # AirVPN Connection :-)
             "av0" = {
@@ -94,8 +94,9 @@ in {
 
             config = {
               download_location = "/srv/torrents/";
-              max_upload_speed = "200.0";
+              max_upload_speed = "38000";
               share_ratio_limit = "2.0";
+              seed_time_limit = "25000";
               allow_remote = true;
               daemon_port = 58846;
               listen_interface = vpnAddress;

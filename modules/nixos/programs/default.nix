@@ -9,6 +9,8 @@
     ./scripts
     ./utils
     ./oc
+    ./anyrun
     ./hyprland
+    ./sway
   ];
 }

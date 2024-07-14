@@ -8,10 +8,11 @@
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
-  cfg = config.programs.hyprland.anyrun;
+  cfg = config.programs.anyrun;
 in {
-  options.programs.hyprland.anyrun = {
-    enable = mkEnableOption "Enable anyrun for use in Hyprland";
+  options.programs.anyrun = {
+    enable = mkEnableOption "Enable anyrun";
+    defaults.enable = mkEnableOption "Enable anyrun defaults";
   };
 
   config = mkIf cfg.enable {
@@ -21,9 +22,9 @@ in {
       programs.anyrun = let
         anyrun-pkgs = inputs.anyrun.packages.${pkgs.system};
       in {
-        enable = true;
+        enable = mkIf cfg.enable true;
 
-        config = {
+        config = mkIf cfg.defaults.enable {
           x = {fraction = 0.5;};
           y = {absolute = 0;};
           width = {absolute = 500;};
@@ -43,7 +44,7 @@ in {
           ];
         };
 
-        extraConfigFiles = {
+        extraConfigFiles = mkIf cfg.defaults.enable {
           "shell.ron".text = ''
             Config(
               prefix: ":sh",
@@ -63,7 +64,7 @@ in {
           '';
         };
 
-        extraCss = ''
+        extraCss = mkIf cfg.defaults.enable ''
           * {
             all: unset;
             font-size: 1rem;

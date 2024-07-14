@@ -1,6 +1,7 @@
 {
   # pkgs,
   inputs,
+  config,
   ...
 }: {
   imports = [
@@ -12,7 +13,9 @@
     qemu.enable = true;
   };
 
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+  };
 
   services = {
     tablet.enable = true;

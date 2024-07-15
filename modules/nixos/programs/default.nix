@@ -4,6 +4,7 @@
     ./art
     ./dev
     ./foot
+    ./kitty
     ./game
     ./obs-studio
     ./scripts
@@ -11,6 +12,5 @@
     ./oc
     ./anyrun
     ./hyprland
-    ./sway
   ];
 }

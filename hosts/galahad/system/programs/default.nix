@@ -1,6 +1,7 @@
 {
   pkgs,
   username,
+  inputs,
   ...
 }: {
   users.packages = with pkgs; [
@@ -13,8 +14,9 @@
     libreoffice-qt
     plexamp
     nerdfonts
+    kitty
 
-    vesktop
+    discord
     # (vesktop.override {
     #   electron = electron_31-bin;
     # })
@@ -31,42 +33,42 @@
     syncthing.usermodeEnable = true;
     # vscodium.enable = true;
 
-    sway = {
-      enable = true;
-      defaults.enable = true;
-    };
+    # sway = {
+    #   enable = true;
+    #   defaults.enable = true;
+    # };
 
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-
-      # Look into the module, this adds alot of shit
-      defaults = {
-        enable = true;
-
-        additional = {
-          settings = {
-            monitor = ["DP-2,preferred,auto,1.25"];
-          };
-
-          exec-once = [
-            #Autostart
-            "[workspace 2 silent] vesktop"
-            "[workspace 2 silent] plexamp --force-device-scale-factor=1.25"
-            "[workspace 3 silent] firefox-esr"
-            "[workspace 5 silent] keepassxc"
-
-            "noisetorch -i"
-          ];
-
-          windowrules = [
-            "workspace 2, plexamp"
-            "workspace 2, vesktop"
-            "workspace 5, keepassxc"
-          ];
-        };
-      };
-    };
+    # hyprland = {
+    #   enable = true;
+    #   xwayland.enable = true;
+    #
+    #   # Look into the module, this adds alot of shit
+    #   defaults = {
+    #     enable = true;
+    #
+    #     additional = {
+    #       settings = {
+    #         monitor = ["DP-2,preferred,auto,1.25"];
+    #       };
+    #
+    #       exec-once = [
+    #         #Autostart
+    #         "[workspace 2 silent] vesktop"
+    #         "[workspace 2 silent] plexamp --force-device-scale-factor=1.25"
+    #         "[workspace 3 silent] firefox-esr"
+    #         "[workspace 5 silent] keepassxc"
+    #
+    #         "noisetorch -i"
+    #       ];
+    #
+    #       windowrules = [
+    #         "workspace 2, plexamp"
+    #         "workspace 2, vesktop"
+    #         "workspace 5, keepassxc"
+    #       ];
+    #     };
+    #   };
+    # };
 
     nh = {
       enable = true;

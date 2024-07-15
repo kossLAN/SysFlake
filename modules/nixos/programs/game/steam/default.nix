@@ -19,6 +19,10 @@ in {
       sessionVariables = {
         STEAM_FORCE_DESKTOPUI_SCALING = 1.25;
       };
+
+      systemPackages = with pkgs; [
+        scanmem
+      ];
     };
 
     programs = {
@@ -30,9 +34,5 @@ in {
 
       gamemode.enable = true;
     };
-
-    environment.systemPackages = with pkgs; [
-      scanmem
-    ];
   };
 }

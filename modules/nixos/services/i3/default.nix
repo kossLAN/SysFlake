@@ -79,6 +79,8 @@ in {
   config = mkIf cfg.defaults.enable {
     environment.pathsToLink = ["/libexec"];
 
+    loginmanager.greetd.tuigreet.enable = true;
+
     services.xserver = {
       enable = true;
       dpi = cfg.defaults.addtional.dpi;
@@ -113,7 +115,15 @@ in {
           defaultWorkspace = "workspace number 1";
 
           # Startup
-          startup = cfg.defaults.addtional.startup;
+          startup =
+            [
+              {
+                always = true;
+                command = "xrdb -merge ~/.Xresources";
+                notification = false;
+              }
+            ]
+            ++ cfg.defaults.addtional.startup;
 
           assigns = cfg.defaults.addtional.assigns;
 

@@ -1,3 +1,3 @@
 {
-  imports = [ ./gtkgreet ];
+  imports = [./tuigreet ./gtkgreet];
 }

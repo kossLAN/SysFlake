@@ -79,21 +79,50 @@ in {
   config = mkIf cfg.defaults.enable {
     environment.pathsToLink = ["/libexec"];
 
-    loginmanager.greetd.tuigreet.enable = true;
-
-    services.xserver = {
+    xdg.portal = {
       enable = true;
-      dpi = cfg.defaults.addtional.dpi;
-      desktopManager.xterm.enable = true;
-      displayManager.defaultSession = "none+i3";
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-kde
+      ];
+      config.common.default = [
+        "kde"
+      ];
+    };
 
-      windowManager.i3 = {
-        extraPackages = with pkgs; [
-          dmenu #application launcher most people use
-          i3status # gives you the default i3 status bar
-          # i3lock #default i3 screen locker
-          # i3blocks #if you are planning on using i3blocks over i3status
-        ];
+    services = {
+      libinput = {
+        enable = true;
+
+        mouse = {
+          accelProfile = "flat";
+        };
+      };
+
+      xserver = {
+        enable = true;
+        dpi = cfg.defaults.addtional.dpi;
+        desktopManager.xterm.enable = true;
+
+        displayManager = {
+          defaultSession = "none+i3";
+          lightdm = {
+            enable = true;
+
+            autoLogin = {
+              enable = true;
+              user = "koss";
+            };
+          };
+        };
+
+        windowManager.i3 = {
+          extraPackages = with pkgs; [
+            dmenu #application launcher most people use
+            i3status # gives you the default i3 status bar
+            # i3lock #default i3 screen locker
+            # i3blocks #if you are planning on using i3blocks over i3status
+          ];
+        };
       };
     };
 
@@ -113,13 +142,14 @@ in {
         in {
           # Default Workspace
           defaultWorkspace = "workspace number 1";
+          terminal = "256color";
 
           # Startup
           startup =
             [
               {
                 always = true;
-                command = "xrdb -merge ~/.Xresources";
+                command = "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
                 notification = false;
               }
             ]

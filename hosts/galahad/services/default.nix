@@ -16,9 +16,14 @@
     networkmanager.enable = true;
   };
 
+  hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
+  };
+
   services = {
-    tablet.enable = true;
-    bluetooth.enable = true;
     ssh.enable = true;
     amdGpu.enable = true;
     helpfulUtils.enable = true;

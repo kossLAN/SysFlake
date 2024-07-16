@@ -4,7 +4,11 @@
   ...
 }: {
   imports = [
-    ./system
+    ./boot
+    ./hardware
+    ./programs
+    ./services
+
     outputs.universalModules
     outputs.nixosModules
     inputs.secrets.secretModules
@@ -13,12 +17,6 @@
   system.defaults.enable = true;
 
   environment = {
-    # sessionVariables = {
-    #   NIXOS_OZONE_WL = "1";
-    #   GDK_BACKEND = "wayland";
-    #   QT_QPA_PLATFORM = "wayland";
-    # };
-
     localBinInPath = true;
     enableDebugInfo = true;
   };

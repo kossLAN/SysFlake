@@ -7,5 +7,6 @@
     ./theme
     ./users
     ./system
+    ./hardware
   ];
 }

@@ -11,11 +11,12 @@
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.attrsets) mapAttrs mapAttrsToList;
+  inherit (lib.options) mkEnableOption;
 
   cfg = config.system;
 in {
   options.system = {
-    defaults.enable = lib.mkEnableOption "My opionated system config";
+    defaults.enable = mkEnableOption "My opionated system config";
   };
 
   config = mkIf cfg.defaults.enable {

@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   boot = {
-    kernelPackages = pkgs.linuxPackages_xanmod;
+    kernelPackages = pkgs.linuxPackages_6_1;
 
     loader.efi = {
       canTouchEfiVariables = true;

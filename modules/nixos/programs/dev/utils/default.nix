@@ -16,11 +16,7 @@ in {
   config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
-        gcc
-        rustup
-        zig
         zls
-        gnumake42
         dpkg
         nodejs
         xxd

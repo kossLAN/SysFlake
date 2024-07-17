@@ -4,7 +4,11 @@
   ...
 }: {
   imports = [
-    ./system
+    ./hardware
+    ./boot
+    ./programs
+    ./services
+
     outputs.universalModules
     outputs.nixosModules
     inputs.jovian.nixosModules.jovian
@@ -14,7 +18,6 @@
 
   environment = {
     sessionVariables = {
-      NIXOS_OZONE_WL = "1";
       SHELL = "/run/current-system/sw/bin/zsh";
     };
 

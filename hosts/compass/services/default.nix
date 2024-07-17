@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   jovian = {
     hardware.has.amd.gpu = true;
     steamos.useSteamOSConfig = true;
@@ -21,18 +25,25 @@
     };
 
     # I couldn't get this to work either, probably also broken on latest release
-    # decky-loader = {
-    #   enable = true;
-    #   package = pkgs.decky-loader-prerelease;
-    #   user = "root";
-    # };
+    decky-loader = {
+      enable = true;
+      package = pkgs.decky-loader-prerelease;
+      user = "root";
+    };
   };
 
   # theme.oled.enable = true;
 
   services = {
     ssh.enable = true;
-    displayManager.sddm.enable = true;
+    displayManager = {
+      sddm.enable = true;
+
+      autoLogin = {
+        enable = true;
+        user = "koss";
+      };
+    };
 
     xserver = {
       enable = true;

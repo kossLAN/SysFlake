@@ -77,7 +77,13 @@ in {
   };
 
   config = mkIf cfg.defaults.enable {
-    environment.pathsToLink = ["/libexec"];
+    environment = {
+      sessionVariables = {
+        "QT_QPA_PLATFORM" = "xcb";
+      };
+
+      pathsToLink = ["/libexec"];
+    };
 
     xdg.portal = {
       enable = true;
@@ -98,22 +104,19 @@ in {
         };
       };
 
+      displayManager = {
+        defaultSession = "none+i3";
+        autoLogin = {
+          enable = true;
+          user = config.users.defaultUser;
+        };
+      };
+
       xserver = {
         enable = true;
         dpi = cfg.defaults.addtional.dpi;
         desktopManager.xterm.enable = true;
-
-        displayManager = {
-          defaultSession = "none+i3";
-          lightdm = {
-            enable = true;
-
-            autoLogin = {
-              enable = true;
-              user = "koss";
-            };
-          };
-        };
+        displayManager.lightdm.enable = true;
 
         windowManager.i3 = {
           extraPackages = with pkgs; [
@@ -130,6 +133,10 @@ in {
       # Make this an option
       home.file.".background-image".source = ./wallpapers/old.png;
 
+      services = {
+        notify-osd.enable = true;
+      };
+
       xsession.windowManager.i3 = {
         enable = true;
 
@@ -145,6 +152,7 @@ in {
           terminal = "256color";
 
           # Startup
+          # TODO: fix assigns, see trace when building
           startup =
             [
               {
@@ -183,6 +191,7 @@ in {
             "${modifier}+b" = "exec firefox-esr";
             "${modifier}+r" = "exec dolphin";
             "${modifier}+space" = "exec --no-startup-id i3-dmenu-desktop";
+            "${modifier}+Shift+p" = "exec --no-startup-id ${pkgs.flameshot}/bin/flameshot gui";
 
             # Navigation
             "${modifier}+${left}" = "focus left";

@@ -133,10 +133,6 @@ in {
       # Make this an option
       home.file.".background-image".source = ./wallpapers/old.png;
 
-      services = {
-        notify-osd.enable = true;
-      };
-
       xsession.windowManager.i3 = {
         enable = true;
 

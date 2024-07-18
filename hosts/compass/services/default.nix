@@ -20,34 +20,26 @@
       user = config.users.defaultUser;
 
       # I couldn't get this to work, so I'll just use SDDM to switch
-      # autoStart = true;
-      # desktopSession = "plasmax11";
+      autoStart = true;
+      desktopSession = "plasma";
     };
 
     # I couldn't get this to work either, probably also broken on latest release
-    decky-loader = {
-      enable = true;
-      package = pkgs.decky-loader-prerelease;
-      user = "root";
-    };
+    # decky-loader = {
+    #   enable = true;
+    #   package = pkgs.decky-loader-prerelease;
+    #   user = "root";
+    # };
   };
 
-  # theme.oled.enable = true;
+  # loginmanager.greetd.tuigreet.enable = true;
 
   services = {
     ssh.enable = true;
-    displayManager = {
-      sddm.enable = true;
-
-      autoLogin = {
-        enable = true;
-        user = "koss";
-      };
-    };
+    desktopManager.plasma6.enable = true;
 
     xserver = {
       enable = true;
-      desktopManager.plasma5.enable = true;
     };
   };
 }

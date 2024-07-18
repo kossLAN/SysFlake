@@ -95,6 +95,13 @@ in {
       ];
     };
 
+    programs = {
+      kitty = {
+        enable = true;
+        defaults.enable = true;
+      };
+    };
+
     services = {
       libinput = {
         enable = true;

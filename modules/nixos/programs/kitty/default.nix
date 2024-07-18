@@ -17,7 +17,9 @@ in {
     home-manager.users.${config.users.defaultUser} = {
       programs.kitty = {
         enable = cfg.enable;
-
+        settings = {
+          term = "xterm-256color";
+        };
         # Nothing here really yet
       };
     };

@@ -14,7 +14,6 @@
     libreoffice-qt
     plexamp
     nerdfonts
-    kitty
 
     discord
     # (vesktop.override {

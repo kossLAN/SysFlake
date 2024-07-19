@@ -160,6 +160,10 @@ in {
             [
               {
                 always = true;
+                command = "nohup ${pkgs.flameshot}/bin/flameshot &";
+              }
+              {
+                always = true;
                 command = "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
                 notification = false;
               }

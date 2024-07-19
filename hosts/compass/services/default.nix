@@ -10,7 +10,7 @@
     devices = {
       steamdeck = {
         enable = true;
-        autoUpdate = true;
+        autoUpdate = false;
         enableGyroDsuService = true;
       };
     };
@@ -25,11 +25,9 @@
     };
 
     # I couldn't get this to work either, probably also broken on latest release
-    # decky-loader = {
-    #   enable = true;
-    #   package = pkgs.decky-loader-prerelease;
-    #   user = "root";
-    # };
+    decky-loader = {
+      enable = true;
+    };
   };
 
   # loginmanager.greetd.tuigreet.enable = true;

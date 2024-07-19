@@ -152,7 +152,6 @@ in {
         in {
           # Default Workspace
           defaultWorkspace = "workspace number 1";
-          terminal = "256color";
 
           # Startup
           # TODO: fix assigns, see trace when building
@@ -177,6 +176,7 @@ in {
             {
               position = "top";
               statusCommand = "while date +'%Y-%m-%d %X'; do sleep 1; done";
+              trayOutput = "primary";
 
               colors = {
                 statusline = "#ffffff";

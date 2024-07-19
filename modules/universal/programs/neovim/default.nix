@@ -7,13 +7,13 @@
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
-  cfg = config.programs.customNeovim;
+  cfg = config.programs.neovim;
 in {
-  options.programs.customNeovim = {
-    enable = mkEnableOption "Enable neovim";
+  options.programs.neovim = {
+    defaults.enable = mkEnableOption "Enable neovim opioninated defaults";
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.defaults.enable {
     # nixpkgs = {
     #   config = {
     #     allowBroken = true;
@@ -233,10 +233,10 @@ in {
                 }
               }
 
-              vim.api.nvim_set_keymap('n', '<S-Left>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
-              vim.api.nvim_set_keymap('n', '<S-Right>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<C-Left>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<C-Right>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true })
               vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true })
-              vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
+              vim.api.nvim_set_keymap('n', '<C-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true })
             '';
           }
 

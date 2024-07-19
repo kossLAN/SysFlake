@@ -2,7 +2,7 @@
   imports = [
     ./zsh
     ./dev
-    ./customNeovim
+    ./neovim
     ./syncthing
     ./vscodium
   ];

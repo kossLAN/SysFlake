@@ -26,20 +26,11 @@ in {
         notification = mkOption {
           type = lib.types.bool;
           default = true;
-          description = ''
-            Whether to enable startup-notification support for the command.
-            See {option}`--no-startup-id` option description in the i3 user guide.
-          '';
         };
 
         workspace = mkOption {
           type = lib.types.nullOr lib.types.str;
           default = null;
-          description = ''
-            Launch application on a particular workspace. DEPRECATED:
-            Use [](#opt-xsession.windowManager.i3.config.assigns)
-            instead. See <https://github.com/nix-community/home-manager/issues/265>.
-          '';
         };
       };
     };
@@ -57,20 +48,11 @@ in {
         startup = mkOption {
           type = lib.types.listOf startupModule;
           default = [];
-          description = ''
-            Commands that should be executed at startup.
-
-            See <https://i3wm.org/docs/userguide.html#_automatically_starting_applications_on_i3_startup>.
-          '';
         };
 
         assigns = mkOption {
           type = lib.types.attrsOf (lib.types.listOf criteriaModule);
           default = {};
-          description = ''
-            An attribute set that assigns applications to workspaces based
-            on criteria.
-          '';
         };
       };
     };
@@ -96,6 +78,7 @@ in {
     };
 
     programs = {
+      nm-applet.enable = true;
       kitty = {
         enable = true;
         defaults.enable = true;
@@ -157,6 +140,14 @@ in {
           # TODO: fix assigns, see trace when building
           startup =
             [
+              {
+                always = true;
+                command = "blueman-applet";
+              }
+              {
+                always = true;
+                command = "nm-applet";
+              }
               {
                 always = true;
                 command = "nohup ${pkgs.flameshot}/bin/flameshot &";

@@ -3,8 +3,12 @@
   # It's a dedicated box so thats mostly the reason, but potentially
   # would be better off with a few more boxes idk
   virtualisation = {
-    portainer.enable = true;
     flaresolverr.enable = true;
+
+    portainer = {
+      enable = true;
+      reverseProxy.enable = true;
+    };
   };
 
   services = {

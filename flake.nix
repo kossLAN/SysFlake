@@ -40,6 +40,11 @@
         hostname = "lily";
         platform = "aarch64-linux";
       };
+
+      # VPS Testing
+      dahlia = libx.mkHost {
+        hostname = "dahlia";
+      };
     };
 
     # MacOS Configuration: this setups home-manager as well...

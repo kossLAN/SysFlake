@@ -4,19 +4,29 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.virtualisation.portainer;
 in {
   options.virtualisation.portainer = {
-    enable = mkEnableOption "docker in docker management";
+    enable = mkEnableOption "Docker Web UI";
+
+    openFirewall = mkEnableOption "Open the firewall for the portainer service";
+
+    reverseProxy = {
+      enable = mkEnableOption "Enable the reverse proxy";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
+    };
   };
 
   # Mostly used for temp services I want to try out quickly without having to configure entirely...
   config = mkIf cfg.enable {
-    # networking.firewall = {
-    #   allowedTCPPorts = [9000 9443];
-    # };
+    networking.firewall = mkIf cfg.openFirewall {
+      allowedTCPPorts = [9000 9443];
+    };
 
     # Docker configuration
     virtualisation.docker = {
@@ -40,7 +50,7 @@ in {
       };
     };
 
-    services.nginx = {
+    services.nginx = mkIf cfg.reverseProxy.enable {
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;

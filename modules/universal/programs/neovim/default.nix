@@ -14,13 +14,6 @@ in {
   };
 
   config = mkIf cfg.defaults.enable {
-    # nixpkgs = {
-    #   config = {
-    #     allowBroken = true;
-    #     permittedInsecurePackages = ["nix-2.16.2"];
-    #   };
-    # };
-
     home-manager.users.${config.users.defaultUser} = {
       programs.neovim = {
         enable = true;
@@ -29,6 +22,7 @@ in {
 
         extraConfig = ''
           autocmd FileType nix setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+          autocmd FileType qml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
           autocmd FileType * setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
         '';
 
@@ -45,56 +39,6 @@ in {
 
           -- Exit terminal mode, the default binding is way to aids imo
           vim.api.nvim_set_keymap('t', '<C-Space>', [[<C-\><C-n>]], { noremap = true, silent = true })
-
-
-          -- Cheatsheet for custom keybinds
-          function print_cheatsheet()
-            local cheatsheetContent = [[
-              === Custom Neovim Keybindings ===
-              ## General Keybindings ##
-              <C-Space>           Exit terminal mode (<C-\\><C-n>)
-
-              ## Buffer Navigation ##
-              <Tab>               Cycle forward through buffers (:BufferLineCycleNext)
-              <S-Tab>             Cycle backward through buffers (:BufferLineCyclePrev)
-
-              ## Telescope Plugin ##
-              <leader>ff          Find files (telescope.builtin.find_files)
-              <leader>fg          Live grep (telescope.builtin.live_grep)
-              <leader>fb          Buffers (telescope.builtin.buffers)
-              <leader>fh          Help tags (telescope.builtin.help_tags)
-              <C-h>               Show telescope mappings in insert mode (actions.which_key)
-
-              ## DAP (Debugger) Plugin ##
-              <leader>b           Toggle breakpoint (require'dap'.toggle_breakpoint())
-              <leader>c           Continue execution (require'dap'.continue())
-              <leader>n           Step over (require'dap'.step_over())
-              <leader>i           Step into (require'dap'.step_into())
-              <leader>r           Open REPL (require'dap'.repl.open())
-
-              ## Completion (nvim-cmp Plugin) ##
-              <C-p>               Select previous item (cmp.mapping.select_prev_item())
-              <C-n>               Select next item (cmp.mapping.select_next_item())
-              <C-b>               Scroll documentation up (cmp.mapping.scroll_docs(-4))
-              <C-f>               Scroll documentation down (cmp.mapping.scroll_docs(4))
-              <C-Space>           Trigger completion (cmp.mapping.complete())
-              <C-e>               Abort completion (cmp.mapping.abort())
-              <CR>                Confirm selection (cmp.mapping.confirm({ select = true }))
-
-              ## LSP (Language Server Protocol) Keybindings ##
-              gD                  Go to declaration (vim.lsp.buf.declaration())
-              gd                  Go to definition (vim.lsp.buf.definition())
-
-            ]]
-            print(cheatsheetContent)
-          end
-
-          -- Register the command ':cheatsheet' to print the cheatsheet
-          vim.cmd('command! Cheatsheet lua print_cheatsheet()')
-
-          -- Optionally bind the command to a keymap
-          vim.api.nvim_set_keymap('n', '<leader>cs', ':Cheatsheet<CR>', { noremap = true, silent = true })
-
         '';
 
         extraPackages = with pkgs; [
@@ -105,69 +49,59 @@ in {
           nodePackages.prettier
         ];
 
-        plugins = with pkgs.vimPlugins; [
+        plugins = [
           # Visual
           {
             type = "lua";
-            plugin = oxocarbon-nvim;
+            plugin = pkgs.vimPlugins.kanagawa-nvim;
             config = ''
-              vim.opt.background = "dark"
-              vim.cmd("colorscheme oxocarbon")
-              -- TODO: find a better full black theme.
-              vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-              vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+              vim.cmd("colorscheme kanagawa")
             '';
           }
           {
             #TODO: Theme lualine properly
             type = "lua";
-            plugin = lualine-nvim;
+            plugin = pkgs.vimPlugins.lualine-nvim;
             config = ''
               require('lualine').setup()
             '';
           }
 
-          # Don't really care about this, but will keep it here in case
-          # {
-          #   type = "lua";
-          #   plugin = noice-nvim;
-          #   config = ''
-          #     require("noice").setup({
-          #        lsp = {
-          #          override = {
-          #            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          #            ["vim.lsp.util.stylize_markdown"] = true,
-          #            ["cmp.entry.get_documentation"] = true,
-          #          },
-          #        },
-          #        presets = {
-          #          bottom_search = true,
-          #          command_palette = true,
-          #          long_message_to_split = true,
-          #          inc_rename = false,
-          #          lsp_doc_border = false,
-          #        },
-          #      })
-          #   '';
-          # }
-
           # Misc plugins/quality of life
-          vim-qml
-          vim-nix
-
-          # Easy comment management
+          pkgs.vimPlugins.vim-qml
+          pkgs.vimPlugins.vim-nix
           {
             type = "lua";
-            plugin = comment-nvim;
+            plugin = pkgs.vimPlugins.which-key-nvim;
             config = ''
-              require('Comment').setup()
+              -- Increase the loading times of this shitty popup
+              vim.opt.timeoutlen = 300
+
+              require("which-key").setup {
+                mappings = {
+                  { '<leader>c', group = '[C]ode' },
+                  { '<leader>d', group = '[D]ocument' },
+                  { '<leader>r', group = '[R]ename' },
+                  { '<leader>s', group = '[S]earch' },
+                  { '<leader>w', group = '[W]orkspace' },
+                  { '<leader>t', group = '[T]oggle' },
+                },
+              }
+            '';
+          }
+
+          {
+            type = "lua";
+            plugin = pkgs.vimPlugins.gitsigns-nvim;
+            config = ''
+              require('gitsigns').setup()
             '';
           }
 
           # Wilder (command suggestions)
           {
             type = "viml";
-            plugin = wilder-nvim;
+            plugin = pkgs.vimPlugins.wilder-nvim;
             config = ''
               call wilder#setup({'modes': [':', '/', '?']})
             '';
@@ -176,7 +110,7 @@ in {
           # Telescope
           {
             type = "lua";
-            plugin = telescope-nvim;
+            plugin = pkgs.vimPlugins.telescope-nvim;
             config = ''
               local builtin = require('telescope.builtin')
               vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
@@ -186,42 +120,21 @@ in {
 
               require('telescope').setup{
                 defaults = {
-                  -- Default configuration for telescope goes here:
-                  -- config_key = value,
                   mappings = {
                     i = {
-                      -- map actions.which_key to <C-h> (default: <C-/>)
-                      -- actions.which_key shows the mappings for your picker,
-                      -- e.g. git_{create, delete, ...}_branch for the git_branches picker
                       ["<C-h>"] = "which_key"
                     }
                   }
                 },
-                pickers = {
-                  -- Default configuration for builtin pickers goes here:
-                  -- picker_name = {
-                  --   picker_config_key = value,
-                  --   ...
-                  -- }
-                  -- Now the picker_config_key will be applied every time you call this
-                  -- builtin picker
-                },
-                extensions = {
-                  -- Your extension configuration goes here:
-                  -- extension_name = {
-                  --   extension_config_key = value,
-                  -- }
-                  -- please take a look at the readme of the extension you want to configure
-                }
               }
             '';
           }
 
           # Buffer line
-          nvim-web-devicons
+          pkgs.vimPlugins.nvim-web-devicons
           {
             type = "lua";
-            plugin = bufferline-nvim;
+            plugin = pkgs.vimPlugins.bufferline-nvim;
             config = ''
               vim.opt.termguicolors = true
               require("bufferline").setup{
@@ -241,28 +154,28 @@ in {
           }
 
           # Autoformatting
-          vim-clang-format
+          pkgs.vimPlugins.vim-clang-format
           {
             type = "lua";
-            plugin = null-ls-nvim;
+            plugin = pkgs.vimPlugins.null-ls-nvim;
             config = ''
-                  local null_ls = require("null-ls")
+              local null_ls = require("null-ls")
 
-                  null_ls.setup({
-                      sources = {
-                          null_ls.builtins.formatting.prettier,
-                          null_ls.builtins.formatting.stylua,
-                          null_ls.builtins.formatting.clang_format,
-                          null_ls.builtins.formatting.alejandra,
-                          null_ls.builtins.formatting.black,
-                      },
-                  })
+              null_ls.setup({
+                sources = {
+                  null_ls.builtins.formatting.prettier,
+                  null_ls.builtins.formatting.stylua,
+                  null_ls.builtins.formatting.clang_format,
+                  null_ls.builtins.formatting.alejandra,
+                  null_ls.builtins.formatting.black,
+                },
+              })
 
-                  vim.cmd([[
-                  augroup FormatAutogroup
-                      autocmd!
-                      autocmd BufWritePre *.c,*.cpp,*.rs,*.py,*.nix,*.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.json,*.md,*.html,*.yaml,*.yml,*.lua :lua vim.lsp.buf.format({timeout_ms = 2000})
-                  augroup END
+              vim.cmd([[
+                augroup FormatAutogroup
+                    autocmd!
+                    autocmd BufWritePre *.c,*.cpp,*.rs,*.py,*.nix,*.js,*.jsx,*.ts,*.tsx,*.css,*.scss,*.json,*.md,*.html,*.yaml,*.yml,*.lua :lua vim.lsp.buf.format({timeout_ms = 2000})
+                augroup END
               ]])
             '';
           }
@@ -270,7 +183,7 @@ in {
           # DAP
           {
             type = "lua";
-            plugin = nvim-dap;
+            plugin = pkgs.vimPlugins.nvim-dap;
             config = ''
               vim.api.nvim_set_keymap('n', '<leader>b', ':lua require"dap".toggle_breakpoint()<CR>', { noremap = true, silent = true })
               vim.api.nvim_set_keymap('n', '<leader>c', ':lua require"dap".continue()<CR>', { noremap = true, silent = true })
@@ -312,19 +225,59 @@ in {
             '';
           }
 
-          # Autocompletion (nvim-cmp - this is just the github config but setup properly)
-          vim-vsnip
-          friendly-snippets
-          cmp-nvim-lsp
-          cmp-buffer
-          cmp-path
-          cmp-cmdline
-          cmp-treesitter
-          cmp-vsnip
+          # Copilot
           {
             type = "lua";
-            plugin = nvim-cmp;
+            plugin = pkgs.vimPlugins.CopilotChat-nvim;
             config = ''
+              require("CopilotChat").setup {
+                debug = true,
+              }
+            '';
+          }
+          {
+            type = "lua";
+            plugin = pkgs.vimPlugins.copilot-cmp;
+            config = ''
+              require("copilot_cmp").setup()
+            '';
+          }
+          {
+            type = "lua";
+            plugin = pkgs.vimPlugins.copilot-lua;
+            config = ''
+              require("copilot").setup({
+                suggestion = { enabled = false },
+                panel = { enabled = false },
+                filetypes = {
+                  nix = true,
+                  rust = true,
+                  ["."] = false,
+                },
+                copilot_node_command = '${pkgs.nodejs}/bin/node',
+              })
+            '';
+          }
+
+          # Autocompletion (nvim-cmp - this is just the github config but setup properly)
+          pkgs.vimPlugins.vim-vsnip
+          pkgs.vimPlugins.friendly-snippets
+          pkgs.vimPlugins.cmp-nvim-lsp
+          pkgs.vimPlugins.cmp-buffer
+          pkgs.vimPlugins.cmp-path
+          pkgs.vimPlugins.cmp-cmdline
+          pkgs.vimPlugins.cmp-treesitter
+          pkgs.vimPlugins.cmp-vsnip
+          {
+            type = "lua";
+            plugin = pkgs.vimPlugins.nvim-cmp;
+            config = ''
+              local has_words_before = function()
+                if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+              end
+
               local cmp = require'cmp'
 
               cmp.setup({
@@ -344,9 +297,17 @@ in {
                   ['<C-Space>'] = cmp.mapping.complete(),
                   ['<C-e>'] = cmp.mapping.abort(),
                   ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                  ["<Tab>"] = vim.schedule_wrap(function(fallback)
+                    if cmp.visible() and has_words_before() then
+                      cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                    else
+                      fallback()
+                    end
+                  end),
                 }),
                 sources = cmp.config.sources({
                   { name = 'nvim_lsp' },
+                  { name = 'copilot' },
                   { name = 'vsnip' },
                 }, {
                   { name = 'buffer' },
@@ -373,7 +334,7 @@ in {
           }
           {
             type = "lua";
-            plugin = nvim-lspconfig;
+            plugin = pkgs.vimPlugins.nvim-lspconfig;
             config = ''
                -- LSP Configs
               local lspconfig = require('lspconfig')
@@ -420,7 +381,7 @@ in {
           }
 
           # Treesitter (fuck it we ball)
-          nvim-treesitter.withAllGrammars
+          pkgs.vimPlugins.nvim-treesitter.withAllGrammars
         ];
       };
     };

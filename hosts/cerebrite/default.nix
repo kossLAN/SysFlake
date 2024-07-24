@@ -4,7 +4,9 @@
   ...
 }: {
   imports = [
-    ./system
+    ./services
+    ./programs
+    ./disks
 
     outputs.universalModules
     outputs.serverModules

@@ -1,7 +1,7 @@
 {username, ...}: {
   programs = {
     utils.enable = true;
-    customNeovim.enable = true;
+    neovim.defaults.enable = true;
     dev.git.enable = true;
 
     zsh = {

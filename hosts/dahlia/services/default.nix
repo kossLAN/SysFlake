@@ -5,4 +5,10 @@
       openFirewall = true;
     };
   };
+
+  services = {
+    ssh = {
+      enable = true;
+    };
+  };
 }

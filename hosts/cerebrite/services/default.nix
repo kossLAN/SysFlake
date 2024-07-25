@@ -18,17 +18,19 @@
 
     plex = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     firefox-syncserver = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
     };
 
     jellyfin = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
     };
 
     arr = {
@@ -38,30 +40,38 @@
 
     searx = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
     };
 
     syncthing = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
     };
 
     wireguard = {
       enable = true;
-      adguardhome.enable = true;
+      adguardhome = {
+        enable = true;
+        reverseProxy.enable = true;
+      };
     };
 
     forgejo = {
       container.enable = true;
+      reverseProxy.enable = true;
     };
 
     nextcloud = {
       container.enable = true;
+      reverseProxy.enable = true;
     };
 
     prometheus = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
     };
   };
 }

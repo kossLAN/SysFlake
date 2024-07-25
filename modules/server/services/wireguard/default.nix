@@ -5,13 +5,22 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.wireguard;
 in {
   options.services.wireguard = {
     enable = mkEnableOption "Wireguard VPN";
-    adguardhome.enable = mkEnableOption "Wireguard with adguardhome support";
+    adguardhome = {
+      enable = mkEnableOption "Wireguard with adguardhome support";
+      reverseProxy = {
+        enable = mkEnableOption "Enable reverse proxy";
+        domain = mkOption {
+          type = lib.types.str;
+          default = "kosslan.dev";
+        };
+      };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -30,12 +39,12 @@ in {
         # };
       };
 
-      nginx = {
+      nginx = cfg.adguardhome.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
         virtualHosts = {
-          "adguard.kosslan.dev" = {
+          "adguard.${cfg.adguardhome.reverseProxy.domain}" = {
             enableACME = true;
             forceSSL = true;
             locations = {

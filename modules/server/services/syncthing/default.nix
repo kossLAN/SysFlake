@@ -4,15 +4,22 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.syncthing;
 in {
   options.services.syncthing = {
-    customConf = mkEnableOption "Syncthing config";
+    defaults.enable = mkEnableOption "Syncthing opinionated defaults.";
+    reverseProxy = {
+      enable = mkEnableOption "Enable reverse proxy";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
+    };
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443 22000];
@@ -21,10 +28,10 @@ in {
     };
 
     systemd.tmpfiles.rules = [
-      "d /var/lib/storage 0755 8000 8000"
+      "d /var/lib/storage 1755 8000 8000"
     ];
 
-    security.acme = {
+    security.acme = mkIf cfg.reverseProxy.enable {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
@@ -55,11 +62,11 @@ in {
         };
       };
 
-      nginx = {
+      nginx = cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         virtualHosts = {
-          "sync.kosslan.dev" = {
+          "sync.${cfg.reverseProxy.domain}" = {
             enableACME = true;
             forceSSL = true;
             locations = {

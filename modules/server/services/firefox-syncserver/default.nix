@@ -5,22 +5,29 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.firefox-syncserver;
 in {
   options.services.firefox-syncserver = {
-    customConf = mkEnableOption "Firefox sync server configuration";
+    defaults.enable = mkEnableOption "Firefox sync server configuration";
+    reverseProxy = {
+      enable = true;
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
+    };
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443];
       };
     };
 
-    security.acme = {
+    security.acme = mkIf cfg.reverseProxy.enable {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
@@ -50,7 +57,7 @@ in {
         };
       };
 
-      nginx = {
+      nginx = mkIf cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         virtualHosts = {

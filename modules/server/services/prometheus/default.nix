@@ -4,15 +4,27 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.prometheus;
 in {
   options.services.prometheus = {
-    customConf = mkEnableOption "Prometheus custom configuration";
+    defaults.enable = mkEnableOption "Prometheus opinionated defaults.";
+    reverseProxy = {
+      enable = mkEnableOption "Enable reverse proxy";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
+    };
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
+    security.acme = mkIf cfg.reverseProxy.enable {
+      acceptTerms = true;
+      defaults.email = "kosslan@kosslan.dev";
+    };
+
     services = {
       prometheus = {
         port = 3255;
@@ -36,19 +48,19 @@ in {
         ];
       };
 
-      nginx = {
+      nginx = cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
 
         virtualHosts = {
-          "prometheus.kosslan.dev" = {
+          "prometheus.${cfg.reverseProxy.domain}" = {
             basicAuth = {koss = config.secrets.prometheus.privateKey;};
             enableACME = true;
             forceSSL = true;
             locations = {
               "/" = {
-                proxyPass = "http://127.0.0.1:3255/";
+                proxyPass = "http://127.0.0.1:${toString config.services.prometheus.port}/";
                 proxyWebsockets = true;
                 extraConfig = ''
                   proxy_ssl_server_name on;

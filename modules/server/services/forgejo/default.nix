@@ -6,12 +6,19 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.forgejo;
 in {
   options.services.forgejo = {
     container.enable = mkEnableOption "Forgjo custom configuration";
+    reverseProxy = {
+      enable = mkEnableOption "Enable reverse proxy";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
+    };
   };
 
   config = mkIf cfg.container.enable {
@@ -121,13 +128,13 @@ in {
       };
     };
 
-    services = {
+    services = mkIf cfg.reverseProxy.enable {
       nginx = {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
         virtualHosts = {
-          "git.kosslan.dev" = {
+          "git.${cfg.reverseProxy.domain}" = {
             enableACME = true;
             forceSSL = true;
             locations = {

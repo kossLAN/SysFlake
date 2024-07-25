@@ -4,22 +4,26 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.searx;
 in {
   options.services.searx = {
-    customConf = mkOption {
-      type = lib.types.bool;
-      default = false;
+    defaults.enable = mkEnableOption "Enable opinionated defaults.";
+    reverseProxy = {
+      enable = mkEnableOption "Enable reverse proxy";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
     };
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
     networking.firewall.allowedTCPPorts = [80 443];
 
     # SSL CERT
-    security.acme = {
+    security.acme = mkIf cfg.reverseProxy.enable {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
@@ -32,7 +36,7 @@ in {
 
           general = {
             debug = false;
-            instance_name = "SearXNG";
+            instance_name = "kossLAN's SearXNG";
           };
 
           server = {
@@ -68,12 +72,12 @@ in {
       };
 
       # NGINX Reverse Proxy
-      nginx = {
+      nginx = mkIf cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
         virtualHosts = {
-          "search.kosslan.dev" = {
+          "search.${cfg.reverseProxy.domain}" = {
             enableACME = true;
             forceSSL = true;
             locations = {

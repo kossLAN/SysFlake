@@ -9,10 +9,10 @@
   cfg = config.services.plex;
 in {
   options.services.plex = {
-    customConf = mkEnableOption "Plex custom config";
+    defaults.enable = mkEnableOption "Plex custom config";
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
     services = {
       plex = {
         openFirewall = true;

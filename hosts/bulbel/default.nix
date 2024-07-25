@@ -25,7 +25,7 @@
   ];
 
   programs = {
-    customNeovim.enable = true;
+    neovim.defaults.enable = true;
     # vscodium.enable = true;
     syncthing.usermodeEnable = true;
     dev.git.enable = true;

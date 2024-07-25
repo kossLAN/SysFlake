@@ -6,17 +6,23 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.services.nextcloud;
 in {
   options.services.nextcloud = {
     container = {
-      enable = mkEnableOption "Nextcloud container";
+      enable = mkEnableOption "Nextcloud container with opinionated defaults";
+    };
+    reverseProxy = {
+      enable = mkEnableOption "Enable reverse proxy";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
     };
   };
 
-  # Don't really use this much anymore...
   config = mkIf cfg.container.enable {
     networking = {
       firewall.allowedTCPPorts = [80 443];
@@ -30,7 +36,7 @@ in {
 
     # Make the folder that will be mounted if it doesn't already exist.
     systemd.tmpfiles.rules = [
-      "d /var/lib/storage 0755 8000 8000"
+      "d /var/lib/storage 1755 8000 8000"
     ];
 
     containers.nextcloud = {
@@ -116,6 +122,7 @@ in {
             database.createLocally = true;
 
             config = {
+              # Temp password, changed on setup
               adminpassFile = "${pkgs.writeText "adminpass" "password"}";
               dbtype = "sqlite";
             };
@@ -139,19 +146,19 @@ in {
     };
 
     # SSL CERT
-    security.acme = {
+    security.acme = mkIf cfg.reverseProxy.enable {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
 
     # NGINX
-    services.nginx = {
+    services.nginx = mkIf cfg.reverseProxy.enable {
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
       virtualHosts = {
         # Nextcloud
-        "cloud.kosslan.dev" = {
+        "cloud.${cfg.reverseProxy.domain}" = {
           enableACME = true;
           forceSSL = true;
           locations = {

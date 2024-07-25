@@ -6,7 +6,7 @@
 
     zsh = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     nh = {

@@ -84,12 +84,12 @@
 
     zsh = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     foot = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     dev = {

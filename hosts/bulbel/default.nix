@@ -17,7 +17,7 @@
 
   homebrew = {
     enable = true;
-    customConf = true;
+    defaults.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -35,7 +35,7 @@
       interactiveShellInit = ''
         alias nix-rebuild="darwin-rebuild --flake ~/.config/nix-darwin#bulbel switch"
       '';
-      customConf = true;
+      defaults.enable = true;
     };
 
     utils = {

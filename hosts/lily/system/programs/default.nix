@@ -61,12 +61,12 @@
 
     foot = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     zsh = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     nh = {

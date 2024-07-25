@@ -5,7 +5,7 @@
 }: {
   programs = {
     utils.enable = true;
-    customNeovim.enable = true;
+    neovim.defaults.enable = true;
     syncthing.usermodeEnable = true;
     vscodium.enable = true;
 
@@ -24,7 +24,7 @@
 
     zsh = {
       enable = true;
-      customConf = true;
+      defaults.enable = true;
     };
 
     dev = {

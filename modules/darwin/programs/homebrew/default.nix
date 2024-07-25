@@ -4,18 +4,15 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkOption;
+  inherit (lib.options) mkEnableOption;
 
   cfg = config.homebrew;
 in {
   options.homebrew = {
-    customConf = mkOption {
-      type = lib.types.bool;
-      default = false;
-    };
+    defaults.enable = mkEnableOption "Enable homebrew defaults";
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
     homebrew = {
       onActivation.autoUpdate = true;
       onActivation.upgrade = true;

@@ -11,7 +11,7 @@
 in {
   options.programs.foot = {
     enable = mkEnableOption "Enable foot termninal emulator";
-    customConf = mkEnableOption "Custom foot configuration";
+    defaults.enable = mkEnableOption "Custom foot configuration";
   };
 
   config = mkIf cfg.enable {
@@ -22,7 +22,7 @@ in {
 
       programs.foot = {
         enable = true;
-        settings = lib.mkIf cfg.customConf {
+        settings = lib.mkIf cfg.defaults.enable {
           main = {
             shell = "zsh";
             term = "xterm-256color";

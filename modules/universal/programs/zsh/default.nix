@@ -5,18 +5,15 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkOption;
+  inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.zsh;
 in {
   options.programs.zsh = {
-    customConf = mkOption {
-      type = lib.types.bool;
-      default = false;
-    };
+    defaults.enable = mkEnableOption "Enable opinionated defaults for zsh";
   };
 
-  config = mkIf cfg.customConf {
+  config = mkIf cfg.defaults.enable {
     home-manager.users.${config.users.defaultUser} = {
       programs.zsh = let
         # Oh My Zsh has alot of good plugins, thankfully we can use them without needing oh-my-zsh!

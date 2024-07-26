@@ -91,11 +91,11 @@ in {
           privateKey = config.secrets.wg0server.privateKey;
           peers = [
             {
-              publicKey = config.secrets.wg0client2.publicKey;
+              publicKey = config.secrets.wg0client1.publicKey;
               allowedIPs = ["10.100.0.3/32"];
             }
             {
-              publicKey = config.secrets.wg0client1.publicKey;
+              publicKey = config.secrets.wg0client2.publicKey;
               allowedIPs = ["10.100.0.4/32"]; # Its this because I'm too lazy to change on the client ;-)
             }
           ];

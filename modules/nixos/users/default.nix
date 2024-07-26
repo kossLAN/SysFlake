@@ -4,7 +4,6 @@
   inputs,
   self,
   pkgs,
-  stateVersion,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -56,7 +55,7 @@ in {
       users.${config.users.defaultUser} = {
         programs.home-manager.enable = true;
         home = {
-          stateVersion = stateVersion;
+          stateVersion = config.system.stateVersion;
           packages = cfg.packages;
         };
         xdg.enable = true;

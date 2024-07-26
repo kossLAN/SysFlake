@@ -1,22 +1,25 @@
 {
+  self,
   lib,
   config,
   inputs,
-  outputs,
-  stateVersion,
-  hostname,
-  username,
-  platform,
+  system,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.attrsets) mapAttrs mapAttrsToList;
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.system;
 in {
   options.system = {
-    defaults.enable = mkEnableOption "My opionated system config";
+    defaults = {
+      enable = mkEnableOption "My opionated system config";
+      user = mkOption {
+        type = lib.types.str;
+        default = "koss";
+      };
+    };
   };
 
   config = mkIf cfg.defaults.enable {
@@ -53,7 +56,7 @@ in {
         keep-outputs = true;
         keep-derivations = true;
         auto-optimise-store = true;
-        trusted-users = [username];
+        trusted-users = [cfg.defaults.user];
 
         substituters = [
           "https://nix-community.cachix.org"
@@ -75,19 +78,16 @@ in {
     # Nixpkgs settings - for now I only own x86 computers running nixos for personal use, however this will
     # need to change when I get some arm systems
     nixpkgs = {
-      hostPlatform = platform;
+      hostPlatform = system;
       overlays = [
-        outputs.overlays.additions # Additional Packages
-        outputs.overlays.modifications # Modified Packages
+        self.outputs.overlays.additions # Additional Packages
+        self.outputs.overlays.modifications # Modified Packages
       ];
       config = {
         allowUnfree = true;
       };
     };
 
-    # Just setting hostname
-    networking.hostName = hostname;
-
-    system.stateVersion = stateVersion;
+    networking.nm.enable = true;
   };
 }

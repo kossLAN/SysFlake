@@ -1,58 +1,82 @@
 {
   description = "Main nix configuration";
 
-  outputs = {
+  outputs = inputs @ {
     self,
+    nixpkgs,
     nix-darwin,
     ...
-  } @ inputs: let
-    inherit (self) outputs;
-    stateVersion = "23.11";
-    username = "koss";
-    libx = import ./lib {inherit inputs outputs nix-darwin stateVersion username;};
-  in {
-    # Packages & Overlays
+  }: {
     overlays = import ./overlays {inherit inputs;};
-    universalModules = import ./modules/universal;
-    nixosModules = import ./modules/nixos;
-    serverModules = import ./modules/server;
-    darwinModules = import ./modules/darwin;
 
-    # NixOS Configurations
     nixosConfigurations = {
       # Main desktop
-      galahad = libx.mkHost {
-        hostname = "galahad";
+      galahad = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {inherit self system inputs;};
+
+        modules = [
+          ./modules/universal
+          ./modules/nixos
+          ./hosts/galahad
+        ];
       };
 
       # OVH Server
-      cerebrite = libx.mkHost {
-        hostname = "cerebrite";
+      cerebrite = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {inherit self system inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/server
+          ./hosts/cerebrite
+        ];
       };
 
       # Steamdeck
-      compass = libx.mkHost {
-        hostname = "compass";
+      compass = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {inherit self system inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/nixos
+          ./hosts/compass
+        ];
       };
 
       # MacBook (NixOS Counterpart)
-      lily = libx.mkHost {
-        hostname = "lily";
-        platform = "aarch64-linux";
+      lily = nixpkgs.lib.nixosSystem rec {
+        system = "aarch64-linux";
+        specialArgs = {inherit self system inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/nixos
+          ./hosts/lily
+        ];
       };
 
       # VPS Testing
-      dahlia = libx.mkHost {
-        hostname = "dahlia";
+      dahlia = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {inherit self system inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/server
+          ./hosts/dahlia
+        ];
       };
     };
 
-    # MacOS Configuration: this setups home-manager as well...
-    darwinConfigurations = {
-      # Laptop
-      bulbel = libx.mkDarwin {
-        hostname = "bulbel";
+    # M1 Max on MacOS
+    bulbel = nix-darwin.lib.darwinSystem {
+      specialArgs = {
+        inherit self inputs;
       };
+      modules = [
+        ./modules/universal
+        ./modules/darwin
+        ./hosts/bulbel
+      ];
     };
   };
 
@@ -61,7 +85,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
-    # Secrets 🤫
+    # Secrets 🤫 - TODO: Switch to agenix/or a better alternative
     secrets = {
       url = "git+ssh://git@git.kosslan.dev/kossLAN/SecretFlake?ref=master";
     };

@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  stateVersion,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -43,8 +42,6 @@ in {
       localAddress = "192.168.100.13";
       config = let
         vpnAddress = "10.137.214.184";
-        vpnPort = 51820;
-        vpnInterface = "av0";
       in {
         networking = {
           firewall = {
@@ -107,7 +104,7 @@ in {
           };
         };
 
-        system.stateVersion = stateVersion;
+        system.stateVersion = "23.11";
       };
 
       bindMounts = {

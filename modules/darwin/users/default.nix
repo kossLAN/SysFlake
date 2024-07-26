@@ -2,7 +2,6 @@
   lib,
   config,
   inputs,
-  stateVersion,
   ...
 }: let
   cfg = config.users.defaultUser;
@@ -31,7 +30,7 @@ in {
       users.${cfg} = {
         programs.home-manager.enable = true;
         home = {
-          stateVersion = stateVersion;
+          stateVersion = config.system.stateVersion;
         };
       };
     };

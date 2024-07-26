@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  stateVersion,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -117,7 +116,7 @@ in {
           };
         };
 
-        system.stateVersion = stateVersion;
+        system.stateVersion = "23.11";
       };
 
       bindMounts = {

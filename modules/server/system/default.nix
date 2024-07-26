@@ -1,20 +1,25 @@
 {
+  self,
   lib,
   config,
   inputs,
-  outputs,
-  stateVersion,
-  hostname,
-  username,
+  system,
   ...
 }: let
   inherit (lib.modules) mkIf;
   inherit (lib.attrsets) mapAttrs mapAttrsToList;
+  inherit (lib.options) mkEnableOption mkOption;
 
   cfg = config.system;
 in {
   options.system = {
-    defaults.enable = lib.mkEnableOption "My opionated system config";
+    defaults = {
+      enable = mkEnableOption "My opionated system config";
+      user = mkOption {
+        type = lib.types.str;
+        default = "koss";
+      };
+    };
   };
 
   config = mkIf cfg.defaults.enable {
@@ -43,23 +48,36 @@ in {
       nixPath = mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
       optimise.automatic = true;
       gc.automatic = true;
-      gc.options = "--delete-older-than 1d";
+      gc.options = "--delete-older-than 14d";
 
       settings = {
         experimental-features = "nix-command flakes";
+        warn-dirty = false;
+        keep-outputs = true;
+        keep-derivations = true;
         auto-optimise-store = true;
-        trusted-users = [username];
+        trusted-users = [cfg.defaults.user];
+
+        substituters = [
+          "https://nix-community.cachix.org"
+          "https://cache.nixos.org/"
+          "https://cache.garnix.io"
+        ];
+        trusted-public-keys = [
+          "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+          "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        ];
       };
     };
-
     # Nixpkgs settings - for now I only own x86 computers running nixos for personal use, however this will
     # need to change when I get some arm systems
     nixpkgs = {
-      hostPlatform = "x86_64-linux";
+      hostPlatform = system;
       overlays = [
-        outputs.overlays.additions # Additional Packages
-        outputs.overlays.modifications # Modified Packages
-        outputs.overlays.stable-packages # Stable Nixpkgs
+        self.outputs.overlays.additions # Additional Packages
+        self.outputs.overlays.modifications # Modified Packages
+        self.outputs.overlays.stable-packages # Stable Nixpkgs
       ];
       config = {
         allowUnfree = true;
@@ -74,12 +92,6 @@ in {
       };
     };
 
-    # Just setting hostname
-    networking = {
-      hostName = hostname;
-      firewall.enable = true; # Enabled by default, but it makes me feel better knowing its here for sure
-    };
-
-    system.stateVersion = stateVersion;
+    networking.firewall.enable = true; # Enabled by default, but it makes me feel better knowing its here for sure
   };
 }

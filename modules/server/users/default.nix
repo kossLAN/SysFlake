@@ -4,7 +4,6 @@
   inputs,
   self,
   pkgs,
-  stateVersion,
   ...
 }: let
   inherit (lib.options) mkOption;
@@ -37,7 +36,7 @@ in {
       users.${config.users.defaultUser} = {
         programs.home-manager.enable = true;
         home = {
-          stateVersion = stateVersion;
+          stateVersion = config.system.stateVersion;
         };
         xdg.enable = true;
       };

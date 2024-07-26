@@ -1,17 +1,15 @@
-{
-  inputs,
-  outputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     ./services
     ./programs
     ./disks
 
-    outputs.universalModules
-    outputs.serverModules
     inputs.secrets.secretModules
   ];
 
-  system.defaults.enable = true;
+  networking.hostName = "cerebrite";
+  system = {
+    defaults.enable = true;
+    stateVersion = "23.11";
+  };
 }

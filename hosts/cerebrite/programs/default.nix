@@ -1,4 +1,4 @@
-{username, ...}: {
+{config, ...}: {
   programs = {
     utils.enable = true;
     neovim.defaults.enable = true;
@@ -11,7 +11,7 @@
 
     nh = {
       enable = true;
-      flake = "/home/${username}/.nixos-conf";
+      flake = "/home/${config.users.defaultUser}/.nixos-conf";
     };
   };
 }

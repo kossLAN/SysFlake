@@ -12,7 +12,7 @@ in {
   options.services.firefox-syncserver = {
     defaults.enable = mkEnableOption "Firefox sync server configuration";
     reverseProxy = {
-      enable = true;
+      enable = mkEnableOption "Enable reverse proxy for Firefox sync server";
       domain = mkOption {
         type = lib.types.str;
         default = "kosslan.dev";
@@ -20,7 +20,7 @@ in {
     };
   };
 
-  config = mkIf cfg.defaults.enable {
+  config = mkIf cfg.enable {
     networking = {
       firewall = {
         allowedTCPPorts = [80 443];
@@ -33,11 +33,11 @@ in {
     };
 
     services = {
-      mysql = {
+      mysql = mkIf cfg.defaults.enable {
         package = pkgs.mariadb;
       };
 
-      firefox-syncserver = {
+      firefox-syncserver = mkIf cfg.defaults.enable {
         secrets = "${pkgs.writeText "secrets" config.secrets.firefox-syncserver.privateKey}";
 
         singleNode = {

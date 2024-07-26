@@ -23,17 +23,17 @@ in {
   };
 
   config = {
-    networking = {
+    networking = mkIf cfg.web.reverseProxy.enable {
       firewall.allowedTCPPorts = [80 443];
     };
 
-    security.acme = {
+    security.acme = mkIf cfg.web.reverseProxy.enable {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
 
     systemd.tmpfiles.rules = mkIf cfg.container.enable [
-      "d /srv/torrents 0775 0 0"
+      "d /srv/torrents 1775 0 0"
     ];
 
     containers.deluge = mkIf cfg.container.enable {
@@ -43,6 +43,8 @@ in {
       localAddress = "192.168.100.13";
       config = let
         vpnAddress = "10.137.214.184";
+        vpnPort = 51820;
+        vpnInterface = "av0";
       in {
         networking = {
           firewall = {
@@ -54,9 +56,8 @@ in {
           # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
           useHostResolvConf = lib.mkForce false;
 
-          # This doesn't start automatically, rather it fails
+          # This doesn't start automatically, rather it fails, move to host and pass in interface
           wg-quick.interfaces = {
-            # AirVPN Connection :-)
             "av0" = {
               autostart = true;
               address = [vpnAddress];

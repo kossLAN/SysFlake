@@ -19,8 +19,8 @@ in {
     };
   };
 
-  config = mkIf cfg.defaults.enable {
-    networking.firewall.allowedTCPPorts = [80 443];
+  config = mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = mkIf cfg.reverseProxy.enable [80 443];
 
     # SSL CERT
     security.acme = mkIf cfg.reverseProxy.enable {
@@ -29,7 +29,7 @@ in {
     };
 
     services = {
-      nginx = cfg.reverseProxy.enable {
+      nginx = mkIf cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;

@@ -19,13 +19,15 @@ in {
     };
   };
 
-  config = mkIf cfg.defaults.enable {
+  config = mkIf cfg.enable {
     security.acme = mkIf cfg.reverseProxy.enable {
       acceptTerms = true;
       defaults.email = "kosslan@kosslan.dev";
     };
 
-    services = {
+    networking.firewall.allowedTCPPorts = mkIf cfg.reverseProxy.enable [80 443];
+
+    services = mkIf cfg.defaults.enable {
       prometheus = {
         port = 3255;
         exporters = {
@@ -48,7 +50,7 @@ in {
         ];
       };
 
-      nginx = cfg.reverseProxy.enable {
+      nginx = mkIf cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;

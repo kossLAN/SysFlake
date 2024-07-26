@@ -39,7 +39,7 @@ in {
         # };
       };
 
-      nginx = cfg.adguardhome.reverseProxy.enable {
+      nginx = mkIf cfg.adguardhome.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;

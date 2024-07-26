@@ -19,15 +19,15 @@ in {
     };
   };
 
-  config = mkIf cfg.defaults.enable {
-    networking = {
+  config = mkIf cfg.enable {
+    networking = mkIf cfg.defaults.enable {
       firewall = {
-        allowedTCPPorts = [80 443 22000];
+        allowedTCPPorts = [22000 80 443];
         allowedUDPPorts = [21027];
       };
     };
 
-    systemd.tmpfiles.rules = [
+    systemd.tmpfiles.rules = mkIf cfg.defaults.enable [
       "d /var/lib/storage 1755 8000 8000"
     ];
 
@@ -37,7 +37,7 @@ in {
     };
 
     # Set syncthing to a unique ID that has a low low chance of being used elsewhere
-    users = {
+    users = mkIf cfg.defaults.enable {
       users.syncthing = {
         isSystemUser = true;
         group = "syncthing";
@@ -47,7 +47,7 @@ in {
     };
 
     services = {
-      syncthing = {
+      syncthing = mkIf cfg.defaults.enable {
         relay.enable = false;
         overrideFolders = false;
         overrideDevices = false;
@@ -62,7 +62,7 @@ in {
         };
       };
 
-      nginx = cfg.reverseProxy.enable {
+      nginx = mkIf cfg.reverseProxy.enable {
         enable = true;
         recommendedProxySettings = true;
         virtualHosts = {

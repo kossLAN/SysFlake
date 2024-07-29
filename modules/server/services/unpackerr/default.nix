@@ -13,6 +13,18 @@ in {
   options.services.unpackerr = {
     enable = mkEnableOption "Enable Unpackerr Service.";
 
+    user = mkOption {
+      type = lib.types.str;
+      default = "unpackerr";
+      description = "User to run unpackerr as.";
+    };
+
+    group = mkOption {
+      type = lib.types.str;
+      default = "unpackerr";
+      description = "Group to run unpackerr as.";
+    };
+
     settings = mkOption {
       type = tomlFormat.type;
       default = {};

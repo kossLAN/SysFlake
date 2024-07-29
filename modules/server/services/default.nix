@@ -15,6 +15,7 @@
     ./prowlarr
     ./sonarr
     ./lidarr
+    ./unpackerr
     ./deluge
     ./arr
   ];

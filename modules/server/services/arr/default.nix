@@ -68,38 +68,44 @@ in {
           file_mode = "0644";
           dir_mode = "0755";
 
-          lidarr = {
-            url = "http://127.0.0.1:8686";
-            api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/downloads"];
-            protocols = "torrent";
-            timeout = "10s";
-            delete_delay = "5m";
-            delete_orig = false;
-            syncthing = false;
-          };
+          lidarr = [
+            {
+              url = "http://127.0.0.1:8686";
+              api_key = "0123456789abcdef0123456789abcdef";
+              paths = ["/downloads"];
+              protocols = "torrent";
+              timeout = "10s";
+              delete_delay = "5m";
+              delete_orig = false;
+              syncthing = false;
+            }
+          ];
 
-          radarr = {
-            url = "http://127.0.0.1:7878";
-            api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/downloads"];
-            protocols = "torrent";
-            timeout = "10s";
-            delete_delay = "5m";
-            delete_orig = false;
-            syncthing = false;
-          };
+          radarr = [
+            {
+              url = "http://127.0.0.1:7878";
+              api_key = "0123456789abcdef0123456789abcdef";
+              paths = ["/downloads"];
+              protocols = "torrent";
+              timeout = "10s";
+              delete_delay = "5m";
+              delete_orig = false;
+              syncthing = false;
+            }
+          ];
 
-          sonarr = {
-            url = "http://127.0.0.1:8989";
-            api_key = "0123456789abcdef0123456789abcdef";
-            paths = ["/downloads"];
-            protocols = "torrent";
-            timeout = "10s";
-            delete_delay = "5m";
-            delete_orig = false;
-            syncthing = false;
-          };
+          sonarr = [
+            {
+              url = "http://127.0.0.1:8989";
+              api_key = "0123456789abcdef0123456789abcdef";
+              paths = ["/downloads"];
+              protocols = "torrent";
+              timeout = "10s";
+              delete_delay = "5m";
+              delete_orig = false;
+              syncthing = false;
+            }
+          ];
         };
       };
 

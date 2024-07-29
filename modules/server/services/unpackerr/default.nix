@@ -36,9 +36,9 @@ in {
         Restart = "on-failure";
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = "${lib.getExe pkgs.unpackerr} -c ${mkIf (cfg.settings != {}) {
-          source = tomlFormat.generate "unpackerr.conf" cfg.settings;
-        }}";
+        ExecStart = "${lib.getExe pkgs.unpackerr} -c ${
+          tomlFormat.generate "unpackerr.conf" cfg.settings
+        }";
       };
     };
   };

@@ -18,6 +18,7 @@ in {
 
   config = mkIf cfg.enable {
     services = {
+      # NixOS Module that manages TV shows
       sonarr = {
         enable = true;
         reverseProxy = {
@@ -26,6 +27,7 @@ in {
         };
       };
 
+      # NixOS Module that manages movies
       radarr = {
         enable = true;
         reverseProxy = {
@@ -34,6 +36,7 @@ in {
         };
       };
 
+      # NixOS Module that manages music
       lidarr = {
         enable = true;
         reverseProxy = {
@@ -42,6 +45,7 @@ in {
         };
       };
 
+      # NixOS Module that manages indexers
       prowlarr = {
         enable = true;
         reverseProxy = {
@@ -50,10 +54,13 @@ in {
         };
       };
 
+      # Custom NixOS module for unpackerr (unarchive files downloaded from torrents)
       unpackerr = {
         enable = true;
         user = "root";
         group = "root";
+
+        # For more information on this see module description.
         settings = {
           debug = false;
           quiet = false;
@@ -70,18 +77,18 @@ in {
           file_mode = "0644";
           dir_mode = "0755";
 
-          #   lidarr = [
-          #     {
-          #       url = "http://127.0.0.1:8686";
-          #       api_key = "0123456789abcdef0123456789abcdef";
-          #       paths = ["/downloads"];
-          #       protocols = "torrent";
-          #       timeout = "10s";
-          #       delete_delay = "5m";
-          #       delete_orig = false;
-          #       syncthing = false;
-          #     }
-          #   ];
+          lidarr = [
+            {
+              url = "http://127.0.0.1:8686";
+              api_key = "b67e8ffdf8bc4794828a1832cfc2e5b4";
+              paths = ["/var/lib/lidarr/media"];
+              protocols = "torrent";
+              timeout = "10s";
+              delete_delay = "5m";
+              delete_orig = false;
+              syncthing = false;
+            }
+          ];
           #
           #   radarr = [
           #     {

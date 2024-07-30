@@ -4,8 +4,10 @@
   pkgs,
   ...
 }: let
+  inherit (lib.types) str;
+  inherit (lib.meta) getExe;
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption mkOption;
+  inherit (lib.options) mkEnableOption mkOption literalExpression;
 
   cfg = config.services.unpackerr;
   tomlFormat = pkgs.formats.toml {};
@@ -14,15 +16,21 @@ in {
     enable = mkEnableOption "Enable Unpackerr Service.";
 
     user = mkOption {
-      type = lib.types.str;
+      type = str;
       default = "unpackerr";
       description = "User to run unpackerr as.";
     };
 
     group = mkOption {
-      type = lib.types.str;
+      type = str;
       default = "unpackerr";
       description = "Group to run unpackerr as.";
+    };
+
+    dataDir = mkOption {
+      type = str;
+      default = "/var/lib/unpackerr";
+      description = "Directory to store unpackerr data.";
     };
 
     settings = mkOption {
@@ -32,7 +40,7 @@ in {
         Configuration file following the options provided by unpackerr:
         https://notifiarr.com/unpackerr
       '';
-      example = lib.literalExpression ''
+      example = literalExpression ''
         {
           debug = false;
           quiet = false;
@@ -52,7 +60,7 @@ in {
           lidarr = [
             {
               url = "http://127.0.0.1:8686";
-              api_key = "0123456789abcdef0123456789abcdef";
+              api_key = "yourapikeyhere";
               paths = ["/downloads"];
               protocols = "torrent";
               timeout = "10s";
@@ -67,6 +75,20 @@ in {
   };
 
   config = mkIf cfg.enable {
+    users = {
+      users.unpackerr = mkIf (cfg.user == "unpackerr") {
+        isSystemUser = true;
+        home = cfg.dataDir;
+        group = cfg.group;
+      };
+
+      groups = mkIf (cfg.group == "unpackerr") {
+        # Inform if this conflicts with anything, it shouldn't with any of these Ids
+        # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/misc/ids.nix
+        unpackerr.gid = 3225;
+      };
+    };
+
     systemd.services.unpackerr = {
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
@@ -78,7 +100,7 @@ in {
         RestartSec = "10";
         User = cfg.user;
         Group = cfg.group;
-        ExecStart = "${lib.getExe pkgs.unpackerr} -c ${
+        ExecStart = "${getExe pkgs.unpackerr} -c ${
           tomlFormat.generate "unpackerr.conf" cfg.settings
         }";
       };

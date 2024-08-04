@@ -34,5 +34,5 @@
 
     ```nix run github:nix-community/nixos-anywhere -- --flake <path to configuration>#<configuration name> root@<ip address>```
 
-## Notes
-  - I'm not a very aesthetic person when it comes to my ReadMe's so this is the best you get 
+## Disclaimer
+  **You will not be able to build this yourself, to do so you would have to go a strip out any secret, I'm working on moving that all into their respective system configurations to make it easier to do this, but be aware of that**

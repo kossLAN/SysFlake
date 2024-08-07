@@ -6,8 +6,6 @@
     ./ssh
     ./jellyfin
     ./plex
-    ./syncthing
-    ./wireguard
     ./nextcloud
     ./searx
     ./jellyseerr

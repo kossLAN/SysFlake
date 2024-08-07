@@ -1,9 +1,10 @@
-{...}: {
+{
   imports = [
     ./boot
     ./hardware
     ./programs
     ./services
+    ./secrets
   ];
 
   environment = {
@@ -19,6 +20,6 @@
   networking.hostName = "galahad";
   system = {
     defaults.enable = true;
-    system.stateVersion = "23.11";
+    stateVersion = "23.11";
   };
 }

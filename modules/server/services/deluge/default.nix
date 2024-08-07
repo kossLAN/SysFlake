@@ -10,7 +10,19 @@
   cfg = config.services.deluge;
 in {
   options.services.deluge = {
-    container.enable = mkEnableOption "Deluge container setup";
+    container = {
+      enable = mkEnableOption "Deluge container setup";
+
+      authFile = mkOption {
+        type = lib.types.path;
+        default = "/etc/deluge/auth";
+      };
+
+      listenInterface = mkOption {
+        type = lib.types.str;
+        default = "";
+      };
+    };
 
     web.reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy for deluge webui";
@@ -32,7 +44,7 @@ in {
     };
 
     systemd.tmpfiles.rules = mkIf cfg.container.enable [
-      "d /srv/torrents 1775 0 0"
+      "d /srv/torrents 1775 8000 8000"
     ];
 
     containers.deluge = mkIf cfg.container.enable {
@@ -40,9 +52,7 @@ in {
       privateNetwork = true;
       hostAddress = "192.168.100.10";
       localAddress = "192.168.100.13";
-      config = let
-        vpnAddress = "10.137.214.184";
-      in {
+      config = {
         networking = {
           firewall = {
             enable = true;
@@ -52,27 +62,6 @@ in {
           # Use systemd-resolved inside the container
           # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
           useHostResolvConf = lib.mkForce false;
-
-          # This doesn't start automatically, rather it fails, move to host and pass in interface
-          wg-quick.interfaces = {
-            "av0" = {
-              autostart = true;
-              address = [vpnAddress];
-              privateKey = config.secrets.airvpn1.privateKey;
-              mtu = 1320;
-              dns = ["10.128.0.1"];
-
-              peers = [
-                {
-                  publicKey = config.secrets.airvpn1.publicKey;
-                  presharedKey = config.secrets.airvpn1sharedkey.privateKey;
-                  endpoint = "us3.vpn.airdns.org:51820";
-                  allowedIPs = ["0.0.0.0/0"];
-                  persistentKeepalive = 15;
-                }
-              ];
-            };
-          };
         };
 
         services = {
@@ -81,7 +70,7 @@ in {
           deluge = {
             enable = true;
             declarative = true;
-            authFile = pkgs.writeText "authFile" config.secrets.deluge.privateKey;
+            authFile = pkgs.writeText "authFile" config.secrets.deluge.privateKey; #cfg.container.authFile;
             group = "root";
             user = "root";
 
@@ -97,7 +86,6 @@ in {
               seed_time_limit = "25000";
               allow_remote = true;
               daemon_port = 58846;
-              listen_interface = vpnAddress;
               listen_ports = [43567 36060]; # Ports from AirVPN
               enabled_plugins = ["Label"];
             };

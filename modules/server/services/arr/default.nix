@@ -10,9 +10,43 @@
 in {
   options.services.arr = {
     enable = mkEnableOption "Enable the ARR Suite";
-    domain = mkOption {
+
+    user = mkOption {
       type = lib.types.str;
-      default = "kosslan.dev";
+      default = config.users.defaultUser;
+    };
+
+    group = mkOption {
+      type = lib.types.str;
+      default = config.users.defaultUser;
+    };
+
+    dataDir = mkOption {
+      type = lib.types.str;
+      default = "/var/lib/";
+    };
+
+    radarrApiKey = mkOption {
+      type = lib.types.path;
+      default = "";
+    };
+
+    sonarrApiKey = mkOption {
+      type = lib.types.path;
+      default = "";
+    };
+
+    lidarrApiKey = mkOption {
+      type = lib.types.path;
+      default = "";
+    };
+
+    reverseProxy = {
+      enable = mkEnableOption "Enable reverse proxy for the ARR Suite";
+      domain = mkOption {
+        type = lib.types.str;
+        default = "kosslan.dev";
+      };
     };
   };
 
@@ -21,27 +55,39 @@ in {
       # NixOS Module that manages TV shows
       sonarr = {
         enable = true;
+        user = cfg.user;
+        group = cfg.group;
+        dataDir = "${cfg.dataDir}/NzbDrone";
+
         reverseProxy = {
-          enable = true;
-          domain = cfg.domain;
+          enable = cfg.reverseProxy.enable;
+          domain = cfg.reverseProxy.domain;
         };
       };
 
       # NixOS Module that manages movies
       radarr = {
         enable = true;
+        user = cfg.user;
+        group = cfg.group;
+        dataDir = "${cfg.dataDir}/Radarr";
+
         reverseProxy = {
-          enable = true;
-          domain = cfg.domain;
+          enable = cfg.reverseProxy.enable;
+          domain = cfg.reverseProxy.domain;
         };
       };
 
       # NixOS Module that manages music
       lidarr = {
         enable = true;
+        user = cfg.user;
+        group = cfg.group;
+        dataDir = "${cfg.dataDir}/Lidarr";
+
         reverseProxy = {
-          enable = true;
-          domain = cfg.domain;
+          enable = cfg.reverseProxy.enable;
+          domain = cfg.reverseProxy.domain;
         };
       };
 
@@ -49,8 +95,8 @@ in {
       prowlarr = {
         enable = true;
         reverseProxy = {
-          enable = true;
-          domain = cfg.domain;
+          enable = cfg.reverseProxy.enable;
+          domain = cfg.reverseProxy.domain;
         };
       };
 
@@ -59,6 +105,8 @@ in {
         enable = true;
         user = "root";
         group = "root";
+
+        lidarrKeyFile = cfg.lidarrApiKey;
 
         # For more information on this see module description.
         settings = {
@@ -80,8 +128,8 @@ in {
           lidarr = [
             {
               url = "http://127.0.0.1:8686";
-              api_key = "b67e8ffdf8bc4794828a1832cfc2e5b4";
-              paths = ["/var/lib/lidarr/media"];
+              api_key = cfg.lidarrApiKey;
+              paths = ["/home/${config.users.defaultUser}/downloads"];
               protocols = "torrent";
               timeout = "10s";
               delete_delay = "5m";
@@ -121,16 +169,8 @@ in {
       jellyseerr = {
         enable = true;
         reverseProxy = {
-          enable = true;
-          domain = cfg.domain;
-        };
-      };
-
-      deluge = {
-        container.enable = true;
-        web.reverseProxy = {
-          enable = true;
-          domain = "kosslan.dev";
+          enable = cfg.reverseProxy.enable;
+          domain = cfg.reverseProxy.domain;
         };
       };
     };

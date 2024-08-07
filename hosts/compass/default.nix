@@ -17,10 +17,6 @@
   system.defaults.enable = true;
 
   environment = {
-    sessionVariables = {
-      SHELL = "/run/current-system/sw/bin/zsh";
-    };
-
     localBinInPath = true;
     enableDebugInfo = true;
   };

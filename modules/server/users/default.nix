@@ -22,6 +22,7 @@ in {
       defaultUserShell = pkgs.zsh; # Default shell.
       users.${config.users.defaultUser} = {
         isNormalUser = true;
+        uid = 1000;
         extraGroups = ["wheel" "docker"];
         initialPassword = "root";
       };

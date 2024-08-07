@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
   users.packages = with pkgs; [
@@ -13,14 +14,13 @@
     libreoffice-qt
     plexamp
     nerdfonts
-
     discord
-    # (vesktop.override {
-    #   electron = electron_31-bin;
-    # })
+
+    inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
 
   programs = {
+    vscodium.enable = true;
     partition-manager.enable = true;
     noisetorch.enable = true;
     oc.enable = true;

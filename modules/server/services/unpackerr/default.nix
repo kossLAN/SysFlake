@@ -33,6 +33,27 @@ in {
       description = "Directory to store unpackerr data.";
     };
 
+    # Unfortunately, as it stands, or as far as I'm aware you can't have custom API keys,
+    # so you'll have to generate a key in each respective WebUI first then add them here.
+    # TODO: Map a list of keys to the respective environment variables
+    # radarrKeyFile = mkOption {
+    #   type = lib.types.path;
+    #   default = config.age.secrets.radarr.path;
+    #   description = "Path to the Radarr API key file.";
+    # };
+    #
+    # sonarrKeyFile = mkOption {
+    #   type = lib.types.path;
+    #   default = config.age.secrets.sonarr.path;
+    #   description = "Path to the Sonarr API key file.";
+    # };
+
+    lidarrKeyFile = mkOption {
+      type = lib.types.path;
+      default = config.age.secrets.lidarr.path;
+      description = "Path to the Lidarr API key file.";
+    };
+
     settings = mkOption {
       type = tomlFormat.type;
       default = {};
@@ -40,6 +61,7 @@ in {
         Configuration file following the options provided by unpackerr:
         https://notifiarr.com/unpackerr
       '';
+
       example = literalExpression ''
         {
           debug = false;
@@ -60,7 +82,6 @@ in {
           lidarr = [
             {
               url = "http://127.0.0.1:8686";
-              api_key = "yourapikeyhere";
               paths = ["/downloads"];
               protocols = "torrent";
               timeout = "10s";
@@ -94,6 +115,13 @@ in {
       after = ["network.target"];
       requires = ["network.target"];
       description = "Unpackerr Service";
+
+      environment = {
+        # UN_RADARR_0_API_KEY = "filepath:${cfg.radarrKeyFile}";
+        # UN_SONARR_0_API_KEY = "filepath:${cfg.sonarrKeyFile}";
+        UN_LIDARR_0_API_KEY = "filepath:${cfg.lidarrKeyFile}";
+      };
+
       serviceConfig = {
         Type = "simple";
         Restart = "always";

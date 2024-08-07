@@ -75,20 +75,12 @@ in {
     nixpkgs = {
       hostPlatform = system;
       overlays = [
-        self.outputs.overlays.additions # Additional Packages
-        self.outputs.overlays.modifications # Modified Packages
-        self.outputs.overlays.stable-packages # Stable Nixpkgs
+        self.overlays.additions # Additional Packages
+        self.overlays.modifications # Modified Packages
+        self.overlays.stable-packages # Stable Nixpkgs
       ];
       config = {
         allowUnfree = true;
-      };
-    };
-
-    # Boot Settings - yes I use grub, fuck you
-    boot = {
-      loader.grub = {
-        efiSupport = true;
-        efiInstallAsRemovable = true;
       };
     };
 

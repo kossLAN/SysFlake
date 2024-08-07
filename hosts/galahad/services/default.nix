@@ -28,6 +28,7 @@
     amdGpu.enable = true;
     helpfulUtils.enable = true;
     sound.enable = true;
+    tailscale.enable = true;
 
     # Home-Manager module wrapper for i3
     xserver = {

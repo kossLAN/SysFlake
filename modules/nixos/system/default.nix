@@ -80,8 +80,8 @@ in {
     nixpkgs = {
       hostPlatform = system;
       overlays = [
-        self.outputs.overlays.additions # Additional Packages
-        self.outputs.overlays.modifications # Modified Packages
+        self.overlays.additions # Additional Packages
+        self.overlays.modifications # Modified Packages
       ];
       config = {
         allowUnfree = true;

@@ -9,10 +9,24 @@
 
   cfg = config.services.nextcloud;
 in {
+  # Look nextcloud is fucking trash, and I hate everything this is, but jesus
+  # keep this shit in a container cause I think it might gain consciousness and kill
+  # me in my sleep.
   options.services.nextcloud = {
     container = {
       enable = mkEnableOption "Nextcloud container with opinionated defaults";
     };
+
+    user = mkOption {
+      type = lib.types.str;
+      default = config.users.defaultUser;
+    };
+
+    group = mkOption {
+      type = lib.types.str;
+      default = "users";
+    };
+
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
       domain = mkOption {
@@ -35,7 +49,7 @@ in {
 
     # Make the folder that will be mounted if it doesn't already exist.
     systemd.tmpfiles.rules = [
-      "d /var/lib/storage 1755 8000 8000"
+      "d /home/${cfg.user}/storage 1755 8000 8000"
     ];
 
     containers.nextcloud = {
@@ -139,7 +153,7 @@ in {
       bindMounts = {
         "/var/lib/storage" = {
           isReadOnly = false;
-          hostPath = "/var/lib/storage";
+          hostPath = "/home/${cfg.user}/storage";
         };
       };
     };

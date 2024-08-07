@@ -41,7 +41,7 @@ in {
     };
 
     environment.sessionVariables = {
-      SHELL = mkIf config.programs.zsh.enable "/run/current-system/sw/bin/zsh";
+      SHELL = lib.getExe pkgs.zsh;
     };
 
     home-manager = {

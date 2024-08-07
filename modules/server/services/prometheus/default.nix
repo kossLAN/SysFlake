@@ -12,6 +12,13 @@ in {
     defaults.enable = mkEnableOption "Prometheus opinionated defaults.";
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
+
+      authFile = mkOption {
+        type = lib.types.path;
+        default = config.age.secrets.prometheus.path;
+        description = "Path to the auth file for the reverse proxy authentication.";
+      };
+
       domain = mkOption {
         type = lib.types.str;
         default = "kosslan.dev";
@@ -57,7 +64,7 @@ in {
 
         virtualHosts = {
           "prometheus.${cfg.reverseProxy.domain}" = {
-            basicAuth = {koss = config.secrets.prometheus.privateKey;};
+            basicAuthFile = cfg.reverseProxy.authFile;
             enableACME = true;
             forceSSL = true;
             locations = {

@@ -10,6 +10,7 @@
 in {
   options.services.searx = {
     defaults.enable = mkEnableOption "Enable opinionated defaults.";
+
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
       domain = mkOption {
@@ -42,7 +43,7 @@ in {
           server = {
             port = 8888;
             bind_address = "127.0.0.1";
-            secret_key = config.secrets.searx.privateKey;
+            secret_key = "@SEARX_SECRET_KEY@";
             base_url = false;
             image_proxy = false;
 

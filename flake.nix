@@ -55,6 +55,17 @@
         ];
       };
 
+      # Hetzner Server
+      petrolea = nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        specialArgs = {inherit self system inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/server
+          ./hosts/petrolea
+        ];
+      };
+
       # VPS Testing
       dahlia = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
@@ -90,49 +101,54 @@
       url = "git+ssh://git@git.kosslan.dev/kossLAN/SecretFlake?ref=master";
     };
 
+    agenix.url = "github:ryantm/agenix";
+
     # Package Flakes
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Hyprland WM
     hyprland = {
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
     };
 
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
+    # MacOS Nix Modules
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # MacOS module to properly link mac apps
     mac-app-util = {
       url = "github:hraban/mac-app-util";
     };
 
+    # App runner
     anyrun = {
       url = "github:Kirottu/anyrun";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Shell for window managers in QT
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # NixOS Disk Management
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Asahi Linux Stuff For M1 Macs
     apple-silicon-support = {
       url = "github:tpwrules/nixos-apple-silicon";
     };
 
+    # Steamdeck Modules
     jovian = {
       url = "github:Jovian-Experiments/Jovian-Nixos";
       inputs.nixpkgs.follows = "nixpkgs";

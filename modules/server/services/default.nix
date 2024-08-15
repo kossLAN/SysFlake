@@ -6,15 +6,14 @@
     ./ssh
     ./jellyfin
     ./plex
-    ./nextcloud
     ./searx
     ./jellyseerr
+    ./lidarr
+    ./sonarr
     ./radarr
     ./prowlarr
-    ./sonarr
-    ./lidarr
     ./unpackerr
-    ./deluge
-    ./arr
+    ./headscale
+    ./caddy
   ];
 }

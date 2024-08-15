@@ -1,9 +1,9 @@
 {
   self,
+  pkgs,
   lib,
   config,
   inputs,
-  system,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -47,8 +47,11 @@ in {
       registry = mapAttrs (_: value: {flake = value;}) inputs;
       nixPath = mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
       optimise.automatic = true;
-      gc.automatic = true;
-      gc.options = "--delete-older-than 14d";
+
+      gc = {
+        automatic = true;
+        options = "--delete-older-than 14d";
+      };
 
       settings = {
         experimental-features = "nix-command flakes";
@@ -78,7 +81,6 @@ in {
     # Nixpkgs settings - for now I only own x86 computers running nixos for personal use, however this will
     # need to change when I get some arm systems
     nixpkgs = {
-      hostPlatform = system;
       overlays = [
         self.overlays.additions # Additional Packages
         self.overlays.modifications # Modified Packages

@@ -21,29 +21,11 @@ in {
       firewall.allowedTCPPorts = [80 443];
     };
 
-    security.acme = {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
-
-    services.nginx = {
+    services.caddy = {
       enable = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts."seer.${cfg.domain}" = {
-        enableACME = true;
-        forceSSL = true;
-        locations = {
-          "/" = {
-            proxyPass = "http://127.0.0.1:5055/";
-            proxyWebsockets = true;
-            extraConfig = ''
-              proxy_ssl_server_name on;
-              proxy_pass_header Authorization;
-            '';
-          };
-        };
-      };
+      virtualHosts."seer.${cfg.domain}".extraConfig = ''
+        reverse_proxy http://127.0.0.1:5055
+      '';
     };
   };
 }

@@ -10,6 +10,7 @@
 in {
   options.services.prometheus = {
     defaults.enable = mkEnableOption "Prometheus opinionated defaults.";
+
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
 
@@ -57,28 +58,11 @@ in {
         ];
       };
 
-      nginx = mkIf cfg.reverseProxy.enable {
+      caddy = mkIf cfg.reverseProxy.enable {
         enable = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true;
-
-        virtualHosts = {
-          "prometheus.${cfg.reverseProxy.domain}" = {
-            basicAuthFile = cfg.reverseProxy.authFile;
-            enableACME = true;
-            forceSSL = true;
-            locations = {
-              "/" = {
-                proxyPass = "http://127.0.0.1:${toString config.services.prometheus.port}/";
-                proxyWebsockets = true;
-                extraConfig = ''
-                  proxy_ssl_server_name on;
-                  proxy_pass_header Authorization;
-                '';
-              };
-            };
-          };
-        };
+        virtualHosts."portainer.${cfg.domain}".extraConfig = ''
+          reverse_proxy http://127.0.0.1:9000
+        '';
       };
     };
   };

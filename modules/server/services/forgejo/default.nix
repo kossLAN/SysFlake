@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  deployment,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -10,7 +11,15 @@
   cfg = config.services.forgejo;
 in {
   options.services.forgejo = {
-    container.enable = mkEnableOption "Forgjo custom configuration";
+    container = {
+      enable = mkEnableOption "Forgjo custom configuration";
+
+      externalInterface = mkOption {
+        type = lib.types.str;
+        default = "eno4";
+      };
+    };
+
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
       domain = mkOption {
@@ -21,42 +30,32 @@ in {
   };
 
   config = mkIf cfg.container.enable {
-    boot.kernel.sysctl = {
-      "net.ipv4.ip_forward" = 1;
-    };
+    deployment.containers.forgejo.owner = "forgejo";
 
     networking = {
       firewall = {
         allowedTCPPorts = [80 443 22];
-        extraCommands = ''
-          iptables -t nat -A PREROUTING -i eno1 -p tcp --dport 22 -j DNAT --to-destination 192.168.100.12:2000
-          iptables -t nat -A POSTROUTING -d 192.168.100.12 -p tcp --dport 2000 -j MASQUERADE
-        '';
       };
 
       nat = {
         enable = true;
         internalInterfaces = ["ve-+"];
-        externalInterface = "eno1";
-        forwardPorts = [
-          {
-            destination = "192.168.100.12:2000";
-            proto = "tcp";
-            sourcePort = 22;
-          }
-        ];
+        externalInterface = cfg.container.externalInterface;
       };
     };
-
-    systemd.tmpfiles.rules = [
-      "d /var/lib/forgejo 0700 8001 8001"
-    ];
 
     containers.forgejo = {
       autoStart = true;
       privateNetwork = true;
       hostAddress = "192.168.100.10";
-      localAddress = "192.168.100.12";
+      localAddress = deployment.containerHostIp "forgejo";
+      forwardPorts = [
+        {
+          containerPort = 2000;
+          hostPort = 22;
+          protocol = "tcp";
+        }
+      ];
 
       config = {
         environment.systemPackages = [pkgs.forgejo];
@@ -66,31 +65,21 @@ in {
             enable = true;
             allowedTCPPorts = [4000 2000];
           };
-          # Use systemd-resolved inside the container
-          # Workaround for bug https://github.com/NixOS/nixpkgs/issues/162686
-          useHostResolvConf = lib.mkForce false;
-        };
-
-        users = {
-          users.forgejo.uid = 8001;
-          groups.forgejo.gid = 8001;
         };
 
         services = {
-          resolved.enable = true;
-
           forgejo = {
             enable = true;
             settings = {
               server = {
-                HTTP_ADDR = "192.168.100.12";
+                HTTP_ADDR = deployment.containerHostIp "forgejo";
                 HTTP_PORT = 4000;
-                DOMAIN = "git.kossland.dev";
-                ROOT_URL = "https://git.kosslan.dev";
+                DOMAIN = "git.${cfg.reverseProxy.domain}";
+                ROOT_URL = "https://git.${cfg.reverseProxy.domain}/";
 
                 START_SSH_SERVER = true;
                 BUILTIN_SSH_SERVER_USER = "git";
-                SSH_LISTEN_HOST = "192.168.100.12";
+                SSH_LISTEN_HOST = deployment.containerHostIp "forgejo";
                 SSH_LISTEN_PORT = 2000;
               };
 
@@ -118,36 +107,14 @@ in {
 
         system.stateVersion = "23.11";
       };
-
-      bindMounts = {
-        "/var/lib/forgejo" = {
-          isReadOnly = false;
-          hostPath = "/var/lib/forgejo";
-        };
-      };
     };
 
-    services = mkIf cfg.reverseProxy.enable {
-      nginx = {
+    services = {
+      caddy = mkIf cfg.reverseProxy.enable {
         enable = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true;
-        virtualHosts = {
-          "git.${cfg.reverseProxy.domain}" = {
-            enableACME = true;
-            forceSSL = true;
-            locations = {
-              "/" = {
-                proxyPass = "http://192.168.100.12:4000/";
-                proxyWebsockets = true;
-                extraConfig = ''
-                  proxy_ssl_server_name on;
-                  proxy_pass_header Authorization;
-                '';
-              };
-            };
-          };
-        };
+        virtualHosts."git.${cfg.reverseProxy.domain}".extraConfig = ''
+          reverse_proxy http://${deployment.containerHostIp "forgejo"}:4000
+        '';
       };
     };
   };

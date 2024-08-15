@@ -3,7 +3,7 @@
   lib,
   config,
   inputs,
-  system,
+  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -73,7 +73,6 @@ in {
     # Nixpkgs settings - for now I only own x86 computers running nixos for personal use, however this will
     # need to change when I get some arm systems
     nixpkgs = {
-      hostPlatform = system;
       overlays = [
         self.overlays.additions # Additional Packages
         self.overlays.modifications # Modified Packages

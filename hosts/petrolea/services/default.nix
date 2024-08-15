@@ -1,7 +1,4 @@
-{...}: {
-  # This is a long list of things I have enabled on this server
-  # It's a dedicated box so thats mostly the reason, but potentially
-  # would be better off with a few more boxes idk
+{config, ...}: {
   virtualisation = {
     portainer = {
       enable = true;
@@ -10,9 +7,11 @@
   };
 
   users = {
-    groups."storage" = {
+    groups.storage = {
       name = "storage";
-      members = ["syncthing"];
+      members = [
+        "syncthing"
+      ];
       gid = 8000;
     };
   };
@@ -22,12 +21,44 @@
       enable = true;
     };
 
+    caddy = {
+      enable = true;
+      email = "kosslan@kosslan.dev";
+    };
+
+    # Private Services
     syncthing = {
       enable = true;
+      group = "storage";
       guiAddress = "0.0.0.0:8384";
       openDefaultPorts = true;
       overrideFolders = false;
       overrideDevices = false;
+    };
+
+    prometheus = {
+      enable = true;
+      defaults.enable = true;
+    };
+
+    # Public Services
+    # TODO: Switch to caddy
+    firefox-syncserver = {
+      enable = true;
+      secrets = config.age.secrets.firefox.path;
+      defaults.enable = true;
+      reverseProxy.enable = true;
+    };
+
+    forgejo = {
+      container.enable = true;
+      reverseProxy.enable = true;
+    };
+
+    searx = {
+      enable = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
     };
   };
 }

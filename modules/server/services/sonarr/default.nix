@@ -10,6 +10,12 @@
 in {
   options.services.sonarr.reverseProxy = {
     enable = mkEnableOption "Enable the reverse proxy";
+
+    tailnet = mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
+
     domain = mkOption {
       type = lib.types.str;
       default = "kosslan.dev";
@@ -17,33 +23,17 @@ in {
   };
 
   config = mkIf cfg.enable {
+    deployment.tailnetSubdomains = mkIf cfg.tailnet ["sonarr"];
+
     networking = {
       firewall.allowedTCPPorts = [80 443];
     };
 
-    security.acme = {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
-
-    services.nginx = {
+    services.caddy = {
       enable = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts."sonarr.${cfg.domain}" = {
-        enableACME = true;
-        forceSSL = true;
-        locations = {
-          "/" = {
-            proxyPass = "http://127.0.0.1:8989/";
-            proxyWebsockets = true;
-            extraConfig = ''
-              proxy_ssl_server_name on;
-              proxy_pass_header Authorization;
-            '';
-          };
-        };
-      };
+      virtualHosts."http://sonarr.${cfg.domain}".extraConfig = ''
+        reverse_proxy http://127.0.0.1:8989
+      '';
     };
   };
 }

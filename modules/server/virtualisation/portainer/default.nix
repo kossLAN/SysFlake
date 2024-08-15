@@ -45,31 +45,11 @@ in {
       firewall.allowedTCPPorts = [80 443];
     };
 
-    security.acme = mkIf cfg.reverseProxy.enable {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
-
-    services.nginx = mkIf cfg.reverseProxy.enable {
+    services.caddy = mkIf cfg.reverseProxy.enable {
       enable = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts = {
-        "portainer.kosslan.dev" = {
-          enableACME = true;
-          forceSSL = true;
-          locations = {
-            "/" = {
-              proxyPass = "http://127.0.0.1:9000/";
-              proxyWebsockets = true;
-              extraConfig = ''
-                proxy_ssl_server_name on;
-                proxy_pass_header Authorization;
-              '';
-            };
-          };
-        };
-      };
+      virtualHosts."portainer.${cfg.reverseProxy.domain}".extraConfig = ''
+        reverse_proxy http://127.0.0.1:9000
+      '';
     };
   };
 }

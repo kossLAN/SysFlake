@@ -1,3 +1,3 @@
 {
-  imports = [./system ./virtualisation ./users ./services ./programs];
+  imports = [./deployment ./system ./virtualisation ./users ./services ./programs];
 }

@@ -4,6 +4,7 @@
     ./programs
     ./networking
     ./hardware
+    ./arr
     ./secrets
 
     inputs.secrets.secretModules
@@ -18,6 +19,8 @@
       useOSProber = false;
     };
   };
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   system = {
     defaults.enable = true;

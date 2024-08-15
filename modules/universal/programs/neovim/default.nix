@@ -250,8 +250,6 @@ in {
                 suggestion = { enabled = false },
                 panel = { enabled = false },
                 filetypes = {
-                  nix = true,
-                  rust = true,
                   ["."] = false,
                 },
                 copilot_node_command = '${pkgs.nodejs}/bin/node',

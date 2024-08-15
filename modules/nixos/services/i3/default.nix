@@ -127,7 +127,7 @@ in {
         enable = true;
 
         config = let
-          modifier = "Mod4";
+          modifier = "Mod1";
           left = "h";
           down = "j";
           up = "k";

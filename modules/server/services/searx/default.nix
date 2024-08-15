@@ -21,13 +21,7 @@ in {
   };
 
   config = mkIf cfg.defaults.enable {
-    networking.firewall.allowedTCPPorts = [80 443];
-
-    # SSL CERT
-    security.acme = mkIf cfg.reverseProxy.enable {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
+    networking.firewall.allowedTCPPorts = mkIf cfg.reverseProxy.enable [80 443];
 
     services = {
       searx = {
@@ -72,27 +66,11 @@ in {
         };
       };
 
-      # NGINX Reverse Proxy
-      nginx = mkIf cfg.reverseProxy.enable {
+      caddy = mkIf cfg.reverseProxy.enable {
         enable = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true;
-        virtualHosts = {
-          "search.${cfg.reverseProxy.domain}" = {
-            enableACME = true;
-            forceSSL = true;
-            locations = {
-              "/" = {
-                proxyPass = "http://127.0.0.1:8888/";
-                proxyWebsockets = true;
-                extraConfig = ''
-                  proxy_ssl_server_name on;
-                  proxy_pass_header Authorization;
-                '';
-              };
-            };
-          };
-        };
+        virtualHosts."search.${cfg.reverseProxy.domain}".extraConfig = ''
+          reverse_proxy http://127.0.0.1:8888
+        '';
       };
     };
   };

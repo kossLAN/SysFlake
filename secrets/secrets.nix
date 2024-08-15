@@ -20,8 +20,11 @@ in {
   #"sonarr.age".publicKeys = systems;
   #"radarr.age".publicKeys = systems;
 
+  # Nextcloud Password
+  "nextcloud.age".publicKeys = systems;
+
   # Deluge WebUI Password
-  #"deluge.age".publicKeys = systems;
+  "deluge.age".publicKeys = systems;
 
   # Prometheus
   "prometheus.age".publicKeys = systems;

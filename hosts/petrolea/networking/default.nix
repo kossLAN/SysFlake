@@ -6,10 +6,17 @@
   external-netmask = 24;
 in {
   services = {
+    headscale = {
+      enable = true;
+      defaults.enable = true;
+      reverseProxy.enable = true;
+    };
+
     tailscale = {
       enable = true;
       openFirewall = true;
       useRoutingFeatures = "server";
+      extraUpFlags = ["--login-server http://localhost:3442"];
     };
 
     udev.extraRules = ''SUBSYSTEM=="net", ATTR{address}=="${external-mac}", NAME="${ext-if}"'';
@@ -17,35 +24,18 @@ in {
 
   networking = {
     nameservers = ["1.1.1.1" "8.8.8.8"];
-    interfaces."${ext-if}" = {
-      ipv4.addresses = [
-        {
-          address = external-ip;
-          prefixLength = external-netmask;
-        }
-      ];
-    };
-    defaultGateway = external-gw;
 
-    # AirVPN Connection
-    # wg-quick.interfaces = {
-    #   "av0" = {
-    #     autostart = true;
-    #     address = ["10.137.214.184"];
-    #     privateKeyFile = config.age.secrets.av0client1.path;
-    #     mtu = 1320;
-    #     dns = ["10.128.0.1"];
-    #
-    #     peers = [
-    #       {
-    #         publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
-    #         presharedKeyFile = config.age.secrets.av0preshared.path;
-    #         endpoint = "us3.vpn.airdns.org:51820";
-    #         allowedIPs = ["192.168.100.13/32"];
-    #         persistentKeepalive = 15;
-    #       }
-    #     ];
-    #   };
-    # };
+    interfaces = {
+      "${ext-if}" = {
+        ipv4.addresses = [
+          {
+            address = external-ip;
+            prefixLength = external-netmask;
+          }
+        ];
+      };
+    };
+
+    defaultGateway = external-gw;
   };
 }

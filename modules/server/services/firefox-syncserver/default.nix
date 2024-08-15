@@ -30,11 +30,6 @@ in {
       };
     };
 
-    security.acme = mkIf cfg.reverseProxy.enable {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
-
     services = {
       mysql = mkIf cfg.defaults.enable {
         package = pkgs.mariadb;
@@ -58,26 +53,11 @@ in {
         };
       };
 
-      nginx = mkIf cfg.reverseProxy.enable {
+      caddy = mkIf cfg.reverseProxy.enable {
         enable = true;
-        recommendedProxySettings = true;
-        virtualHosts = {
-          "firefox.kosslan.dev" = {
-            enableACME = true;
-            forceSSL = true;
-            locations = {
-              "/" = {
-                proxyPass = "http://127.0.0.1:5000";
-                extraConfig = ''
-                  proxy_set_header X-Forwarded-Host $host;
-                  proxy_set_header X-Forwarded-Server $host;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  proxy_set_header X-Real-IP $remote_addr;
-                '';
-              };
-            };
-          };
-        };
+        virtualHosts."portainer.${cfg.reverseProxy.domain}".extraConfig = ''
+          reverse_proxy http://127.0.0.1:5000
+        '';
       };
     };
   };

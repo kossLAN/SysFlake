@@ -10,6 +10,12 @@
 in {
   options.services.prowlarr.reverseProxy = {
     enable = mkEnableOption "Enable the reverse proxy";
+
+    tailnet = mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
+
     domain = mkOption {
       type = lib.types.str;
       default = "kosslan.dev";
@@ -17,33 +23,17 @@ in {
   };
 
   config = mkIf cfg.enable {
+    deployment.tailnetSubdomains = mkIf cfg.tailnet ["prowlarr"];
+
     networking = {
       firewall.allowedTCPPorts = [80 443];
     };
 
-    security.acme = {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
-
-    services.nginx = {
+    services.caddy = {
       enable = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
-      virtualHosts."prowlarr.${cfg.domain}" = {
-        enableACME = true;
-        forceSSL = true;
-        locations = {
-          "/" = {
-            proxyPass = "http://127.0.0.1:9696/";
-            proxyWebsockets = true;
-            extraConfig = ''
-              proxy_ssl_server_name on;
-              proxy_pass_header Authorization;
-            '';
-          };
-        };
-      };
+      virtualHosts."http://prowlarr.${cfg.domain}".extraConfig = ''
+        reverse_proxy http://127.0.0.1:9696
+      '';
     };
   };
 }

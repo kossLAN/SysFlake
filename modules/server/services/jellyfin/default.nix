@@ -9,7 +9,6 @@
   cfg = config.services.jellyfin;
 in {
   options.services.jellyfin = {
-    defaults.enable = mkEnableOption "Enable Jellyfin opinionated defaults.";
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
       domain = mkOption {
@@ -22,33 +21,12 @@ in {
   config = mkIf cfg.enable {
     networking.firewall.allowedTCPPorts = mkIf cfg.reverseProxy.enable [80 443];
 
-    # SSL CERT
-    security.acme = mkIf cfg.reverseProxy.enable {
-      acceptTerms = true;
-      defaults.email = "kosslan@kosslan.dev";
-    };
-
     services = {
-      nginx = mkIf cfg.reverseProxy.enable {
+      caddy = mkIf cfg.reverseProxy.enable {
         enable = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true;
-        virtualHosts = {
-          "jellyfin.${cfg.reverseProxy.domain}" = {
-            enableACME = true;
-            forceSSL = true;
-            locations = {
-              "/" = {
-                proxyPass = "http://127.0.0.1:8096/";
-                proxyWebsockets = true;
-                extraConfig = ''
-                  proxy_ssl_server_name on;
-                  proxy_pass_header Authorization;
-                '';
-              };
-            };
-          };
-        };
+        virtualHosts."jellyfin.${cfg.reverseProxy.domain}".extraConfig = ''
+          reverse_proxy http://127.0.0.1:8096
+        '';
       };
     };
   };

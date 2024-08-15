@@ -11,9 +11,8 @@
 
     nixosConfigurations = {
       # Main desktop
-      galahad = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = {inherit self system inputs;};
+      galahad = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs;};
 
         modules = [
           ./modules/universal
@@ -22,21 +21,9 @@
         ];
       };
 
-      # OVH Server
-      cerebrite = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = {inherit self system inputs;};
-        modules = [
-          ./modules/universal
-          ./modules/server
-          ./hosts/cerebrite
-        ];
-      };
-
       # Steamdeck
-      compass = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = {inherit self system inputs;};
+      compass = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
           ./modules/nixos
@@ -45,9 +32,8 @@
       };
 
       # MacBook (NixOS Counterpart)
-      lily = nixpkgs.lib.nixosSystem rec {
-        system = "aarch64-linux";
-        specialArgs = {inherit self system inputs;};
+      lily = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
           ./modules/nixos
@@ -55,10 +41,9 @@
         ];
       };
 
-      # Hetzner Server
-      petrolea = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = {inherit self system inputs;};
+      # Dedicated New York Based Server
+      petrolea = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
           ./modules/server
@@ -67,9 +52,8 @@
       };
 
       # VPS Testing
-      dahlia = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-        specialArgs = {inherit self system inputs;};
+      dahlia = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
           ./modules/server

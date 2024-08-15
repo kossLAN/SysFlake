@@ -8,7 +8,7 @@
   ];
 
   virt = {
-    docker.enable = true;
+    # docker.enable = true;
     qemu.enable = true;
   };
 

@@ -1,3 +1,5 @@
+# Warning: this module is and cannot be pure, as it stands it uses API keys from the
+# ARR suite of programs, of which you can not set the keys.
 {
   lib,
   config,
@@ -32,21 +34,6 @@ in {
       default = "/var/lib/unpackerr";
       description = "Directory to store unpackerr data.";
     };
-
-    # Unfortunately, as it stands, or as far as I'm aware you can't have custom API keys,
-    # so you'll have to generate a key in each respective WebUI first then add them here.
-    # TODO: Map a list of keys to the respective environment variables
-    # radarrKeyFile = mkOption {
-    #   type = lib.types.path;
-    #   default = config.age.secrets.radarr.path;
-    #   description = "Path to the Radarr API key file.";
-    # };
-    #
-    # sonarrKeyFile = mkOption {
-    #   type = lib.types.path;
-    #   default = config.age.secrets.sonarr.path;
-    #   description = "Path to the Sonarr API key file.";
-    # };
 
     lidarrKeyFile = mkOption {
       type = lib.types.path;
@@ -115,12 +102,6 @@ in {
       after = ["network.target"];
       requires = ["network.target"];
       description = "Unpackerr Service";
-
-      environment = {
-        # UN_RADARR_0_API_KEY = "filepath:${cfg.radarrKeyFile}";
-        # UN_SONARR_0_API_KEY = "filepath:${cfg.sonarrKeyFile}";
-        UN_LIDARR_0_API_KEY = "filepath:${cfg.lidarrKeyFile}";
-      };
 
       serviceConfig = {
         Type = "simple";

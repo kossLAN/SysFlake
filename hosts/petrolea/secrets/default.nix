@@ -1,4 +1,5 @@
 {
+  config,
   self,
   inputs,
   ...
@@ -13,22 +14,18 @@ in {
     av0client1.file = "${path}/av0client1.age";
     av0preshared.file = "${path}/av0preshared.age";
 
-    deluge.file = "${path}/deluge.age";
     prometheus.file = "${path}/prometheus.age";
     firefox.file = "${path}/firefox.age";
+    lidarr.file = "${path}/lidarr.age";
 
-    lidarr = {
-      file = "${path}/lidarr.age";
-      owner = "koss";
-      group = "users";
-      mode = "777";
+    deluge = {
+      file = "${path}/deluge.age";
+      owner = config.services.deluge.user;
     };
 
     syncthing = {
       file = "${path}/syncthing.age";
-      owner = "koss";
-      group = "users";
-      mode = "777";
+      owner = config.services.syncthing.user;
     };
   };
 }

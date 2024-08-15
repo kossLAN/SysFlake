@@ -32,11 +32,6 @@ in {
 
     home-manager.users.${config.users.defaultUser} = {
       home.file.".ssh/config".text = ''
-        Host cerebrite
-          HostName 147.135.1.68
-          User koss
-          Port 1000
-
         Host petrolea
           HostName 185.150.189.28
           User koss

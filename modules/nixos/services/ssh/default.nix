@@ -32,8 +32,12 @@ in {
 
     home-manager.users.${config.users.defaultUser} = {
       home.file.".ssh/config".text = ''
+        Host bulbel
+          HostName bulbel.koss.ts.net
+          User koss
+
         Host petrolea
-          HostName 185.150.189.28
+          HostName petrolea.koss.ts.net
           User koss
           Port 1000
       '';

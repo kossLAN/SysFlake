@@ -16,7 +16,11 @@ in {
     home-manager.users.${config.users.defaultUser} = {
       home.file = {
         ".ssh/config".text = lib.mkIf cfg.importConfig ''
-          Host cerebrite
+          Host galahad
+            HostName galahad.koss.ts.net
+            User koss
+
+          Host petrolea
             HostName petrolea.koss.ts.net
             User koss
             Port 1000

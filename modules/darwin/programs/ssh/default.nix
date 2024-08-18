@@ -17,7 +17,7 @@ in {
       home.file = {
         ".ssh/config".text = lib.mkIf cfg.importConfig ''
           Host cerebrite
-            HostName 147.135.1.68
+            HostName petrolea.koss.ts.net
             User koss
             Port 1000
         '';

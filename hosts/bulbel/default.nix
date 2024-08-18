@@ -1,18 +1,14 @@
 {
-  outputs,
   inputs,
   pkgs,
-  hostname,
   ...
 }: {
   imports = [
-    outputs.universalModules
-    outputs.darwinModules
     inputs.secrets.secretModules
   ];
 
   networking = {
-    hostName = hostname;
+    hostName = "bulbel";
   };
 
   homebrew = {
@@ -64,6 +60,7 @@
 
   services = {
     nix-daemon.enable = true;
+    tailscale.enable = true;
   };
 
   nixpkgs = {
@@ -84,7 +81,6 @@
   };
 
   system = {
-    configurationRevision = outputs.rev or outputs.dirtyRev or null;
     stateVersion = 4;
   };
 }

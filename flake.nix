@@ -63,15 +63,15 @@
     };
 
     # M1 Max on MacOS
-    bulbel = nix-darwin.lib.darwinSystem {
-      specialArgs = {
-        inherit self inputs;
+    darwinConfigurations = {
+      bulbel = nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit self inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/darwin
+          ./hosts/bulbel
+        ];
       };
-      modules = [
-        ./modules/universal
-        ./modules/darwin
-        ./hosts/bulbel
-      ];
     };
   };
 

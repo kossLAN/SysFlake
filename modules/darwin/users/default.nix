@@ -30,7 +30,7 @@ in {
       users.${cfg} = {
         programs.home-manager.enable = true;
         home = {
-          stateVersion = config.system.stateVersion;
+          stateVersion = "23.11";
         };
       };
     };

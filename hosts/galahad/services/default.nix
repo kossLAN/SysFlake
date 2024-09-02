@@ -1,12 +1,4 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
-  imports = [
-    inputs.nixos-cosmic.nixosModules.default
-  ];
-
+{pkgs, ...}: {
   virt = {
     # docker.enable = true;
     qemu.enable = true;
@@ -43,7 +35,6 @@
 
     # desktopManager = {
     #   plasma6.enable = true;
-    #   cosmic.enable = true;
     # };
 
     printing = {

@@ -19,16 +19,12 @@
   - If you do end up copying me I apologize...
 
 ## Credits (Cool people I copied/talked nix with)
-  [NotAShelf](https://github.com/NotAShelf), [Misterio77](https://github.com/Misterio77), and probably others...
+  [NotAShelf](https://github.com/NotAShelf), [Misterio77](https://github.com/Misterio77), [outfoxxed](https://git.outfoxxed.me/) and probably others...
 
 ## Nice to know's 
   - Build a system(alternatively use nh):
     
     ```nixos-rebuild --flake .#<system> switch|boot```
-
-  - Build iso image of a system configuration:
-    
-    ```nixos-rebuild build --flake .#nixosConfigurations.<system>.config.system.build.isoImage;```
 
   - Remote Deploy image to a server using nixos-anywhere
 

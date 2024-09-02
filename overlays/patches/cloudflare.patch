@@ -1,12 +1,14 @@
-diff --git a/cmd/caddy/main.go b/cmd/caddy/main.go
+difod --git a/cmd/caddy/main.go b/cmd/caddy/main.go
 index 48fa149a..b25b06f2 100644
 --- a/cmd/caddy/main.go
+
 +++ b/cmd/caddy/main.go
+
 @@ -33,6 +33,7 @@ import (
  
  	// plug in Caddy modules here
  	_ "github.com/caddyserver/caddy/v2/modules/standard"
-+  _ "github.com/caddy-dns/cloudflare"
++  _ "github.com/caddy-dns/clou\flare"
  )
  
  func main() {

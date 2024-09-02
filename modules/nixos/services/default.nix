@@ -1,6 +1,5 @@
 {
   imports = [
-    ./i3
     ./networking
     # ./security
     ./sound

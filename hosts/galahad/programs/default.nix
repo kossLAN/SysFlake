@@ -4,17 +4,19 @@
   inputs,
   ...
 }: {
-  users.packages = with pkgs; [
-    deluge
-    pavucontrol
+  environment.systemPackages = with pkgs; [
     mpv
+    nvim-pkg
+  ];
+
+  users.packages = with pkgs; [
+    pavucontrol
     via
     keepassxc
     bambu-studio
     libreoffice-qt
-    plexamp
     nerdfonts
-    discord
+    vesktop
 
     inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
@@ -33,6 +35,11 @@
     nh = {
       enable = true;
       flake = "/home/${config.users.defaultUser}/.nixos-conf";
+    };
+
+    sway = {
+      enable = true;
+      defaults.enable = true;
     };
 
     firefox = {

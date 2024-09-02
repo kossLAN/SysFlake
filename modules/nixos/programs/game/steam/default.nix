@@ -14,12 +14,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # Force steam to scale correctly on HiDPI displays
     environment = {
-      sessionVariables = {
-        STEAM_FORCE_DESKTOPUI_SCALING = 1.25;
-      };
-
       systemPackages = with pkgs; [
         scanmem
       ];

@@ -12,11 +12,6 @@
     enableDebugInfo = true;
   };
 
-  theme.oled = {
-    enable = true;
-    cursorSize = 26;
-  };
-
   networking.hostName = "galahad";
 
   nixpkgs.hostPlatform = "x86_64-linux";

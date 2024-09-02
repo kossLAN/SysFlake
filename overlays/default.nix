@@ -1,7 +1,10 @@
 # This file defines overlays
 {inputs, ...}: {
   # This one brings our custom packages from the 'pkgs' directory
-  additions = final: _prev: import ../pkgs {pkgs = final;};
+  additions = final: _prev:
+    import ../pkgs {
+      pkgs = final;
+    };
 
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
@@ -15,7 +18,7 @@
     # });
   };
 
-  # Allows me to use stable packages where I need them.
+  # Allows me to use stable/unstable packages where I need them.
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {
       system = final.system;
@@ -24,7 +27,7 @@
   };
 
   unstable-packages = final: _prev: {
-    stable = import inputs.nixpkgs {
+    unstable = import inputs.nixpkgs {
       system = final.system;
       config.allowUnfree = true;
     };

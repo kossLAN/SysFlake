@@ -84,6 +84,7 @@ in {
       overlays = [
         self.overlays.additions # Additional Packages
         self.overlays.modifications # Modified Packages
+        inputs.custom-neovim.overlays.default # Neovim Custom Configuration
       ];
       config = {
         allowUnfree = true;

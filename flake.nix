@@ -62,7 +62,7 @@
       };
     };
 
-    # M1 Max on MacOS
+    # M1 Max on MacOS - Bruh
     darwinConfigurations = {
       bulbel = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit self inputs;};

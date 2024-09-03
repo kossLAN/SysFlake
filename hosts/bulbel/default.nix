@@ -2,11 +2,7 @@
   inputs,
   pkgs,
   ...
-}: {
-  imports = [
-    inputs.secrets.secretModules
-  ];
-
+}: { 
   networking = {
     hostName = "bulbel";
   };
@@ -17,13 +13,12 @@
   };
 
   environment.systemPackages = with pkgs; [
+    nvim-pkg 
     rustup
   ];
 
-  programs = {
-    neovim.defaults.enable = true;
-    # vscodium.enable = true;
-    syncthing.usermodeEnable = true;
+  programs = { 
+    syncthing.user.enable = true;
     dev.git.enable = true;
 
     zsh = {
@@ -65,6 +60,9 @@
 
   nixpkgs = {
     hostPlatform = "aarch64-darwin";
+    overlays = [
+      inputs.custom-neovim.overlays.default # Neovim Custom Configuration
+    ];
     config = {
       allowUnfree = true;
       allowUnsupportedSystem = true;
@@ -74,7 +72,7 @@
   nix = {
     package = pkgs.nix;
     settings.experimental-features = "nix-command flakes";
-    gc = {
+    gc = { 
       automatic = true;
       options = "--delete-older-than 1d";
     };

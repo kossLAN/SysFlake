@@ -1,8 +1,7 @@
 {
   imports = [
     ./zsh
-    ./dev
-    ./neovim
+    ./dev 
     ./syncthing
     ./vscodium
   ];

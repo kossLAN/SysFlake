@@ -4,7 +4,6 @@
     ./hardware
     ./programs
     ./services
-    ./secrets
   ];
 
   environment = {

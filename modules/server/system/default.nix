@@ -77,6 +77,8 @@ in {
         self.overlays.additions # Additional Packages
         self.overlays.modifications # Modified Packages
         self.overlays.stable-packages # Stable Nixpkgs
+
+        inputs.custom-neovim.overlays.default # Neovim Custom Configuration
       ];
       config = {
         allowUnfree = true;

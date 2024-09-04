@@ -33,8 +33,6 @@ in {
       libsForQt5.dolphin
       libsForQt5.gwenview
       libsForQt5.ark
-
-      networkmanagerapplet
     ];
 
     # Breeze theme
@@ -44,6 +42,8 @@ in {
     };
 
     programs = {
+      nm-applet.enable = true;
+
       waybar = {
         enable = true;
         defaults.enable = true;
@@ -88,6 +88,12 @@ in {
             # NM Applet
             {
               command = "nm-applet";
+              always = true;
+            }
+
+            # Auto tiling
+            {
+              command = "${pkgs.autotiling-rs}/bin/autotiling-rs";
               always = true;
             }
           ];

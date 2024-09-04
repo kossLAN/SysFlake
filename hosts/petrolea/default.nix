@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{...}: {
   imports = [
     ./services
     ./programs
@@ -6,8 +6,6 @@
     ./hardware
     ./arr
     ./secrets
-
-    inputs.secrets.secretModules
   ];
 
   networking.hostName = "petrolea";

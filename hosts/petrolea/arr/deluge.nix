@@ -49,7 +49,7 @@
         };
 
         wg-quick.interfaces.av0 = {
-          autostart = false;
+          autostart = true;
           address = ["10.137.214.184"];
           privateKeyFile = config.age.secrets.av0client1.path;
           mtu = 1320;
@@ -59,7 +59,7 @@
             {
               publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
               presharedKeyFile = config.age.secrets.av0preshared.path;
-              endpoint = "us3.vpn.airdns.org:51820";
+              endpoint = "184.75.214.165:1637";
               allowedIPs = ["0.0.0.0/0"];
               persistentKeepalive = 15;
             }

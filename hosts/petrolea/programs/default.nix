@@ -1,7 +1,12 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [nvim-pkg];
+
   programs = {
     utils.enable = true;
-    neovim.defaults.enable = true;
     dev.git.enable = true;
 
     zsh = {

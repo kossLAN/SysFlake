@@ -27,10 +27,9 @@
     noisetorch.enable = true;
     oc.enable = true;
     art.enable = true;
-    neovim.defaults.enable = true;
     utils.enable = true;
     obs-studio.enable = true;
-    syncthing.usermodeEnable = true;
+    syncthing.user.enable = true;
 
     nh = {
       enable = true;

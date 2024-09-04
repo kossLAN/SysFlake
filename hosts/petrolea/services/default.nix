@@ -41,15 +41,6 @@
       defaults.enable = true;
     };
 
-    # Public Services
-    # TODO: Switch to caddy
-    firefox-syncserver = {
-      enable = true;
-      secrets = config.age.secrets.firefox.path;
-      defaults.enable = true;
-      reverseProxy.enable = true;
-    };
-
     forgejo = {
       container.enable = true;
       reverseProxy.enable = true;

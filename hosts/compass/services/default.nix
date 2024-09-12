@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   jovian = {
     hardware.has.amd.gpu = true;
     steamos.useSteamOSConfig = true;
@@ -35,6 +31,7 @@
   services = {
     ssh.enable = true;
     desktopManager.plasma6.enable = true;
+    tailscale.enable = true;
 
     xserver = {
       enable = true;

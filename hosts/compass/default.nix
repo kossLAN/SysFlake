@@ -14,14 +14,17 @@
     inputs.jovian.nixosModules.jovian
   ];
 
-  system.defaults.enable = true;
+  networking.hostname = "galahad";
+
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   environment = {
     localBinInPath = true;
     enableDebugInfo = true;
   };
 
-  networking = {
-    nm.enable = true;
+  system = {
+    defaults.enable = true;
+    stateVersion = "23.11";
   };
 }

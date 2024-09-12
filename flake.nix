@@ -79,10 +79,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # MacOS module to properly link mac apps
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-    };
+    # Cosmic DE Test 
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    }; 
 
     # App runner
     anyrun = {

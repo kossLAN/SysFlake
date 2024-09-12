@@ -1,6 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [inputs.nixos-cosmic.nixosModules.default];
+
   virt = {
-    # docker.enable = true;
+    docker.enable = true;
   };
 
   networking = {
@@ -8,10 +14,7 @@
   };
 
   hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
+    system76.enableAll = true;
   };
 
   services = {
@@ -20,6 +23,14 @@
     helpfulUtils.enable = true;
     sound.enable = true;
     tailscale.enable = true;
+
+    desktopManager = {
+      cosmic.enable = true;
+    };
+
+    displayManager = {
+      cosmic-greeter.enable = true;
+    };
 
     printing = {
       enable = true;

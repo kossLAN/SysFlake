@@ -29,6 +29,7 @@ in {
     services = {
       openssh = {
         enable = true;
+        allowSFTP = true;
         ports = [sshPort];
 
         listenAddresses = [

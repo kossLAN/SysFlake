@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -19,10 +20,14 @@ in {
       ''
     ];
 
+    environment.systemPackages = [pkgs.sshfs];
+
     programs.ssh.startAgent = true;
 
     services.openssh = {
       enable = true;
+      allowSFTP = true;
+
       settings = {
         PermitRootLogin = "no";
         PasswordAuthentication = false;

@@ -4,7 +4,6 @@
   outputs = inputs @ {
     self,
     nixpkgs,
-    nix-darwin,
     ...
   }: {
     overlays = import ./overlays {inherit inputs;};
@@ -13,11 +12,20 @@
       # Main desktop
       galahad = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
-
         modules = [
           ./modules/universal
           ./modules/nixos
           ./hosts/galahad
+        ];
+      };
+
+      # Framework Laptop
+      bulbel = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit self inputs; };
+        modules = [ 
+          ./modules/universal/ 
+          ./modules/nixos/
+          ./hosts/bulbel/
         ];
       };
 
@@ -51,18 +59,6 @@
         ];
       };
     };
-
-    # M1 Max on MacOS
-    darwinConfigurations = {
-      bulbel = nix-darwin.lib.darwinSystem {
-        specialArgs = {inherit self inputs;};
-        modules = [
-          ./modules/universal
-          ./modules/darwin
-          ./hosts/bulbel
-        ];
-      };
-    };
   };
 
   inputs = {
@@ -80,12 +76,6 @@
     # Package Flakes
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # MacOS Nix Modules
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

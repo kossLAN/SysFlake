@@ -8,8 +8,7 @@
 
 ## Features
   - **Modulization first approach**: Everything that can be abstracted into modules is! Why? well that's because it allows me to bundle my apps with own configs together! 
-  - **Management for my dotfiles in one place where I can easily switch between them**
-  - **Host support for NixOS & Nix-Darwin**
+  - **Management for my dotfiles in one place where I can easily switch between them** 
   - Don't know what else to put here, things are pretty bog standard
 
 ## Why you should not copy me

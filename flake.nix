@@ -21,11 +21,11 @@
 
       # Framework Laptop
       bulbel = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit self inputs; };
-        modules = [ 
-          ./modules/universal/ 
-          ./modules/nixos/
-          ./hosts/bulbel/
+        specialArgs = {inherit self inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/nixos
+          ./hosts/bulbel
         ];
       };
 
@@ -79,11 +79,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Cosmic DE Test 
+    # Cosmic DE Test
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
       inputs.nixpkgs.follows = "nixpkgs";
-    }; 
+    };
 
     # App runner
     anyrun = {

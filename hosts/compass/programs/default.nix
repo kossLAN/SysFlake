@@ -3,10 +3,11 @@
   pkgs,
   ...
 }: {
+  environment.systemPackages = with pkgs; [nvim-pkg];
+
   programs = {
     utils.enable = true;
-    neovim.defaults.enable = true;
-    syncthing.usermodeEnable = true;
+    syncthing.user.enable = true;
     vscodium.enable = true;
 
     nh = {
@@ -33,7 +34,6 @@
 
     game = {
       utils.enable = true; # Misc game programs
-      #mangohud.enable = true;
     };
 
     java = {

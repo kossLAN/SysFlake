@@ -67,7 +67,7 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
     custom-neovim = {
-      url = "git+ssh://git@git.kosslan.dev/kossLAN/NvimFlake?ref=master";
+      url = "git+https://git.kosslan.dev/kossLAN/NvimFlake?ref=master";
     };
 
     # Secrets 🤫

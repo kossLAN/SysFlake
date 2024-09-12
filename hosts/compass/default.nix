@@ -1,20 +1,14 @@
-{
-  inputs,
-  outputs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     ./hardware
     ./boot
     ./programs
     ./services
 
-    outputs.universalModules
-    outputs.nixosModules
     inputs.jovian.nixosModules.jovian
   ];
 
-  networking.hostname = "galahad";
+  networking.hostName = "compass";
 
   nixpkgs.hostPlatform = "x86_64-linux";
 

@@ -1,6 +1,6 @@
 {
-  username,
   pkgs,
+  config,
   ...
 }: {
   environment.systemPackages = with pkgs; [nvim-pkg];
@@ -12,7 +12,7 @@
 
     nh = {
       enable = true;
-      flake = "/home/${username}/.nixos-conf";
+      flake = "/home/${config.users.defaultUser}/.nixos-conf";
     };
 
     firefox = {

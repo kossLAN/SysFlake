@@ -3,7 +3,10 @@
   config,
   ...
 }: {
-  environment.systemPackages = with pkgs; [nvim-pkg];
+  environment.systemPackages = with pkgs; [
+    keepassxc
+    nvim-pkg
+  ];
 
   users.packages = with pkgs; [
     keepassxc

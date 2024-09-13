@@ -50,18 +50,18 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1725173191,
-        "narHash": "sha256-17rlvaJiO6EU6TMQpyv8WNJyUV78wB9wSHUcthAW9DM=",
+        "lastModified": 1726202910,
+        "narHash": "sha256-q6HeiQ8p8JGwXmLBgtCfynwyFZu7IeIiAyTu4MZbXFk=",
         "ref": "master",
-        "rev": "bb6c005380eaa99e05661bd48bd7b58743416f2a",
-        "revCount": 12,
+        "rev": "3ae12887b0a4b1c26f08dcf067b65f9503b76151",
+        "revCount": 14,
         "type": "git",
-        "url": "ssh://git@git.kosslan.dev/kossLAN/NvimFlake"
+        "url": "https://git.kosslan.dev/kossLAN/NvimFlake"
       },
       "original": {
         "ref": "master",
         "type": "git",
-        "url": "ssh://git@git.kosslan.dev/kossLAN/NvimFlake"
+        "url": "https://git.kosslan.dev/kossLAN/NvimFlake"
       }
     },
     "darwin": {

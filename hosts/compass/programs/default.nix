@@ -5,6 +5,11 @@
 }: {
   environment.systemPackages = with pkgs; [nvim-pkg];
 
+  users.packages = with pkgs; [
+    keepassxc
+    vesktop
+  ];
+
   programs = {
     utils.enable = true;
     syncthing.user.enable = true;

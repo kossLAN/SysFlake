@@ -15,10 +15,11 @@
     };
   };
 
+  display.amd.enable = true;
+
   services = {
     ssh.enable = true;
-    amdGpu.enable = true;
-    helpfulUtils.enable = true;
+    common.enable = true;
     sound.enable = true;
     tailscale.enable = true;
 
@@ -32,10 +33,6 @@
         wayland.enable = true;
       };
     };
-
-    # desktopManager = {
-    #   plasma6.enable = true;
-    # };
 
     printing = {
       enable = true;

@@ -1,6 +1,7 @@
 {
   imports = [
     ./loginmanager
+    ./display
     ./services
     ./programs
     ./virtualization

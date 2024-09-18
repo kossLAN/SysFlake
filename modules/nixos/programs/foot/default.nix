@@ -10,7 +10,6 @@
   cfg = config.programs.foot;
 in {
   options.programs.foot = {
-    enable = mkEnableOption "Enable foot termninal emulator";
     defaults.enable = mkEnableOption "Custom foot configuration";
   };
 

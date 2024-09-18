@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -18,7 +19,7 @@ in {
 
   config = {
     programs.firefox = {
-      package = pkgs.firefox-esr;
+      package = pkgs.firefox-esr.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];};
       policies = {
         # Default policies - these shouldn't be opt out :/
         OverrideFirstRunPage = "";
@@ -104,7 +105,6 @@ in {
       };
       preferences = mkIf cfg.customPreferences {
         "widget.use-xdg-desktop-portal.file-picker" = 1;
-        "identity.sync.tokenserver.uri" = "https://firefox.kosslan.dev/1.0/sync/1.5"; # Custom Sync Server, see server modules
       };
     };
   };

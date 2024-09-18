@@ -96,5 +96,8 @@
       url = "github:Jovian-Experiments/Jovian-Nixos";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Audio screensharing in firefox
+    pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
   };
 }

@@ -7,12 +7,11 @@
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
-  cfg = config.services.amdGpu;
+  cfg = config.display.amd;
 in {
-  #TODO; may abstract this further into a module because
-  # this should be pretty much the same on all my systems..
-  options.services.amdGpu = {
-    enable = mkEnableOption "amdGpu";
+  # Just common things I enable for AMD GPU's ROCM + Drivers w/e
+  options.display.amd = {
+    enable = mkEnableOption "amd common";
   };
 
   config = mkIf cfg.enable {

@@ -1,13 +1,12 @@
 {
   imports = [
     ./firefox
-    ./art
     ./dev
     ./foot
     ./game
     ./obs-studio
     ./scripts
-    ./utils
+    ./common
     ./oc
     ./anyrun
     ./waybar

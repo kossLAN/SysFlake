@@ -14,6 +14,10 @@ in {
   };
 
   config = mkIf cfg.defaults.enable {
+    programs.zsh = {
+      shellInit = "autoload -Uz add-zsh-hook";
+    };
+
     home-manager.users.${config.users.defaultUser} = {
       programs.zsh = let
         # Oh My Zsh has alot of good plugins, thankfully we can use them without needing oh-my-zsh!

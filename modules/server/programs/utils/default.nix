@@ -7,7 +7,7 @@
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
-  cfg = config.programs.utils;
+  cfg = config.programs.common;
 in {
   options.programs.utils = {
     enable = mkEnableOption "Utils and what not";

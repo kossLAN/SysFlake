@@ -16,18 +16,17 @@
     bambu-studio
     libreoffice-qt
     nerdfonts
-    vesktop
+    blender-hip
+    gimp
 
     inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
 
   programs = {
-    vscodium.enable = true;
     partition-manager.enable = true;
     noisetorch.enable = true;
     oc.enable = true;
-    art.enable = true;
-    utils.enable = true;
+    common.enable = true;
     obs-studio.enable = true;
     syncthing.user.enable = true;
 

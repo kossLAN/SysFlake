@@ -6,11 +6,11 @@
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkEnableOption;
 
-  cfg = config.services.helpfulUtils;
+  cfg = config.services.common;
 in {
   # Essentially just basic services I tend to use on all my linux installs.
-  options.services.helpfulUtils = {
-    enable = mkEnableOption "helpfulUtils";
+  options.services.common = {
+    enable = mkEnableOption "common";
   };
 
   config = mkIf cfg.enable {

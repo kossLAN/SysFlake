@@ -50,11 +50,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1726202910,
-        "narHash": "sha256-q6HeiQ8p8JGwXmLBgtCfynwyFZu7IeIiAyTu4MZbXFk=",
+        "lastModified": 1726680805,
+        "narHash": "sha256-H3RtJMoDspnyHQ51y/7zghtNH2/YwsA5w4TIOeAP508=",
         "ref": "master",
-        "rev": "3ae12887b0a4b1c26f08dcf067b65f9503b76151",
-        "revCount": 14,
+        "rev": "f53425d3919bf42fa0a32330265eb8ea37b0c23e",
+        "revCount": 16,
         "type": "git",
         "url": "https://git.kosslan.dev/kossLAN/NvimFlake"
       },

@@ -22,7 +22,6 @@ in {
         prismlauncher
         gamemode
         protonup-qt
-        protontricks
         wine
         winetricks
         r2modman

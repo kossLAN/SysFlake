@@ -25,6 +25,7 @@ in {
         enable = true;
         remotePlay.openFirewall = true;
         extest.enable = true;
+        protontricks.enable = true;
       };
 
       gamemode.enable = true;

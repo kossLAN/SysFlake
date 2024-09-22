@@ -3,8 +3,9 @@ let
   cerebrite = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDvg58shvVbIlXIpUV9chtflXmbq51uCMTpdYoKbcftD";
   petrolea = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIp7VvyyhyF22O6BQNNgrUfxq/+6kLoQwpPHjqAgxCEL";
   galahad = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOZglP92ZxsqI4wRzGR/A3kEQIQPB94pwysihwo9bT+E";
+  azul = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPQc5Or080Vx65xnRe8VnCOKUobhOqdCFvWC06zanvWt";
 
-  systems = [backup cerebrite petrolea galahad];
+  systems = [backup cerebrite petrolea galahad azul];
 in {
   # Wireguard Keys
   "wg0server.age".publicKeys = systems;

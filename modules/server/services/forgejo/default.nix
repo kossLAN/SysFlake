@@ -55,6 +55,11 @@ in {
           hostPort = 22;
           protocol = "tcp";
         }
+        {
+          containerPort = 4000;
+          hostPort = 4000;
+          protocol = "tcp";
+        }
       ];
 
       config = {

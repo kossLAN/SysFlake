@@ -6,17 +6,14 @@
   external-netmask = 24;
 in {
   services = {
-    headscale = {
-      enable = true;
-      defaults.enable = true;
-      reverseProxy.enable = true;
-    };
+    # headscale = {
+    #   enable = true;
+    #   defaults.enable = true;
+    #   reverseProxy.enable = true;
+    # };
 
     tailscale = {
       enable = true;
-      openFirewall = true;
-      useRoutingFeatures = "server";
-      extraUpFlags = ["--login-server http://localhost:3442"];
     };
 
     udev.extraRules = ''SUBSYSTEM=="net", ATTR{address}=="${external-mac}", NAME="${ext-if}"'';

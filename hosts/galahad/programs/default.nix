@@ -18,6 +18,7 @@
     nerdfonts
     blender-hip
     gimp
+    vesktop
 
     inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
@@ -65,7 +66,7 @@
     };
 
     nix-ld = {
-      enable = true;
+      enable = false;
       libraries = with pkgs; [
         # Unusued, but it's here when I need it
       ];

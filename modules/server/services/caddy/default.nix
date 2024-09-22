@@ -4,10 +4,15 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
+  inherit (lib.options) mkEnableOption;
 
   cfg = config.services.caddy;
 in {
-  config = mkIf cfg.enable {
+  options.services.caddy = {
+    landingPage = mkEnableOption "Landing Page";
+  };
+
+  config = mkIf cfg.landingPage {
     services.caddy = {
       virtualHosts = {
         "kosslan.dev" = {

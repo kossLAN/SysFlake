@@ -14,10 +14,9 @@ in {
     reverseProxy = {
       enable = mkEnableOption "Enable reverse proxy";
 
-      authFile = mkOption {
-        type = lib.types.path;
-        default = config.age.secrets.prometheus.path;
-        description = "Path to the auth file for the reverse proxy authentication.";
+      tailnet = mkOption {
+        type = lib.types.bool;
+        default = false;
       };
 
       domain = mkOption {
@@ -34,6 +33,8 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = mkIf cfg.reverseProxy.enable [80 443];
+
+    deployment.tailnetSubdomains = mkIf cfg.reverseProxy.tailnet ["prometheus"];
 
     services = mkIf cfg.defaults.enable {
       prometheus = {
@@ -60,8 +61,8 @@ in {
 
       caddy = mkIf cfg.reverseProxy.enable {
         enable = true;
-        virtualHosts."portainer.${cfg.domain}".extraConfig = ''
-          reverse_proxy http://127.0.0.1:9000
+        virtualHosts."http://prometheus.${cfg.reverseProxy.domain}".extraConfig = ''
+          reverse_proxy http://127.0.0.1:3255
         '';
       };
     };

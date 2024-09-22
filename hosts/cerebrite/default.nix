@@ -2,20 +2,18 @@
   imports = [
     ./services
     ./programs
-    ./hardware
     ./networking
+    ./hardware
+    # ./arr
+    ./secrets
   ];
 
-  networking.hostName = "dahlia";
-
-  boot = {
-    loader.grub = {
-      enable = true;
-      device = "/dev/sda";
-      useOSProber = false;
-    };
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
+  networking.hostName = "cerebrite";
   nixpkgs.hostPlatform = "x86_64-linux";
 
   system = {

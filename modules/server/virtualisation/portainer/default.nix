@@ -32,7 +32,7 @@ in {
         backend = "docker";
         containers.portainer = {
           image = "portainer/portainer-ce:latest";
-          ports = ["127.0.0.1:9000:9000" "127.0.0.1:9443:9443"];
+          ports = ["0.0.0.0:9000:9000" "0.0.0.0:9443:9443"];
           volumes = [
             "portainer_data:/data"
             "/var/run/docker.sock:/var/run/docker.sock"

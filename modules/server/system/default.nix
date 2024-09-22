@@ -70,6 +70,7 @@ in {
         ];
       };
     };
+
     # Nixpkgs settings - for now I only own x86 computers running nixos for personal use, however this will
     # need to change when I get some arm systems
     nixpkgs = {

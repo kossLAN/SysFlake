@@ -42,7 +42,17 @@ in {
           User koss
 
         Host petrolea
-          HostName petrolea.koss.ts.net
+          HostName 185.150.189.28
+          User koss
+          Port 1000
+
+        Host dahlia
+          HostName dahlia.koss.ts.net
+          User koss
+          Port 1000
+
+        Host cerebrite
+          HostName cerebrite.koss.ts.net
           User koss
           Port 1000
       '';

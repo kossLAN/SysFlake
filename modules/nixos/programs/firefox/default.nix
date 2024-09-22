@@ -19,7 +19,7 @@ in {
 
   config = {
     programs.firefox = {
-      package = pkgs.firefox-esr.override {nativeMessagingHosts = [inputs.pipewire-screenaudio.packages.${pkgs.system}.default];};
+      package = pkgs.firefox-esr;
       policies = {
         # Default policies - these shouldn't be opt out :/
         OverrideFirstRunPage = "";
@@ -65,12 +65,20 @@ in {
         # Search Engine
         SearchEngines = mkIf cfg.customSearchEngine {
           Add = [
+            # To be shut down!
+            # {
+            #   Name = "Searx";
+            #   Description = "Searx";
+            #   Alias = "!sx";
+            #   Method = "GET";
+            #   URLTemplate = "https://search.kosslan.dev/search?q={searchTerms}";
+            # }
             {
-              Name = "Searx";
-              Description = "Searx";
-              Alias = "!sx";
+              Name = "Kagi";
+              Description = "Paid premium search engine.";
+              Alias = "!kg";
               Method = "GET";
-              URLTemplate = "https://search.kosslan.dev/search?q={searchTerms}";
+              URLTemplate = "https://kagi.com/search?q={searchTerms}";
             }
             {
               Name = "nixpkgs";
@@ -80,7 +88,7 @@ in {
               URLTemplate = "https://search.nixos.org/packages?&query={searchTerms}";
             }
           ];
-          Default = "Searx";
+          Default = "Kagi";
         };
 
         # Declarative Extensions
@@ -100,6 +108,10 @@ in {
           "keepassxc-browser@keepassxc.org" = {
             "installation_mode" = "force_installed";
             "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi";
+          };
+          "search@kagi.com" = {
+            "installation_mode" = "force_installed";
+            "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/kagi-search-for-firefox/latest.xpi";
           };
         };
       };

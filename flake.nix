@@ -49,7 +49,17 @@
         ];
       };
 
-      # VPS Testing
+      # Home server
+      cerebrite = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit self inputs;};
+        modules = [
+          ./modules/universal
+          ./modules/server
+          ./hosts/cerebrite
+        ];
+      };
+
+      # Routing VPS
       dahlia = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [

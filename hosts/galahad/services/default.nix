@@ -13,6 +13,8 @@
       enable = true;
       powerOnBoot = true;
     };
+
+    opentabletdriver.enable = true;
   };
 
   display.amd.enable = true;

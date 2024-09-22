@@ -9,7 +9,7 @@
 
   cfg = config.programs.common;
 in {
-  options.programs.utils = {
+  options.programs.common = {
     enable = mkEnableOption "Utils and what not";
   };
 

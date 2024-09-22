@@ -1,8 +1,15 @@
-{username, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    nvim-pkg
+  ];
+
   programs = {
-    utils.enable = true;
-    neovim.defaults.enable = true;
     dev.git.enable = true;
+    common.enable = true;
 
     zsh = {
       enable = true;
@@ -11,7 +18,7 @@
 
     nh = {
       enable = true;
-      flake = "/home/${username}/.nixos-conf";
+      flake = "/home/${config.users.defaultUser}/.nixos-conf";
     };
   };
 }

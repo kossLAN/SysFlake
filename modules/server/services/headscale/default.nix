@@ -26,7 +26,7 @@ in {
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
     environment = {
       systemPackages = [config.services.headscale.package];
 

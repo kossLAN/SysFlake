@@ -4,7 +4,7 @@
     ./programs
     ./networking
     ./hardware
-    # ./arr
+    ./arr
     ./secrets
   ];
 

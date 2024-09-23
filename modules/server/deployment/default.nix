@@ -68,10 +68,10 @@ in {
     };
 
     # Example usuage of this
-    home-manager.users.${config.users.defaultUser} = {
-      home.file."test.txt".text = ''
-        ${builtins.toString (deployment.serviceUID "test")}
-      '';
-    };
+    # home-manager.users.${config.users.defaultUser} = {
+    #   home.file."test.txt".text = ''
+    #     ${builtins.toString (deployment.serviceUID "test")}
+    #   '';
+    # };
   };
 }

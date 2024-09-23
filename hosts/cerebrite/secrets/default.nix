@@ -18,10 +18,10 @@ in {
     firefox.file = "${path}/firefox.age";
     lidarr.file = "${path}/lidarr.age";
 
-    # deluge = {
-    #   file = "${path}/deluge.age";
-    #   owner = config.services.deluge.user;
-    # };
+    deluge = {
+      file = "${path}/deluge.age";
+      owner = config.services.deluge.user;
+    };
 
     syncthing = {
       file = "${path}/syncthing.age";

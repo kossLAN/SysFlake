@@ -8,15 +8,14 @@
 }: {
   deployment = {
     containers.deluge.owner = "deluge";
-    tailnetSubdomains = ["deluge"];
   };
 
   networking = {
-    firewall.allowedTCPPorts = [80];
+    firewall.allowedTCPPorts = [8112];
     nat = {
       enable = true;
       internalInterfaces = ["ve-+"];
-      externalInterface = "eno4";
+      externalInterface = "wlp5s0";
     };
   };
 
@@ -30,7 +29,7 @@
     };
   };
 
-  systemd.tmpfiles.rules = ["d /srv/torrents 0775 deluge storage"];
+  systemd.tmpfiles.rules = ["d /mnt/ssd1/torrents 0775 deluge storage"];
 
   containers.deluge = {
     autoStart = true;
@@ -38,6 +37,13 @@
     enableTun = true;
     hostAddress = "192.168.100.10";
     localAddress = deployment.containerHostIp "deluge";
+    forwardPorts = [
+      {
+        containerPort = 8112;
+        hostPort = 8112;
+        protocol = "tcp";
+      }
+    ];
 
     config = {
       networking = {
@@ -86,7 +92,7 @@
 
           config = {
             download_location = "/srv/torrents/";
-            max_upload_speed = "38000";
+            max_upload_speed = "6500";
             share_ratio_limit = "2.0";
             seed_time_limit = "25000";
             allow_remote = true;
@@ -107,17 +113,8 @@
       "${config.age.secrets.av0preshared.path}" = {isReadOnly = true;};
       "/srv/torrents" = {
         isReadOnly = false;
-        hostPath = "/srv/torrents";
+        hostPath = "/mnt/ssd1/torrents";
       };
-    };
-  };
-
-  services = {
-    caddy = {
-      enable = true;
-      virtualHosts."http://deluge.ts.net".extraConfig = ''
-        reverse_proxy http://${deployment.containerHostIp "deluge"}:8112
-      '';
     };
   };
 }

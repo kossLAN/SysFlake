@@ -16,7 +16,7 @@ in {
 
       externalInterface = mkOption {
         type = lib.types.str;
-        default = "eno4";
+        default = "wlp5s0";
       };
     };
 

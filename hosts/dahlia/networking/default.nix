@@ -39,12 +39,35 @@ in {
         "http://sync.ts.net".extraConfig = ''
           reverse_proxy http://${cerebrite}:8384
         '';
+
+        "http://deluge.ts.net".extraConfig = ''
+          reverse_proxy http://${cerebrite}:8112
+        '';
+
+        "http://radarr.ts.net".extraConfig = ''
+          reverse_proxy http://${cerebrite}:7878
+        '';
+
+        "http://sonarr.ts.net".extraConfig = ''
+          reverse_proxy http://${cerebrite}:8989
+        '';
+
+        "http://lidarr.ts.net".extraConfig = ''
+          reverse_proxy http://${cerebrite}:8686
+        '';
       };
     };
   };
 
   # Tailnet DNS
-  deployment.tailnetSubdomains = ["prometheus" "sync"];
+  deployment.tailnetSubdomains = [
+    "prometheus"
+    "sync"
+    "deluge"
+    "radarr"
+    "sonarr"
+    "lidarr"
+  ];
 
   routing.services = [
     # Git SSH Server

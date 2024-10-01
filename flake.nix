@@ -89,6 +89,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Hyprland Window Manager
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
+
     # Cosmic DE Test
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";

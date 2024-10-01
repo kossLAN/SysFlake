@@ -39,10 +39,12 @@ in {
     services = mkIf cfg.defaults.enable {
       prometheus = {
         port = 3255;
+        globalConfig.scrape_interval = "10s";
         exporters = {
           node = {
             enable = true;
             enabledCollectors = ["systemd"];
+            extraFlags = ["--collector.ethtool" "--collector.softirqs" "--collector.tcpstat" "--collector.wifi"];
             port = 3256;
           };
         };
@@ -52,7 +54,9 @@ in {
             job_name = "cerebrite";
             static_configs = [
               {
-                targets = ["127.0.0.1:${toString config.services.prometheus.exporters.node.port}"];
+                targets = [
+                  "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+                ];
               }
             ];
           }

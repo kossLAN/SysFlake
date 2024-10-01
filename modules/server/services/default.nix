@@ -1,8 +1,8 @@
 {
   imports = [
-    ./firefox-syncserver
     ./forgejo
     ./prometheus
+    ./loki
     ./ssh
     ./jellyfin
     ./plex

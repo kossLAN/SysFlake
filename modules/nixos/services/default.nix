@@ -5,6 +5,6 @@
     ./sound
     ./ssh
     ./udev
-    ./simple
+    ./common
   ];
 }

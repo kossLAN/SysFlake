@@ -26,7 +26,7 @@ in {
             layer = "top";
             height = 30;
             modules-left = [
-              "sway/workspaces"
+              "hyprland/workspaces"
             ];
             modules-center = [
               "clock"
@@ -76,7 +76,7 @@ in {
               format = " {}%  ";
               max-length = 10;
             };
-            "sway/workspaces" = {
+            "hyprland/workspaces" = {
               disable-scroll = true;
               all-outputs = true;
             };

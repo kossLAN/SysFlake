@@ -39,6 +39,21 @@
       overrideDevices = false;
     };
 
+    grafana = {
+      enable = true;
+      settings = {
+        server = {
+          http_port = 3000;
+          http_addr = "0.0.0.0";
+        };
+      };
+    };
+
+    # loki = {
+    #   enable = true;
+    #   defaults.enable = true;
+    # };
+
     prometheus = {
       enable = true;
       defaults.enable = true;

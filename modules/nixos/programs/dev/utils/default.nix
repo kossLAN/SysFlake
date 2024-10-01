@@ -17,15 +17,10 @@ in {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
         zls
-        dpkg
-        nodejs
         xxd
-        gdb
-        valgrind
         killall
         file
-        dotnet-sdk
-        man-pages
+        # man-pages
       ];
     };
   };

@@ -1,19 +1,9 @@
 {pkgs, ...}: {
-  virt = {
-    # docker.enable = true;
-    qemu.enable = true;
-  };
-
   networking = {
     networkmanager.enable = true;
   };
 
   hardware = {
-    bluetooth = {
-      enable = true;
-      powerOnBoot = true;
-    };
-
     opentabletdriver.enable = true;
   };
 

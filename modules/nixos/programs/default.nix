@@ -10,6 +10,7 @@
     ./oc
     ./anyrun
     ./waybar
+    ./hyprland
     ./sway
   ];
 }

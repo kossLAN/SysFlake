@@ -36,6 +36,10 @@ in {
           reverse_proxy http://${cerebrite}:3255
         '';
 
+        "http://grafana.ts.net".extraConfig = ''
+          reverse_proxy http://${cerebrite}:3000
+        '';
+
         "http://sync.ts.net".extraConfig = ''
           reverse_proxy http://${cerebrite}:8384
         '';
@@ -62,6 +66,7 @@ in {
   # Tailnet DNS
   deployment.tailnetSubdomains = [
     "prometheus"
+    "grafana"
     "sync"
     "deluge"
     "radarr"
@@ -78,17 +83,17 @@ in {
       ipAddress = cerebrite;
     }
 
-    # Catch all port range (mostly for quick docker setup)
+    # Palworld server.
     {
       interface = interface;
-      proto = "tcp";
-      dport = "10000:65535";
+      proto = "udp";
+      dport = "8211";
       ipAddress = cerebrite;
     }
     {
       interface = interface;
       proto = "udp";
-      dport = "10000:65535";
+      dport = "27015";
       ipAddress = cerebrite;
     }
   ];

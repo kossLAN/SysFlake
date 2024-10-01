@@ -36,9 +36,13 @@ in {
     ];
 
     # Breeze theme
-    theme.breeze = {
-      enable = true;
-      cursorSize = 26;
+    theme = {
+      breeze.enable = true;
+
+      cursor = {
+        enable = true;
+        cursorSize = 26;
+      };
     };
 
     programs = {

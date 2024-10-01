@@ -5,20 +5,16 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
+    vesktop
     mpv
     nvim-pkg
-  ];
-
-  users.packages = with pkgs; [
     pavucontrol
     via
     keepassxc
     bambu-studio
     libreoffice-qt
-    nerdfonts
     blender-hip
     gimp
-    vesktop
 
     inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
@@ -36,7 +32,7 @@
       flake = "/home/${config.users.defaultUser}/.nixos-conf";
     };
 
-    sway = {
+    hyprland = {
       enable = true;
       defaults.enable = true;
     };
@@ -63,13 +59,6 @@
       git.enable = true;
       utils.enable = true;
       java.enable = true;
-    };
-
-    nix-ld = {
-      enable = false;
-      libraries = with pkgs; [
-        # Unusued, but it's here when I need it
-      ];
     };
 
     game = {

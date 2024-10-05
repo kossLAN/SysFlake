@@ -39,16 +39,6 @@
         ];
       };
 
-      # Dedicated New York Based Server
-      petrolea = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit self inputs;};
-        modules = [
-          ./modules/universal
-          ./modules/server
-          ./hosts/petrolea
-        ];
-      };
-
       # Home server
       cerebrite = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};

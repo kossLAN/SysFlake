@@ -29,7 +29,7 @@
     };
   };
 
-  systemd.tmpfiles.rules = ["d /mnt/ssd1/torrents 0775 deluge storage"];
+  systemd.tmpfiles.rules = ["d /mnt/ssd1/torrents 1775 deluge storage"];
 
   containers.deluge = {
     autoStart = true;
@@ -51,21 +51,25 @@
 
         firewall = {
           enable = true;
-          allowedTCPPorts = [8112 58846];
+          allowedTCPPorts = [8112 58846 43567 36060];
         };
 
         wg-quick.interfaces.av0 = {
           autostart = true;
-          address = ["10.137.214.184"];
           privateKeyFile = config.age.secrets.av0client1.path;
           mtu = 1320;
           dns = ["10.128.0.1"];
+
+          address = [
+            "10.137.214.184/32"
+            "fd7d:76ee:e68f:a993:a9d8:93a3:2832:7941/128"
+          ];
 
           peers = [
             {
               publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
               presharedKeyFile = config.age.secrets.av0preshared.path;
-              endpoint = "184.75.214.165:1637";
+              endpoint = "146.70.115.141:1637";
               allowedIPs = ["0.0.0.0/0"];
               persistentKeepalive = 15;
             }
@@ -83,6 +87,7 @@
         deluge = {
           enable = true;
           declarative = true;
+          authFile = config.age.secrets.deluge.path;
 
           web = {
             enable = true;
@@ -109,6 +114,7 @@
     bindMounts = {
       "${config.age.secrets.av0client1.path}" = {isReadOnly = true;};
       "${config.age.secrets.av0preshared.path}" = {isReadOnly = true;};
+      "${config.age.secrets.deluge.path}" = {isReadOnly = true;};
       "/srv/torrents" = {
         isReadOnly = false;
         hostPath = "/mnt/ssd1/torrents";

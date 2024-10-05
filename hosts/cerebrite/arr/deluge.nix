@@ -83,7 +83,6 @@
         deluge = {
           enable = true;
           declarative = true;
-          authFile = config.age.secrets.deluge.path;
 
           web = {
             enable = true;
@@ -108,7 +107,6 @@
     };
 
     bindMounts = {
-      "${config.age.secrets.deluge.path}" = {isReadOnly = true;};
       "${config.age.secrets.av0client1.path}" = {isReadOnly = true;};
       "${config.age.secrets.av0preshared.path}" = {isReadOnly = true;};
       "/srv/torrents" = {

@@ -4,6 +4,7 @@
     ./programs
     ./hardware
     ./networking
+    ./secrets
   ];
 
   networking.hostName = "dahlia";

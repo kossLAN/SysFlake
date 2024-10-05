@@ -13,7 +13,11 @@
     ssh.enable = true;
     common.enable = true;
     sound.enable = true;
-    tailscale.enable = true;
+
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
+    };
 
     displayManager = {
       autoLogin = {

@@ -1,4 +1,4 @@
-{...}: let
+{config, ...}: let
   domain = "kosslan.dev";
   interface = "enp1s0"; # WAN interface
   cerebrite = "100.64.0.4";
@@ -13,14 +13,29 @@ in {
     tailscale = {
       enable = true;
       openFirewall = true;
-      useRoutingFeatures = "server";
-      extraUpFlags = ["--login-server http://localhost:3442"];
+      useRoutingFeatures = "both";
+      authKeyFile = config.age.secrets.tailscale.path;
+
+      extraUpFlags = [
+        "--login-server=http://localhost:3442"
+        "--advertise-exit-node=true"
+        "--advertise-routes=0.0.0.0/0"
+      ];
     };
 
     caddy = {
       enable = true;
       landingPage = true;
       virtualHosts = {
+        # Jellyfin (Media Server)
+        "jellyfin.${domain}".extraConfig = ''
+          reverse_proxy http://${cerebrite}:8096
+        '';
+
+        "seer.${domain}".extraConfig = ''
+          reverse_proxy http://${cerebrite}:5055
+        '';
+
         # Portainer (docker management thing)
         "portainer.${domain}".extraConfig = ''
           reverse_proxy http://${cerebrite}:9000
@@ -59,6 +74,10 @@ in {
         "http://lidarr.ts.net".extraConfig = ''
           reverse_proxy http://${cerebrite}:8686
         '';
+
+        "http://prowlarr.ts.net".extraConfig = ''
+          reverse_proxy http://${cerebrite}:9696
+        '';
       };
     };
   };
@@ -72,6 +91,7 @@ in {
     "radarr"
     "sonarr"
     "lidarr"
+    "prowlarr"
   ];
 
   routing.services = [
@@ -80,6 +100,26 @@ in {
       interface = interface;
       proto = "tcp";
       dport = "22";
+      ipAddress = cerebrite;
+    }
+
+    # Garry's Mod Server
+    {
+      interface = interface;
+      proto = "udp";
+      dport = "27005";
+      ipAddress = cerebrite;
+    }
+    {
+      interface = interface;
+      proto = "tcp";
+      dport = "27015";
+      ipAddress = cerebrite;
+    }
+    {
+      interface = interface;
+      proto = "udp";
+      dport = "27015";
       ipAddress = cerebrite;
     }
 
@@ -93,7 +133,7 @@ in {
     {
       interface = interface;
       proto = "udp";
-      dport = "27015";
+      dport = "27016";
       ipAddress = cerebrite;
     }
   ];

@@ -43,6 +43,11 @@
         hostPort = 8112;
         protocol = "tcp";
       }
+      {
+        containerPort = 58846;
+        hostPort = 58846;
+        protocol = "tcp";
+      }
     ];
 
     config = {
@@ -51,7 +56,7 @@
 
         firewall = {
           enable = true;
-          allowedTCPPorts = [8112 58846 43567 36060];
+          allowedTCPPorts = [8112 58846 8284];
         };
 
         wg-quick.interfaces.av0 = {
@@ -101,9 +106,14 @@
             seed_time_limit = "25000";
             allow_remote = true;
             listen_interface = "10.137.214.184";
+            random_port = false;
             daemon_port = 58846;
-            listen_ports = [43567 36060];
+            listen_ports = [8284 8284];
             enabled_plugins = ["Label"];
+            upnp = true;
+            natpmp = false;
+            lsd = false;
+            dht = true;
           };
         };
       };

@@ -127,7 +127,7 @@
       "${config.age.secrets.deluge.path}" = {isReadOnly = true;};
       "/srv/torrents" = {
         isReadOnly = false;
-        hostPath = "/mnt/ssd1/torrents";
+        hostPath = "/srv/torrents";
       };
     };
   };

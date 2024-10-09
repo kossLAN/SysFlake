@@ -88,7 +88,7 @@ in {
 
             listener = [
               {
-                timeout = 900;
+                timeout = 300;
                 on-timeout = "hyprctl dispatch dpms off";
                 on-resume = "hyprctl dispatch dpms on";
               }
@@ -108,7 +108,7 @@ in {
           general = {
             gaps_in = "3";
             gaps_out = "5";
-            border_size = "1";
+            border_size = "2";
             layout = "dwindle";
             resize_on_border = true;
 

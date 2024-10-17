@@ -17,6 +17,7 @@ in {
               options = {
                 subdomain = mkOption {
                   type = lib.types.str;
+                  default = "";
                 };
                 address = mkOption {
                   type = lib.types.str;

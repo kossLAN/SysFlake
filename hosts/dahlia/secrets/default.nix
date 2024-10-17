@@ -9,5 +9,6 @@ in {
 
   age.secrets = {
     tailscale.file = "${path}/tailscale.age";
+    cloudflare.file = "${path}/cloudflare.age";
   };
 }

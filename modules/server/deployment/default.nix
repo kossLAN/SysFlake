@@ -34,6 +34,36 @@ in {
       type = lib.types.listOf lib.types.str;
       default = [];
     };
+
+    cfKeyFile = mkOption {
+      type = lib.types.path;
+      default = config.age.secrets.cloudflare.path;
+      description = ''
+        Path to the cloudflare key file.
+      '';
+    };
+
+    reverseProxies = mkOption {
+      type = lib.types.attrsOf (lib.types.submodule {
+        options = {
+          subdomain = mkOption {
+            type = lib.types.str;
+          };
+
+          address = mkOption {
+            type = lib.types.str;
+          };
+
+          port = mkOption {
+            type = lib.types.int;
+          };
+        };
+      });
+      default = [];
+      description = ''
+        List of reverse proxies for various services, mapped to caddy.
+      '';
+    };
   };
 
   config = {

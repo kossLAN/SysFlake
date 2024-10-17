@@ -10,6 +10,7 @@ in {
   "av0client1.age".publicKeys = systems;
   "av0preshared.age".publicKeys = systems;
 
+  "cloudflare.age".publicKeys = systems;
   "tailscale.age".publicKeys = systems;
   "deluge.age".publicKeys = systems;
 }

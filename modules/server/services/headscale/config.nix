@@ -18,10 +18,10 @@
     private_key_path = "${dataDir}/private.key";
     noise.private_key_path = "${dataDir}/noise_private.key";
 
-    ip_prefixes = [
-      "fd7a:115c:a1e0::/48"
-      "100.64.0.0/10"
-    ];
+    prefixes = {
+      v6 = "fd7a:115c:a1e0::/48";
+      v4 = "100.64.0.0/10";
+    };
 
     derp = {
       server = {
@@ -39,11 +39,17 @@
       update_frequency = "24h";
     };
 
+    database = {
+      type = "sqlite3";
+
+      sqlite = {
+        path = "${dataDir}/headscale.db";
+      };
+    };
+
     disable_check_updates = true;
     ephemeral_node_inactivity_timeout = "30m";
     node_update_check_interval = "10s";
-    db_type = "sqlite3";
-    db_path = "${dataDir}/db.sqlite";
     acme_url = "";
     acme_email = "";
 
@@ -59,14 +65,14 @@
       level = "info";
     };
 
-    acl_policy_path = "";
+    policy.path = "";
 
-    dns_config = {
+    dns = {
       override_local_dns = true;
-      base_domain = "ts.net";
-      nameservers = ["1.1.1.1" "8.8.8.8"];
+      base_domain = config.deployment.tailnetDomain;
+      nameservers.global = ["1.1.1.1" "8.8.8.8"];
 
-      domains = deployment.tailnetFqdnList;
+      search_domains = deployment.tailnetFqdnList;
 
       extra_records = builtins.map (fqdn: {
         name = fqdn;

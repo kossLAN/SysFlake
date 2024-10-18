@@ -111,6 +111,20 @@ in {
       ipAddress = cerebrite;
     }
 
+    # Syncthing
+    {
+      interface = interface;
+      proto = "tcp";
+      dport = "22000";
+      ipAddress = cerebrite;
+    }
+    {
+      interface = interface;
+      proto = "udp";
+      dport = "21027";
+      ipAddress = cerebrite;
+    }
+
     # Garry's Mod Server
     {
       interface = interface;

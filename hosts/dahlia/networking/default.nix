@@ -37,12 +37,7 @@ in {
 
       domains = {
         # "kosslan.dev" = {
-        #   reverseProxyList = [
-        #     {
-        #       subdomain = "portainer";
-        #       address = cerebrite;
-        #       port = 9000;
-        #     }
+        #   reverseProxyList = {
         #     {
         #       subdomain = "git";
         #       address = cerebrite;
@@ -96,6 +91,11 @@ in {
               subdomain = "sync";
               address = cerebrite;
               port = 8384;
+            }
+            {
+              subdomain = "portainer";
+              address = cerebrite;
+              port = 9000;
             }
             {
               subdomain = "netdata";

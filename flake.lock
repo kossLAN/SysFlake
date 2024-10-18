@@ -543,6 +543,22 @@
         "url": "https://github.com/NixOS/nixpkgs/archive/eb9ceca17df2ea50a250b6b27f7bf6ab0186f198.tar.gz"
       }
     },
+    "nixpkgs-server": {
+      "locked": {
+        "lastModified": 1728888510,
+        "narHash": "sha256-nsNdSldaAyu6PE3YUA+YQLqUDJh+gRbBooMMekZJwvI=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "a3c0b3b21515f74fd2665903d4ce6bc4dc81c77c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1720386169,
@@ -723,6 +739,7 @@
         "jovian": "jovian",
         "nixos-cosmic": "nixos-cosmic",
         "nixpkgs": "nixpkgs_5",
+        "nixpkgs-server": "nixpkgs-server",
         "nixpkgs-stable": "nixpkgs-stable_3",
         "pipewire-screenaudio": "pipewire-screenaudio"
       }

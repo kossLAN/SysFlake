@@ -4,6 +4,7 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    nixpkgs-server,
     ...
   }: {
     overlays = import ./overlays {inherit inputs;};
@@ -40,7 +41,7 @@
       };
 
       # Home server
-      cerebrite = nixpkgs.lib.nixosSystem {
+      cerebrite = nixpkgs-server.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
@@ -50,7 +51,7 @@
       };
 
       # Routing VPS
-      dahlia = nixpkgs.lib.nixosSystem {
+      dahlia = nixpkgs-server.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
@@ -64,11 +65,11 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-server.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
     custom-neovim = {
       url = "github:kossLAN/NvimFlake";
-      # url = "git+https://git.kosslan.dev/kossLAN/NvimFlake?ref=master";
     };
 
     # Secrets 🤫

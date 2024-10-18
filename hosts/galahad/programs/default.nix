@@ -20,6 +20,7 @@
   ];
 
   programs = {
+    kdeconnect.enable = true;
     partition-manager.enable = true;
     noisetorch.enable = true;
     oc.enable = true;

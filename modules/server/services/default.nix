@@ -1,17 +1,10 @@
 {
   imports = [
     ./forgejo
-    ./prometheus
-    ./loki
     ./ssh
     ./jellyfin
-    ./plex
     ./searx
     ./jellyseerr
-    ./lidarr
-    ./sonarr
-    ./radarr
-    ./prowlarr
     ./unpackerr
     ./headscale
     ./caddy

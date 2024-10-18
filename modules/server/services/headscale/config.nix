@@ -2,13 +2,13 @@
 {
   config,
   pkgs,
-  deployment,
+  headscale-custom,
 }: let
-  cfg = config.services.headscale;
+  cfg = config.services.headscale-custom;
   dataDir = "/var/lib/headscale";
 
   headscaleConfig = {
-    server_url = "https://ts.${cfg.reverseProxy.domain}";
+    server_url = cfg.serverUrl;
     listen_addr = "0.0.0.0:3442";
     metrics_listen_addr = "0.0.0.0:3443";
 
@@ -21,6 +21,7 @@
     prefixes = {
       v6 = "fd7a:115c:a1e0::/48";
       v4 = "100.64.0.0/10";
+      allocation = "sequential";
     };
 
     derp = {
@@ -30,6 +31,7 @@
         region_code = "headscale";
         region_name = "Headscale Embedded DERP";
         stun_listen_addr = "0.0.0.0:8344";
+        private_key_path = "${dataDir}/derp_server_private.key";
       };
 
       urls = [];
@@ -49,7 +51,7 @@
 
     disable_check_updates = true;
     ephemeral_node_inactivity_timeout = "30m";
-    node_update_check_interval = "10s";
+    #node_update_check_interval = "10s";
     acme_url = "";
     acme_email = "";
 
@@ -65,20 +67,31 @@
       level = "info";
     };
 
-    policy.path = "";
+    policy = {
+      path = "";
+      mode = "file";
+    };
 
     dns = {
       override_local_dns = true;
-      base_domain = config.deployment.tailnetDomain;
+      base_domain = cfg.baseDomain;
       nameservers.global = ["1.1.1.1" "8.8.8.8"];
 
-      search_domains = deployment.tailnetFqdnList;
+      search_domains = headscale-custom.tailnetFqdnList;
 
-      extra_records = builtins.map (fqdn: {
-        name = fqdn;
-        type = "A";
-        value = "100.64.0.1"; # Again assuming this the correct IP
-      }) (deployment.tailnetFqdnList);
+      extra_records =
+        builtins.map (fqdn: {
+          name = fqdn;
+          type = "A";
+          value = "100.64.0.1"; # Again assuming this the correct IP
+        }) (headscale-custom.tailnetFqdnList)
+        ++ [
+          {
+            name = "sync.kosslan.me";
+            type = "A";
+            value = "100.64.0.1";
+          }
+        ];
 
       magic_dns = true;
     };

@@ -3,9 +3,19 @@
   cerebrite = "100.64.0.4";
 in {
   services = {
-    headscale = {
-      enable = false;
-      defaults.enable = true;
+    headscale-custom = {
+      enable = true;
+      serverUrl = "https://kosslan.me";
+      baseDomain = "ts.kosslan.me";
+      tailnetDomain = "kosslan.me";
+      tailnetSubdomains = [
+        "sync"
+        "deluge"
+        "radarr"
+        "sonarr"
+        "lidarr"
+        "prowlarr"
+      ];
     };
 
     tailscale = {
@@ -17,7 +27,7 @@ in {
       extraUpFlags = [
         "--login-server=http://localhost:3442"
         "--advertise-exit-node=true"
-        "--advertise-routes=0.0.0.0/0"
+        "--advertise-routes=0.0.0.0/0,::/0"
       ];
     };
 
@@ -25,8 +35,27 @@ in {
       enable = true;
 
       domains = {
-        "kosslan.dev" = {
+        # "kosslan.dev" = {
+        #   reverseProxyList = [
+        #     {
+        #       subdomain = "portainer";
+        #       address = cerebrite;
+        #       port = 9000;
+        #     }
+        #     {
+        #       subdomain = "git";
+        #       address = cerebrite;
+        #       port = 4000;
+        #     }
+        #   ];
+        # };
+
+        "kosslan.me" = {
           reverseProxyList = [
+            {
+              address = "localhost";
+              port = 3442;
+            }
             {
               subdomain = "jellyfin";
               address = cerebrite;
@@ -36,25 +65,6 @@ in {
               subdomain = "seer";
               address = cerebrite;
               port = 5055;
-            }
-            {
-              subdomain = "portainer";
-              address = cerebrite;
-              port = 9000;
-            }
-            {
-              subdomain = "git";
-              address = cerebrite;
-              port = 4000;
-            }
-          ];
-        };
-
-        "kosslan.me" = {
-          reverseProxyList = [
-            {
-              address = "localhost";
-              port = 3442;
             }
             {
               subdomain = "deluge";
@@ -90,19 +100,6 @@ in {
         };
       };
     };
-  };
-
-  # Tailnet DNS
-  deployment = {
-    tailnetDomain = "kosslan.me";
-    tailnetSubdomains = [
-      "sync"
-      "deluge"
-      "radarr"
-      "sonarr"
-      "lidarr"
-      "prowlarr"
-    ];
   };
 
   routing.services = [

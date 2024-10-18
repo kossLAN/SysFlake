@@ -3,7 +3,6 @@
 {
   lib,
   config,
-  deployment,
   ...
 }: let
   inherit (lib.options) mkOption;
@@ -25,43 +24,11 @@ in {
       default = {};
     };
 
-    tailnetDomain = mkOption {
-      type = lib.types.str;
-      default = "ts.net";
-    };
-
-    tailnetSubdomains = mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [];
-    };
-
     cfKeyFile = mkOption {
       type = lib.types.path;
       default = config.age.secrets.cloudflare.path;
       description = ''
         Path to the cloudflare key file.
-      '';
-    };
-
-    reverseProxies = mkOption {
-      type = lib.types.attrsOf (lib.types.submodule {
-        options = {
-          subdomain = mkOption {
-            type = lib.types.str;
-          };
-
-          address = mkOption {
-            type = lib.types.str;
-          };
-
-          port = mkOption {
-            type = lib.types.int;
-          };
-        };
-      });
-      default = [];
-      description = ''
-        List of reverse proxies for various services, mapped to caddy.
       '';
     };
   };
@@ -78,12 +45,6 @@ in {
       in
         f f 0;
     in {
-      # Adds a subdomain to tailscale dns records
-      tailnetFqdnList =
-        builtins.map
-        (subdomain: "${subdomain}.${config.deployment.tailnetDomain}")
-        config.deployment.tailnetSubdomains;
-
       # Using containers list, we give our containers ips based off their index in the list
       # First container in list will be 192.168.100.11, then auto incrementing from there, this
       # meaning that IP's for containers will probably change fairly rapidly, so they SHOULD not

@@ -85,16 +85,15 @@
       "locked": {
         "lastModified": 1728429259,
         "narHash": "sha256-A8CpjKVsTUKPl4KZMWJfqzIrYXIrCi4ewKL+Cn6JNHY=",
-        "ref": "master",
+        "owner": "kossLAN",
+        "repo": "NvimFlake",
         "rev": "a5108f68c1deb9e7be212409681349462e2fbfbc",
-        "revCount": 19,
-        "type": "git",
-        "url": "https://git.kosslan.dev/kossLAN/NvimFlake"
+        "type": "github"
       },
       "original": {
-        "ref": "master",
-        "type": "git",
-        "url": "https://git.kosslan.dev/kossLAN/NvimFlake"
+        "owner": "kossLAN",
+        "repo": "NvimFlake",
+        "type": "github"
       }
     },
     "darwin": {

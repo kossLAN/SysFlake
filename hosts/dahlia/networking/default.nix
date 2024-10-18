@@ -15,6 +15,7 @@ in {
         "sonarr"
         "lidarr"
         "prowlarr"
+        "netdata"
       ];
     };
 
@@ -95,6 +96,11 @@ in {
               subdomain = "sync";
               address = cerebrite;
               port = 8384;
+            }
+            {
+              subdomain = "netdata";
+              address = cerebrite;
+              port = 19999;
             }
           ];
         };

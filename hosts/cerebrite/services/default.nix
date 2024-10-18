@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   virtualisation = {
     portainer = {
       enable = true;
@@ -16,17 +16,12 @@
   };
 
   services = {
-    ssh = {
-      enable = true;
-    };
+    ssh.enable = true;
+    forgejo.container.enable = true;
 
     caddy = {
       enable = true;
       email = "kosslan@kosslan.dev";
-    };
-
-    forgejo = {
-      container.enable = true;
     };
 
     # Private Services
@@ -39,24 +34,17 @@
       overrideDevices = false;
     };
 
-    grafana = {
+    netdata = {
       enable = true;
-      settings = {
-        server = {
-          http_port = 3000;
-          http_addr = "0.0.0.0";
-        };
+
+      package = pkgs.netdata.override {
+        withCloudUi = true;
       };
-    };
 
-    # loki = {
-    #   enable = true;
-    #   defaults.enable = true;
-    # };
-
-    prometheus = {
-      enable = true;
-      defaults.enable = true;
+      python = {
+        enable = true;
+        recommendedPythonPackages = true;
+      };
     };
   };
 }

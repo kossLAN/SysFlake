@@ -31,7 +31,7 @@ in {
         };
       });
 
-      default = [];
+      default = {};
 
       description = ''
         List of reverse proxies for various services, mapped to caddy.

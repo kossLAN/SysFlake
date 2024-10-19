@@ -41,7 +41,7 @@
       };
 
       # Home server
-      cerebrite = nixpkgs-server.lib.nixosSystem {
+      cerebrite = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
@@ -51,7 +51,7 @@
       };
 
       # Routing VPS
-      dahlia = nixpkgs-server.lib.nixosSystem {
+      dahlia = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
           ./modules/universal
@@ -65,7 +65,6 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-server.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
     custom-neovim = {

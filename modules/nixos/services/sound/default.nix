@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   inherit (lib.modules) mkIf;
@@ -14,12 +15,27 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.pavucontrol
+    ];
+
     services = {
       pipewire = {
-        wireplumber.enable = true;
-        audio.enable = true;
         enable = true;
+        audio.enable = true;
+        wireplumber.enable = true;
+
+        extraConfig.pipewire."92-low-latency" = {
+          "context.properties" = {
+            "default.clock.rate" = 48000;
+            "default.clock.quantum" = 32;
+            "default.clock.min-quantum" = 32;
+            "default.clock.max-quantum" = 32;
+          };
+        };
+
         pulse.enable = true;
+        jack.enable = true;
         alsa = {
           enable = true;
           support32Bit = true;
@@ -33,6 +49,7 @@ in {
 
     users.users.${config.users.defaultUser}.extraGroups = [
       "pipewire"
+      "audio"
     ];
   };
 }

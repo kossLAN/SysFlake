@@ -2,6 +2,7 @@
   uidmap = {
     # nice
     test = 6969;
+    nextcloud = 237;
   };
 
   gidmap = {

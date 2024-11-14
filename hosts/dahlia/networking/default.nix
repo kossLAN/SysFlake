@@ -10,6 +10,7 @@ in {
       tailnetDomain = "kosslan.me";
       tailnetSubdomains = [
         "sync"
+        "cloud"
         "deluge"
         "radarr"
         "sonarr"
@@ -36,15 +37,15 @@ in {
       enable = true;
 
       domains = {
-        # "kosslan.dev" = {
-        #   reverseProxyList = {
-        #     {
-        #       subdomain = "git";
-        #       address = cerebrite;
-        #       port = 4000;
-        #     }
-        #   ];
-        # };
+        "kosslan.dev" = {
+          reverseProxyList = [
+            {
+              subdomain = "git";
+              address = cerebrite;
+              port = 4000;
+            }
+          ];
+        };
 
         "kosslan.me" = {
           reverseProxyList = [
@@ -91,6 +92,11 @@ in {
               subdomain = "sync";
               address = cerebrite;
               port = 8384;
+            }
+            {
+              subdomain = "cloud";
+              address = cerebrite;
+              port = 5000;
             }
             {
               subdomain = "portainer";
@@ -162,6 +168,20 @@ in {
       interface = interface;
       proto = "udp";
       dport = "27016";
+      ipAddress = cerebrite;
+    }
+
+    # Minecraft server.
+    {
+      interface = interface;
+      proto = "tcp";
+      dport = "25565";
+      ipAddress = cerebrite;
+    }
+    {
+      interface = interface;
+      proto = "udp";
+      dport = "24454";
       ipAddress = cerebrite;
     }
   ];

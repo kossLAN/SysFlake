@@ -10,12 +10,12 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    xdg-desktop-portal-kde = prev.xdg-desktop-portal-kde.overrideAttrs (old: {
-      postFixup = ''
-        wrapProgram $out/libexec/xdg-desktop-portal-kde \
-          --set QT_QPA_PLATFORM wayland
-      '';
-    });
+    # xdg-desktop-portal-kde = prev.xdg-desktop-portal-kde.overrideAttrs (old: {
+    #   postFixup = ''
+    #     wrapProgram $out/libexec/xdg-desktop-portal-kde \
+    #       --set QT_QPA_PLATFORM wayland
+    #   '';
+    # });
   };
 
   # Allows me to use stable/unstable packages where I need them.

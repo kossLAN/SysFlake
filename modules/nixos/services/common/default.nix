@@ -15,7 +15,6 @@ in {
 
   config = mkIf cfg.enable {
     services = {
-      blueman.enable = true;
       devmon.enable = true;
       gvfs.enable = true;
       udisks2.enable = true;

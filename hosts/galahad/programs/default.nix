@@ -8,25 +8,24 @@
     vesktop
     mpv
     nvim-pkg
-    pavucontrol
     via
     keepassxc
     bambu-studio
     libreoffice-qt
-    blender-hip
+    # blender-hip # this is broken
     gimp
+    jellyfin-media-player
 
     inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
 
   programs = {
-    kdeconnect.enable = true;
     partition-manager.enable = true;
-    noisetorch.enable = true;
-    oc.enable = true;
+    corectrl.enable = true;
     common.enable = true;
     obs-studio.enable = true;
     syncthing.user.enable = true;
+    zen-browser.enable = true;
 
     nh = {
       enable = true;
@@ -38,14 +37,6 @@
       defaults.enable = true;
     };
 
-    firefox = {
-      enable = true;
-      customPreferences = true;
-      customExtensions = true;
-      customPolicies = true;
-      customSearchEngine = true;
-    };
-
     zsh = {
       enable = true;
       defaults.enable = true;
@@ -54,6 +45,11 @@
     foot = {
       enable = true;
       defaults.enable = true;
+    };
+
+    noisetorch = {
+      enable = true;
+      device = "alsa_input.usb-RODE_Microphones_RODE_AI-1_D02E743F-00.mono-fallback";
     };
 
     dev = {

@@ -4,7 +4,6 @@
   outputs = inputs @ {
     self,
     nixpkgs,
-    nixpkgs-server,
     ...
   }: {
     overlays = import ./overlays {inherit inputs;};
@@ -83,12 +82,7 @@
     # Hyprland Window Manager
     hyprland = {
       url = "github:hyprwm/Hyprland";
-    };
-
-    # Cosmic DE Test
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # App runner
@@ -103,7 +97,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Zen Browser
+    zen-browser = {
+      url = "github:MarceColl/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Audio screensharing in firefox
-    pipewire-screenaudio.url = "github:IceDBorn/pipewire-screenaudio";
+    pipewire-screenaudio = {
+      url = "github:IceDBorn/pipewire-screenaudio";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

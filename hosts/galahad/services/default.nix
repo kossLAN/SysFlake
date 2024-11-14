@@ -5,6 +5,10 @@
 
   hardware = {
     opentabletdriver.enable = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
   };
 
   display.amd.enable = true;

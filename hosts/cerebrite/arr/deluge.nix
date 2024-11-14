@@ -63,7 +63,11 @@
           autostart = true;
           privateKeyFile = config.age.secrets.av0client1.path;
           mtu = 1320;
-          dns = ["10.128.0.1"];
+
+          dns = [
+            "10.128.0.1"
+            "fd7d:76ee:e68f:a993::1"
+          ];
 
           address = [
             "10.137.214.184/32"
@@ -74,7 +78,7 @@
             {
               publicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
               presharedKeyFile = config.age.secrets.av0preshared.path;
-              endpoint = "146.70.115.141:1637";
+              endpoint = "198.44.136.30:1637";
               allowedIPs = ["0.0.0.0/0"];
               persistentKeepalive = 15;
             }

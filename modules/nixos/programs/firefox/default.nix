@@ -2,24 +2,16 @@
   config,
   pkgs,
   lib,
-  inputs,
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.firefox;
 in {
-  options.programs.firefox = {
-    customExtensions = mkEnableOption "A list of firefox extenions to install.";
-    customPreferences = mkEnableOption "A list of firefox preferences to install.";
-    customPolicies = mkEnableOption "A list of firefox policies that I like to enable";
-    customSearchEngine = mkEnableOption "Personal search engine, that I want to default to";
-  };
-
-  config = {
+  config = mkIf cfg.enable {
     programs.firefox = {
-      package = pkgs.firefox-esr;
+      package = pkgs.firefox-bin;
+
       policies = {
         # Default policies - these shouldn't be opt out :/
         OverrideFirstRunPage = "";
@@ -36,14 +28,14 @@ in {
         NoDefaultBookmarks = true;
 
         # Additional policies
-        EnableTrackingProtection = mkIf cfg.customPolicies {
+        EnableTrackingProtection = {
           Cryptomining = true;
           Fingerprinting = true;
           Locked = true;
           Value = true;
         };
 
-        FirefoxHome = mkIf cfg.customPolicies {
+        FirefoxHome = {
           Search = true;
           Pocket = false;
           Snippets = false;
@@ -51,30 +43,22 @@ in {
           Highlights = false;
         };
 
-        UserMessaging = mkIf cfg.customPolicies {
+        UserMessaging = {
           ExtensionRecommendations = false;
           SkipOnboarding = true;
         };
 
-        Cookies = mkIf cfg.customPolicies {
+        Cookies = {
           Behavior = "accept";
           ExpireAtSessionEnd = false;
           Locked = false;
         };
 
-        # Search Engine
-        SearchEngines = mkIf cfg.customSearchEngine {
+        # Search Engine, this will only work on Firefox ESR which is pretty annoying.
+        SearchEngines = {
           Add = [
-            # To be shut down!
-            # {
-            #   Name = "Searx";
-            #   Description = "Searx";
-            #   Alias = "!sx";
-            #   Method = "GET";
-            #   URLTemplate = "https://search.kosslan.dev/search?q={searchTerms}";
-            # }
             {
-              Name = "Kagi";
+              Name = "kagi";
               Description = "Paid premium search engine.";
               Alias = "!kg";
               Method = "GET";
@@ -92,7 +76,7 @@ in {
         };
 
         # Declarative Extensions
-        ExtensionSettings = mkIf cfg.customExtensions {
+        ExtensionSettings = {
           "uBlock0@raymondhill.net" = {
             "installation_mode" = "force_installed";
             "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
@@ -113,10 +97,26 @@ in {
             "installation_mode" = "force_installed";
             "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/kagi-search-for-firefox/latest.xpi";
           };
+          "{3c078156-979c-498b-8990-85f7987dd929}" = {
+            "installation_mode" = "force_installed";
+            "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpi";
+          };
+          "userchrome-toggle-extended@n2ezr.ru" = {
+            "installation_mode" = "force_installed";
+            "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/userchrome-toggle-extended/latest.xpi";
+          };
+          # "pipewire-screenaudio@icenjim" = {
+          #   "installation_mode" = "force_installed";
+          #   "install_url" = "https://addons.mozilla.org/firefox/downloads/latest/pipewire-screenaudio/latest.xpi";
+          # };
         };
       };
-      preferences = mkIf cfg.customPreferences {
-        "widget.use-xdg-desktop-portal.file-picker" = 1;
+
+      preferences = {
+        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        # "widget.use-xdg-desktop-portal.file-picker" = 1;
+        # "sidebar.revamp" = false;
+        # "sidebar.verticalTabs" = false;
       };
     };
   };

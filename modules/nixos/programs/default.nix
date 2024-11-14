@@ -1,13 +1,15 @@
 {
   imports = [
     ./firefox
+    ./zen-browser
     ./dev
     ./foot
     ./game
     ./obs-studio
     ./scripts
+    ./noisetorch
     ./common
-    ./oc
+    ./corectrl
     ./anyrun
     ./waybar
     ./hyprland

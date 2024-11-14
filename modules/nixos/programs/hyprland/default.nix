@@ -18,10 +18,7 @@ in {
     # XDG Portal Nonsense
     xdg.portal = {
       enable = true;
-
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-kde
-      ];
+      extraPortals = [pkgs.libsForQt5.xdg-desktop-portal-kde];
 
       config.common = {
         default = [
@@ -69,10 +66,10 @@ in {
         defaults.enable = true;
       };
 
-      hyprland = {
-        package = inputs.hyprland.packages.${pkgs.system}.default;
-        portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
-      };
+      # hyprland = {
+      #   package = inputs.hyprland.packages.${pkgs.system}.default;
+      #   portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+      # };
     };
 
     home-manager.users.${config.users.defaultUser} = {
@@ -100,7 +97,7 @@ in {
       wayland.windowManager.hyprland = {
         enable = true;
         systemd.enable = true;
-        package = inputs.hyprland.packages.${pkgs.system}.default;
+        # package = inputs.hyprland.packages.${pkgs.system}.default;
 
         settings = let
           mainMod = "SUPER";
@@ -198,11 +195,18 @@ in {
           monitor = ["DP-2,preferred,auto,1.25"];
 
           exec-once = [
+            # DBUS Shit.
             "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+
+            # Wallpaper manager
             "${lib.getExe pkgs.swaybg} -m fill -i ${./background.png}"
+
+            # Run noise suppression.
+            "noisetorch -i alsa_input.usb-RODE_Microphones_RODE_AI-1_D02E743F-00.mono-fallback -o"
           ];
 
           exec = [
+            # Polkit for authentication prompts
             "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1"
           ];
 
@@ -216,8 +220,8 @@ in {
             # Tearing
             "immediate  , xwayland:1"
 
-            # Custom
-            "float                  , title:^(foot_float)$"
+            # Custom rules
+            "float                  , class:org.kde.polkit-kde-authentication-agent-1"
             "suppressevent maximize , class:.*"
           ];
 
@@ -232,7 +236,7 @@ in {
             "${mainMod}, F, fullscreen, "
             "${mainMod}, Q, killactive, "
             "${mainMod}, S, togglefloating, "
-            "${mainMod}, M, exit, "
+            # "${mainMod}, M, exit, "
             "${mainMod}, J, togglesplit, " # Dwindle
 
             # Navigation
@@ -283,9 +287,8 @@ in {
 
             # Program Launch Keybinds
             "${mainMod}, return , exec, foot"
-            "${mainMod}, T      , exec, foot - T foot_float"
             "${mainMod}, R      , exec, dolphin"
-            "${mainMod}, B      , exec, firefox-esr"
+            "${mainMod}, B      , exec, zen-bin"
             "${mainMod}, SPACE  , exec, anyrun"
             "${mainMod}, P      , exec, ${lib.getExe pkgs.grimblast} --notify copysave  area ~/Pictures/Screenshots/$(data + 'Screenshot_%s.png')"
           ];
@@ -295,7 +298,6 @@ in {
             "${mainMod}, mouse:273 , resizewindow"
           ];
         };
-        # This is a fucking cool operator that I wasn't aware of.
       };
     };
   };

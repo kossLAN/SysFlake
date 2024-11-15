@@ -19,40 +19,43 @@ in {
       cpuFreqGovernor = "schedutil";
     };
 
-    services.tlp = {
-      enable = true;
-      settings = {
-        SOUND_POWER_SAVE_ON_BAT = 1;
-        SOUND_POWER_SAVE_ON_AC = 0;
+    services = {
+      power-profiles-daemon.enable = false;
 
-        WIFI_PWR_ON_AC = "on";
-        WIFI_PWR_ON_BAT = "on";
+      tlp = {
+        enable = true;
+        settings = {
+          SOUND_POWER_SAVE_ON_BAT = 1;
+          SOUND_POWER_SAVE_ON_AC = 0;
 
-        WOL_DISABLE = "Y";
+          WIFI_PWR_ON_AC = "on";
+          WIFI_PWR_ON_BAT = "on";
 
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+          WOL_DISABLE = "Y";
 
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+          CPU_SCALING_GOVERNOR_ON_AC = "performance";
+          CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-        CPU_BOOST_ON_AC = 1;
-        CPU_BOOST_ON_BAT = 0;
+          CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+          CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
 
-        USB_AUTOSUSPEND = 0;
+          CPU_BOOST_ON_AC = 1;
+          CPU_BOOST_ON_BAT = 1;
 
-        #Optional helps save long term battery health
-        START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-        STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+          USB_AUTOSUSPEND = 0;
+
+          #Optional helps save long term battery health
+          START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+          STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+        };
       };
     };
 
     # Kernel Laptop Parameters
-    boot.kernelParams =
-      [
-        "quiet"
-        "splash"
-      ]
-      ++ mkIf cfg.amd.enable ["amd_pstate=passive"];
+    boot.kernelParams = [
+      "quiet"
+      "splash"
+      # "amd_pstate=passive"
+    ];
   };
 }

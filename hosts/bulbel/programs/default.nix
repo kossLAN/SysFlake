@@ -11,6 +11,7 @@
     keepassxc
     bambu-studio
     libreoffice-qt
+    prismlauncher
     nerdfonts
     vesktop
 
@@ -20,8 +21,7 @@
   programs = {
     zen-browser.enable = true;
     partition-manager.enable = true;
-    art.enable = true;
-    utils.enable = true;
+    common.enable = true;
     obs-studio.enable = true;
     syncthing.user.enable = true;
 

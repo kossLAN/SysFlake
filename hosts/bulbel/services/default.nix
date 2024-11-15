@@ -1,35 +1,25 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
-  imports = [inputs.nixos-cosmic.nixosModules.default];
-
-  virt = {
-    docker.enable = true;
-  };
-
+{pkgs, ...}: {
   networking = {
     networkmanager.enable = true;
   };
 
   hardware = {
-    system76.enableAll = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
   };
 
   services = {
     ssh.enable = true;
-    amdGpu.enable = true;
-    helpfulUtils.enable = true;
+    common.enable = true;
     sound.enable = true;
     tailscale.enable = true;
 
-    desktopManager = {
-      cosmic.enable = true;
-    };
-
-    displayManager = {
-      cosmic-greeter.enable = true;
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
     };
 
     printing = {

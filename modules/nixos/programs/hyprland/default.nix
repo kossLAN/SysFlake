@@ -200,9 +200,6 @@ in {
 
             # Wallpaper manager
             "${lib.getExe pkgs.swaybg} -m fill -i ${./background.png}"
-
-            # Run noise suppression.
-            "noisetorch -i alsa_input.usb-RODE_Microphones_RODE_AI-1_D02E743F-00.mono-fallback -o"
           ];
 
           exec = [

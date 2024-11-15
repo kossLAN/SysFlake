@@ -11,6 +11,7 @@
     via
     keepassxc
     bambu-studio
+    wootility
     libreoffice-qt
     # blender-hip # this is broken
     gimp
@@ -33,11 +34,6 @@
     };
 
     hyprland = {
-      enable = true;
-      defaults.enable = true;
-    };
-
-    zsh = {
       enable = true;
       defaults.enable = true;
     };

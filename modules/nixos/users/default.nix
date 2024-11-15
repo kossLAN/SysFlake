@@ -10,6 +10,7 @@
   inherit (lib.options) mkOption;
 
   cfg = config.users;
+  custom-zsh = inputs.custom-zsh.packages.${pkgs.stdenv.system}.default;
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -31,17 +32,18 @@ in {
   };
 
   config = {
+    programs.zsh = {
+      enable = true;
+      shellInit = "autoload -Uz add-zsh-hook";
+    };
+
     users = {
-      defaultUserShell = mkIf config.programs.zsh.enable pkgs.zsh;
+      defaultUserShell = pkgs.zsh;
       users.${config.users.defaultUser} = {
         isNormalUser = true;
         extraGroups = ["wheel"];
         initialPassword = "root";
       };
-    };
-
-    environment.sessionVariables = {
-      SHELL = lib.getExe pkgs.zsh;
     };
 
     home-manager = {
@@ -54,11 +56,12 @@ in {
 
       users.${config.users.defaultUser} = {
         programs.home-manager.enable = true;
+        xdg.enable = true;
+
         home = {
           stateVersion = config.system.stateVersion;
           packages = cfg.packages;
         };
-        xdg.enable = true;
       };
     };
   };

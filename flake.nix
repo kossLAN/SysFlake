@@ -66,8 +66,14 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
+    # Custom Neovim Dots
     custom-neovim = {
       url = "github:kossLAN/NvimFlake";
+    };
+
+    # Custom ZSH Dots
+    custom-zsh = {
+      url = "github:kossLAN/zsh-flake";
     };
 
     # Secrets 🤫

@@ -16,24 +16,11 @@
   programs = {
     utils.enable = true;
     syncthing.user.enable = true;
-    vscodium.enable = true;
+    zen-browser.enable = true;
 
     nh = {
       enable = true;
       flake = "/home/${config.users.defaultUser}/.nixos-conf";
-    };
-
-    firefox = {
-      enable = true;
-      customPreferences = true;
-      customExtensions = true;
-      customPolicies = true;
-      customSearchEngine = true;
-    };
-
-    zsh = {
-      enable = true;
-      defaults.enable = true;
     };
 
     dev = {

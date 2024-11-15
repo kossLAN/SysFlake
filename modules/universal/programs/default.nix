@@ -1,7 +1,7 @@
 {
   imports = [
-    ./zsh
-    ./dev 
+    # ./zsh
+    ./dev
     ./syncthing
     ./vscodium
   ];

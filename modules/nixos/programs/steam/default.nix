@@ -5,24 +5,21 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
 
-  cfg = config.programs.game.steam;
+  cfg = config.programs.steam;
 in {
-  options.programs.game.steam = {
-    enable = mkEnableOption "gameUtils";
-  };
-
   config = mkIf cfg.enable {
     environment = {
       systemPackages = with pkgs; [
         scanmem
+        protonup-qt
+        wine
+        winetricks
       ];
     };
 
     programs = {
       steam = {
-        enable = true;
         remotePlay.openFirewall = true;
         extest.enable = true;
         protontricks.enable = true;

@@ -3,9 +3,9 @@
   config,
   ...
 }: let
-  cfg = config.programs.game.mangohud;
+  cfg = config.programs.mangohud;
 in {
-  options.programs.game.mangohud = {
+  options.programs.mangohud = {
     enable = lib.mkEnableOption "mangohud";
   };
 

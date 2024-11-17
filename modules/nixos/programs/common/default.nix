@@ -15,13 +15,16 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.users.defaultUser} = {
-      home.packages = with pkgs; [
-        btop
-        nmap
-        ripgrep
-        fastfetch
-      ];
-    };
+    environment.systemPackages = with pkgs; [
+      radeontop
+      btop
+      nmap
+      ripgrep
+      fastfetch
+      zls
+      xxd
+      killall
+      file
+    ];
   };
 }

@@ -6,11 +6,9 @@
   pkgs,
   ...
 }: let
-  inherit (lib.modules) mkIf;
   inherit (lib.options) mkOption;
 
   cfg = config.users;
-  custom-zsh = inputs.custom-zsh.packages.${pkgs.stdenv.system}.default;
 in {
   imports = [
     inputs.home-manager.nixosModules.home-manager

@@ -1,3 +1,0 @@
-{
-  imports = [./utils ./steam ./mangohud];
-}

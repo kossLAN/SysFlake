@@ -7,7 +7,6 @@
   environment.systemPackages = with pkgs; [
     vesktop # discord client
     mpv # media player
-    # nvim-pkg # text editor
     via # keyboard configurator
     keepassxc # password manager
     bambu-studio # bambu slicer for 3d printing

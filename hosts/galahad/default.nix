@@ -1,8 +1,4 @@
-{
-  pkgs,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./boot
     ./hardware
@@ -23,4 +19,6 @@
     defaults.enable = true;
     stateVersion = "23.11";
   };
+
+  # users.users.koss.file."test4.txt".text = "thingggg";
 }

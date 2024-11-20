@@ -1,7 +1,7 @@
 {
   imports = [
     ./networking
-    # ./security
+    ./syncthing
     ./sound
     ./ssh
     ./udev

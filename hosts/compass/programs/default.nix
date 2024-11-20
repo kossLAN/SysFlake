@@ -4,13 +4,9 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
+    vesktop
     keepassxc
     nvim-pkg
-  ];
-
-  users.packages = with pkgs; [
-    keepassxc
-    vesktop
   ];
 
   programs = {

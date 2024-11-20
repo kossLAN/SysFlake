@@ -2,18 +2,12 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
 
-  cfg = config.programs.hyprland.defaults;
+  cfg = config.programs.hyprland;
 in {
-  options.programs.hyprland.defaults = {
-    enable = mkEnableOption "Hyprland Defaults & Setup";
-  };
-
   config = mkIf cfg.enable {
     # XDG Portal Nonsense
     xdg.portal = {
@@ -55,6 +49,7 @@ in {
 
     programs = {
       nm-applet.enable = true;
+      # quickshell.enable = true;
 
       waybar = {
         enable = true;
@@ -117,9 +112,9 @@ in {
 
           decoration = {
             rounding = "5";
-            drop_shadow = true;
-            shadow_range = "4";
-            shadow_render_power = "3";
+            # drop_shadow = true;
+            # shadow_range = "4";
+            # shadow_render_power = "3";
             # "col.shadow" = "rgba(1a1a1aee)";
 
             blur = {

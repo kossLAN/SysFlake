@@ -17,6 +17,7 @@
     ssh.enable = true;
     common.enable = true;
     sound.enable = true;
+    syncthing.enable = true;
 
     tailscale = {
       enable = true;

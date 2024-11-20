@@ -1,3 +1,3 @@
 {
-  imports = [./vms ./docker];
+  imports = [./vms];
 }

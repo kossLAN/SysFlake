@@ -12,6 +12,7 @@
     ./hyprland
     ./sway
     ./custom-neovim
+    ./quickshell
     ./git
     ./java
     ./steam

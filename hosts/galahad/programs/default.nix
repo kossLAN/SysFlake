@@ -12,7 +12,7 @@
     bambu-studio # bambu slicer for 3d printing
     wootility # wooting keyboard tool
     libreoffice-qt # office suite - it sucks
-    # blender-hip # this is broken
+    blender-hip # this is broken
     gimp # photo editor
     jellyfin-media-player # firefox can't play h265 :(
     osu-lazer-bin # shit game
@@ -28,10 +28,11 @@
     git.enable = true;
     java.enable = true;
     obs-studio.enable = true;
-    syncthing.user.enable = true;
     zen-browser.enable = true;
     steam.enable = true;
     mangohud.enable = true;
+    foot.enable = true;
+    hyprland.enable = true;
 
     nh = {
       enable = true;
@@ -41,16 +42,6 @@
     custom-neovim = {
       enable = true;
       defaultEditor = true;
-    };
-
-    hyprland = {
-      enable = true;
-      defaults.enable = true;
-    };
-
-    foot = {
-      enable = true;
-      defaults.enable = true;
     };
 
     noisetorch = {

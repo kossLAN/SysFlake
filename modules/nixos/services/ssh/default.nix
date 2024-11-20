@@ -43,12 +43,12 @@ in {
 
         Host dahlia
           HostName dahlia
-          User koss
+          User root
           Port 1000
 
         Host cerebrite
           HostName cerebrite
-          User koss
+          User root
           Port 1000
       '';
     };

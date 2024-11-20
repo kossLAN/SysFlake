@@ -5,14 +5,9 @@
   ...
 }: let
   inherit (lib.modules) mkIf;
-  inherit (lib.options) mkEnableOption;
 
   cfg = config.programs.foot;
 in {
-  options.programs.foot = {
-    defaults.enable = mkEnableOption "Custom foot configuration";
-  };
-
   config = mkIf cfg.enable {
     home-manager.users.${config.users.defaultUser} = {
       home.packages = with pkgs; [
@@ -21,7 +16,7 @@ in {
 
       programs.foot = {
         enable = true;
-        settings = lib.mkIf cfg.defaults.enable {
+        settings = {
           main = {
             shell = "zsh";
             term = "xterm-256color";

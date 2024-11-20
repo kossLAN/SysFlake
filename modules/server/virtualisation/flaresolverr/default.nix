@@ -13,23 +13,21 @@ in {
   };
 
   config = mkIf cfg.enable {
-    virtualisation.docker = {
-      enable = true;
-      enableOnBoot = true;
-      rootless = {
+    virtualisation = {
+      docker = {
         enable = true;
-        setSocketVariable = true;
+        enableOnBoot = true;
       };
-    };
 
-    virtualisation.oci-containers = {
-      backend = "docker";
-      containers.flaresolverr = {
-        image = "flaresolverr/flaresolverr:latest";
-        ports = ["127.0.0.1:8191:8191"];
-        volumes = [
-          "flaresolverr_data:/data"
-        ];
+      oci-containers = {
+        backend = "docker";
+        containers.flaresolverr = {
+          image = "flaresolverr/flaresolverr:latest";
+          ports = ["127.0.0.1:8191:8191"];
+          volumes = [
+            "flaresolverr_data:/data"
+          ];
+        };
       };
     };
   };

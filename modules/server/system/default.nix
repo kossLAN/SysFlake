@@ -41,14 +41,15 @@ in {
       };
     };
 
-    # Common Nix Settings, registry thing is specifically for flakes, don't really remember where I got
-    # it from, however I definitely didnt write it and couldn't tell you exactly how it works.
     nix = {
-      registry = mapAttrs (_: value: {flake = value;}) inputs;
-      nixPath = mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+      registry = lib.mkForce (mapAttrs (_: value: {flake = value;}) inputs);
+      nixPath = lib.mkForce (mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry);
       optimise.automatic = true;
-      gc.automatic = true;
-      gc.options = "--delete-older-than 14d";
+
+      gc = {
+        automatic = true;
+        options = "--delete-older-than 14d";
+      };
 
       settings = {
         experimental-features = "nix-command flakes";
@@ -77,9 +78,9 @@ in {
       overlays = [
         self.overlays.additions # Additional Packages
         self.overlays.modifications # Modified Packages
-        self.overlays.stable-packages # Stable Nixpkgs
 
         inputs.custom-neovim.overlays.default # Neovim Custom Configuration
+        inputs.custom-zsh.overlays.default # ZSH Custom Configuration
       ];
       config = {
         allowUnfree = true;

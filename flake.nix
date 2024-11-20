@@ -4,6 +4,7 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    nixpkgs-stable,
     ...
   }: {
     overlays = import ./overlays {inherit inputs;};
@@ -13,7 +14,6 @@
       galahad = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
-          ./modules/universal
           ./modules/nixos
           ./hosts/galahad
         ];
@@ -23,7 +23,6 @@
       bulbel = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
-          ./modules/universal
           ./modules/nixos
           ./hosts/bulbel
         ];
@@ -33,27 +32,24 @@
       compass = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
-          ./modules/universal
           ./modules/nixos
           ./hosts/compass
         ];
       };
 
       # Home server
-      cerebrite = nixpkgs.lib.nixosSystem {
+      cerebrite = nixpkgs-stable.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
-          ./modules/universal
           ./modules/server
           ./hosts/cerebrite
         ];
       };
 
       # Routing VPS
-      dahlia = nixpkgs.lib.nixosSystem {
+      dahlia = nixpkgs-stable.lib.nixosSystem {
         specialArgs = {inherit self inputs;};
         modules = [
-          ./modules/universal
           ./modules/server
           ./hosts/dahlia
         ];
@@ -64,7 +60,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
     # Custom Neovim Dots
     custom-neovim = {
@@ -88,12 +84,18 @@
     # Hyprland Window Manager
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # App runner
     anyrun = {
       url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Quickshell
+    quickshell = {
+      url = "github:outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -105,7 +107,7 @@
 
     # Zen Browser
     zen-browser = {
-      url = "github:MarceColl/zen-browser-flake";
+      url = "github:fufexan/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

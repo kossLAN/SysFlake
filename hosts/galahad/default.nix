@@ -1,24 +1,23 @@
-{pkgs, ...}: {
+{...}: {
   imports = [
     ./boot
     ./hardware
     ./programs
     ./services
+    ./secrets
+    ./networking
   ];
+
+  networking.hostName = "galahad";
+  nixpkgs.hostPlatform = "x86_64-linux";
 
   environment = {
     localBinInPath = true;
     enableDebugInfo = true;
   };
 
-  networking.hostName = "galahad";
-
-  nixpkgs.hostPlatform = "x86_64-linux";
-
   system = {
     defaults.enable = true;
     stateVersion = "23.11";
   };
-
-  # users.users.koss.file."test4.txt".text = "thingggg";
 }

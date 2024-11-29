@@ -769,10 +769,10 @@
       },
       "locked": {
         "lastModified": 1732069699,
-        "narHash": "sha256-/aLh2heyQde2sD23cZhE3MRdHM8KR+iTyRSNmj7+w7U=",
+        "narHash": "sha256-LuwCCP8x/j+NXCgTYWhdLTiYfgtAQFUM5NFlSMXc+no=",
         "owner": "outfoxxed",
         "repo": "quickshell",
-        "rev": "556a8eaadbdd0c1b3147ef5618128439775fdc04",
+        "rev": "8450543e09125fa4a5797bc03146da29e004692e",
         "type": "github"
       },
       "original": {

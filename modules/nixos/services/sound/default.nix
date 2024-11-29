@@ -12,11 +12,12 @@ in {
   # This is also going to be the same across my linux installs so best to abstract.
   options.services.sound = {
     enable = mkEnableOption "sound";
+    lowLatency.enable = mkEnableOption "Low latency toggle";
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = [
-      pkgs.pavucontrol
+      pkgs.lxqt.pavucontrol-qt
     ];
 
     services = {
@@ -25,7 +26,7 @@ in {
         audio.enable = true;
         wireplumber.enable = true;
 
-        extraConfig.pipewire."92-low-latency" = {
+        extraConfig.pipewire."92-low-latency" = mkIf cfg.lowLatency.enable {
           "context.properties" = {
             "default.clock.rate" = 48000;
             "default.clock.quantum" = 32;

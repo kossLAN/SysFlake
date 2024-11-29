@@ -3,19 +3,16 @@
     ./firefox
     ./zen-browser
     ./foot
-    ./obs-studio
     ./noisetorch
     ./common
     ./corectrl
     ./anyrun
     ./waybar
     ./hyprland
-    ./sway
     ./custom-neovim
     ./quickshell
     ./git
     ./java
     ./steam
-    ./mangohud
   ];
 }

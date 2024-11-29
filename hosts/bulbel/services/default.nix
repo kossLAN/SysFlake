@@ -4,6 +4,8 @@
   };
 
   hardware = {
+    mobile.enable = true;
+
     bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -14,12 +16,22 @@
     ssh.enable = true;
     common.enable = true;
     sound.enable = true;
-    tailscale.enable = true;
+    syncthing.enable = true;
 
-    desktopManager.plasma6.enable = true;
-    displayManager.sddm = {
+    tailscale = {
       enable = true;
-      wayland.enable = true;
+      useRoutingFeatures = "client";
+    };
+
+    displayManager = {
+      autoLogin = {
+        enable = true;
+        user = "koss";
+      };
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
     };
 
     printing = {

@@ -34,6 +34,11 @@
       overrideDevices = false;
     };
 
+    hardware.openrgb = {
+      enable = true;
+      motherboard = "amd";
+    };
+
     netdata = {
       enable = true;
 

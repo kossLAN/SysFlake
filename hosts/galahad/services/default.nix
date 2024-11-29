@@ -16,8 +16,12 @@
   services = {
     ssh.enable = true;
     common.enable = true;
-    sound.enable = true;
     syncthing.enable = true;
+
+    sound = {
+      enable = true;
+      lowLatency.enable = true;
+    };
 
     tailscale = {
       enable = true;

@@ -1,18 +1,15 @@
 {
   pkgs,
   inputs,
+  config,
   ...
 }: {
   environment.systemPackages = with pkgs; [
     mpv
-    nvim-pkg
-    pavucontrol
-    via
     keepassxc
     bambu-studio
     libreoffice-qt
     prismlauncher
-    nerdfonts
     vesktop
 
     inputs.agenix.packages.${pkgs.stdenv.system}.default
@@ -22,13 +19,23 @@
     zen-browser.enable = true;
     partition-manager.enable = true;
     common.enable = true;
+    java.enable = true;
+    git.enable = true;
     obs-studio.enable = true;
-    syncthing.user.enable = true;
+    foot.enable = true;
 
-    dev = {
-      git.enable = true;
-      utils.enable = true;
-      java.enable = true;
+    hyprland = {
+      enable = true;
+    };
+
+    nh = {
+      enable = true;
+      flake = "/home/${config.users.defaultUser}/.nixos-conf";
+    };
+
+    custom-neovim = {
+      enable = true;
+      defaultEditor = true;
     };
   };
 }

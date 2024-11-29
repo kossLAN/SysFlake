@@ -24,8 +24,8 @@ in {
     environment = {
       systemPackages = with pkgs; [
         qt6.qtwayland
-        kdePackages.breeze
-        kdePackages.breeze-icons
+        # kdePackages.breeze
+        # kdePackages.breeze-icons
         kdePackages.qqc2-desktop-style
         qt6.qtsvg
         qt6.qt5compat

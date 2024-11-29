@@ -1,8 +1,8 @@
 {
   imports = [
-    ./networking
     ./syncthing
     ./sound
+    ./networkmanager
     ./ssh
     ./udev
     ./common

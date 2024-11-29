@@ -1,42 +1,83 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: let
-  inherit (lib.modules) mkIf;
+  inherit (lib.modules) mkIf mkForce;
   inherit (lib.options) mkEnableOption mkOption;
+  inherit (lib.types) package str int;
 
   cfg = config.theme.cursor;
 in {
+  imports = [./notwaita];
+
   options.theme.cursor = {
     enable = mkEnableOption "Cursor theme";
+
+    package = mkOption {
+      type = package;
+    };
+
+    name = mkOption {
+      type = str;
+      description = "Name of the theme package";
+    };
+
     cursorSize = mkOption {
-      type = lib.types.int;
-      default = 18;
+      type = int;
+      default = 24;
     };
   };
 
+  # TODO: add x11 options
+  # This is just my best attempt at getting XCURSOR to work
+  # without any form of home management.
   config = mkIf cfg.enable {
-    home-manager.users.${config.users.defaultUser} = {
-      home.pointerCursor = let
-        getFrom = url: hash: name: {
-          gtk.enable = true;
-          x11.enable = true;
-          inherit name;
-          size = cfg.cursorSize;
-          package = pkgs.runCommand "moveUp" {} ''
-            mkdir -p $out/share/icons
-            ln -s ${pkgs.fetchzip {
-              inherit url hash;
-            }} $out/share/icons/${name}
-          '';
+    environment = {
+      systemPackages = [cfg.package];
+
+      variables = {
+        XCURSOR_SIZE = mkForce cfg.cursorSize;
+        XCURSOR_THEME = mkForce cfg.name;
+        XCURSOR_PATH = mkForce [
+          "$HOME/.icons"
+          "$HOME/.local/share/icons"
+          "${cfg.package}/share/icons"
+        ];
+      };
+
+      etc = let
+        gtkSettings = ''
+          [Settings]
+          gtk-cursor-theme-name=${cfg.name}
+          gtk-cursor-theme-size=${toString cfg.cursorSize}
+        '';
+      in {
+        "xdg/gtk-3.0/settings.ini" = {
+          text = gtkSettings;
+          mode = "444";
         };
-      in
-        getFrom
-        "https://github.com/ful1e5/apple_cursor/releases/download/v2.0.0/macOs-Monterey.tar.gz"
-        "sha256-MHmaZs56Q1NbjkecvfcG1zAW85BCZDn5kXmxqVzPc7M="
-        "macOs-Monterey";
+
+        "xdg/gtk-4.0/settings.ini" = {
+          text = gtkSettings;
+          mode = "444";
+        };
+      };
+    };
+
+    programs.dconf = {
+      enable = true;
+      profiles.users.databases = [
+        {
+          lockAll = true;
+          settings = {
+            "org/gnome/desktop/interface" = {
+              cursor-theme = "'${cfg.name}'";
+              cursor-size = lib.gvariant.mkUint16 cfg.cursorSize;
+            };
+          };
+        }
+      ];
     };
   };
 }

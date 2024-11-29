@@ -28,28 +28,22 @@ in {
       '';
     };
 
-    users = lib.mkOption {
+    users = mkOption {
       type = lib.types.attrsOf (lib.types.submoduleWith {
         modules = [
           ({lib, ...}: {
-            options.file = lib.mkOption {
+            options.file = mkOption {
               type = lib.types.attrsOf (lib.types.submodule {
                 options = {
-                  text = lib.mkOption {
-                    type = lib.types.str;
-                    default = "";
-                    description = "Content of the file to be created.";
+                  text = mkOption {
+                    type = lib.types.nullOr (lib.types.str);
+                    default = null;
+                    description = "Test of the file you want to link.";
                   };
-                  mode = lib.mkOption {
-                    type = lib.types.str;
-                    default = "0644";
-                    example = "0600";
-                    description = "Permissions mode for the file in octal format.";
-                  };
-                  group = lib.mkOption {
-                    type = lib.types.str;
-                    default = "users";
-                    description = "Group owner of the file.";
+
+                  source = mkOption {
+                    type = lib.types.path;
+                    description = "Source of the file you want to link.";
                   };
                 };
               });
@@ -76,14 +70,12 @@ in {
       defaultUserShell = pkgs.zsh;
       users.${config.users.defaultUser} = {
         isNormalUser = true;
-        extraGroups = ["wheel"];
+        extraGroups = ["wheel" "networkmanager"];
         initialPassword = "root";
       };
     };
 
-    # Replacement for home-manager's home.file, in esssence we just make a service
-    # for each user that defines a file, then we link the file from the store on
-    # start. On stop we remove the link.
+    # TODO: Implement proper file unlinking.
     systemd.services = lib.filterAttrs (_: v: v != {}) (lib.mapAttrs' (
         username: userConfig:
           lib.nameValuePair "manage-user-files-${username}" (
@@ -99,19 +91,15 @@ in {
                 User = username;
 
                 ExecStart = pkgs.writeShellScript "manage-user-files-${username}" ''
-                  set -euo pipefail
-                  ${lib.concatStringsSep "\n" (lib.mapAttrsToList (filename: fileConfig: ''
-                      mkdir -p "/home/${username}"
-                      rm -f "/home/${username}/${filename}"
-                      ln -sf "${pkgs.writeText filename fileConfig.text}" "/home/${username}/${filename}"
-                    '')
-                    userConfig.file)}
-                '';
-
-                ExecStop = pkgs.writeShellScript "cleanup-user-files-${username}" ''
-                  set -euo pipefail
-                  ${lib.concatStringsSep "\n" (lib.mapAttrsToList (filename: _: ''
-                      rm -f "/home/${username}/${filename}"
+                  ${lib.concatStringsSep "\n" (lib.mapAttrsToList (filename: fileConfig: let
+                      home = config.users.users.${username}.home;
+                      file =
+                        if (fileConfig.text == null)
+                        then fileConfig.source
+                        else pkgs.writeText filename fileConfig.text;
+                    in ''
+                      mkdir -p "$(dirname "${home}/${filename}")"
+                      ln -sf "${file}" "${home}/${filename}"
                     '')
                     userConfig.file)}
                 '';

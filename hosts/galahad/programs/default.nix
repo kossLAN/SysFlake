@@ -30,9 +30,15 @@
     obs-studio.enable = true;
     zen-browser.enable = true;
     steam.enable = true;
-    mangohud.enable = true;
     foot.enable = true;
-    hyprland.enable = true;
+    noisetorch.enable = true;
+
+    hyprland = {
+      enable = true;
+      monitors = [
+        "DP-2,3840x2160@240,auto,1.25"
+      ];
+    };
 
     nh = {
       enable = true;
@@ -42,11 +48,6 @@
     custom-neovim = {
       enable = true;
       defaultEditor = true;
-    };
-
-    noisetorch = {
-      enable = true;
-      device = "alsa_input.usb-RODE_Microphones_RODE_AI-1_D02E743F-00.mono-fallback";
     };
   };
 }

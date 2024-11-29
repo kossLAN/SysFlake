@@ -41,6 +41,32 @@ in {
       };
     };
 
+    # System-wide font configuration
+    fonts = {
+      packages = with pkgs; [
+        (nerdfonts.override {
+          fonts = [
+            "JetBrainsMono"
+          ];
+        })
+      ];
+
+      fontconfig = {
+        defaultFonts = {
+          monospace = ["JetBrainsMono"];
+        };
+      };
+    };
+
+    # Some necessary session variables that I need, especially since I no longer use
+    # home-manager.
+    environment.sessionVariables = {
+      XDG_CACHE_HOME = "$HOME/.cache";
+      XDG_CONFIG_HOME = "$HOME/.config";
+      XDG_DATA_HOME = "$HOME/.local/share";
+      XDG_STATE_HOME = "$HOME/.local/state";
+    };
+
     # Common Nix Settings, registry thing is specifically for flakes, don't really remember where I got
     # it from, however I definitely didnt write it and couldn't tell you exactly how it works.
     nix = {
@@ -87,7 +113,5 @@ in {
         allowUnfree = true;
       };
     };
-
-    networking.nm.enable = true;
   };
 }

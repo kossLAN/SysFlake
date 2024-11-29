@@ -6,18 +6,12 @@
     ./services
   ];
 
+  networking.hostName = "bulbel";
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   environment = {
     localBinInPath = true;
     enableDebugInfo = true;
-  };
-
-  networking.hostName = "bulbel";
-
-  nixpkgs.hostPlatform = "x86_64-linux";
-
-  hardware.laptop = {
-    enable = true;
-    amd.enable = true;
   };
 
   system = {

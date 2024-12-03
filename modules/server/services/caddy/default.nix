@@ -19,11 +19,18 @@ in {
                   type = lib.types.str;
                   default = "";
                 };
+
                 address = mkOption {
                   type = lib.types.str;
                 };
+
                 port = mkOption {
                   type = lib.types.int;
+                };
+
+                tailscale = mkOption {
+                  type = lib.types.bool;
+                  default = false;
                 };
               };
             });
@@ -80,7 +87,16 @@ in {
                   else "${proxy.subdomain}.${domain}"
                 }" = {
                   extraConfig = ''
-                    reverse_proxy http://${proxy.address}:${toString proxy.port}
+                    ${
+                      if proxy.tailscale
+                      then "@tailscale remote_ip 100.64.0.0/10"
+                      else ""
+                    }
+                    reverse_proxy ${
+                      if proxy.tailscale
+                      then "@tailscale"
+                      else ""
+                    } http://${proxy.address}:${toString proxy.port}
                     tls /var/lib/acme/${domain}/cert.pem /var/lib/acme/${domain}/key.pem
                   '';
                 };

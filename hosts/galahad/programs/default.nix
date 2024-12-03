@@ -21,6 +21,15 @@
     inputs.agenix.packages.${pkgs.stdenv.system}.default
   ];
 
+  virtualisation.virtualbox = {
+    guest.enable = true;
+    host = {
+      enable = true;
+      enableKvm = true;
+      addNetworkInterface = false;
+    };
+  };
+
   programs = {
     partition-manager.enable = true;
     corectrl.enable = true;

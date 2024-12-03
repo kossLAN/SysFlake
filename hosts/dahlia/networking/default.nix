@@ -67,36 +67,43 @@ in {
               subdomain = "deluge";
               address = cerebrite;
               port = 8112;
+              tailscale = true;
             }
             {
               subdomain = "sonarr";
               address = cerebrite;
               port = 8989;
+              tailscale = true;
             }
             {
               subdomain = "radarr";
               address = cerebrite;
               port = 7878;
+              tailscale = true;
             }
             {
               subdomain = "lidarr";
               address = cerebrite;
               port = 8686;
+              tailscale = true;
             }
             {
               subdomain = "prowlarr";
               address = cerebrite;
               port = 9696;
+              tailscale = true;
             }
             {
               subdomain = "sync";
               address = cerebrite;
               port = 8384;
+              tailscale = true;
             }
             {
               subdomain = "cloud";
               address = cerebrite;
               port = 5000;
+              tailscale = true;
             }
             {
               subdomain = "portainer";
@@ -107,6 +114,7 @@ in {
               subdomain = "netdata";
               address = cerebrite;
               port = 19999;
+              tailscale = true;
             }
           ];
         };

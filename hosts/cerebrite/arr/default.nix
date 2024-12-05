@@ -1,4 +1,4 @@
-{...}: let
+{pkgs, ...}: let
   group = "storage";
 in {
   imports = [./deluge.nix];
@@ -16,13 +16,12 @@ in {
     };
   };
 
-  virtualisation = {
+  services = {
     flaresolverr = {
       enable = true;
+      package = pkgs.nur.repos.xddxdd.flaresolverr-21hsmw;
     };
-  };
 
-  services = {
     sonarr = {
       enable = true;
       group = group;

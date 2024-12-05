@@ -8,15 +8,39 @@ in {
       serverUrl = "https://kosslan.me";
       baseDomain = "ts.kosslan.me";
       tailnetDomain = "kosslan.me";
-      tailnetSubdomains = [
-        "sync"
-        "cloud"
-        "deluge"
-        "radarr"
-        "sonarr"
-        "lidarr"
-        "prowlarr"
-        "netdata"
+      tailnetRecords = [
+        {
+          name = "sync";
+          value = cerebrite;
+        }
+        {
+          name = "cloud";
+          value = cerebrite;
+        }
+        {
+          name = "deluge";
+          value = cerebrite;
+        }
+        {
+          name = "radarr";
+          value = cerebrite;
+        }
+        {
+          name = "sonarr";
+          value = cerebrite;
+        }
+        {
+          name = "lidarr";
+          value = cerebrite;
+        }
+        {
+          name = "prowlarr";
+          value = cerebrite;
+        }
+        {
+          name = "netdata";
+          value = cerebrite;
+        }
       ];
     };
 
@@ -50,6 +74,7 @@ in {
         "kosslan.me" = {
           reverseProxyList = [
             {
+              # Headscale
               address = "localhost";
               port = 3442;
             }
@@ -64,57 +89,9 @@ in {
               port = 5055;
             }
             {
-              subdomain = "deluge";
-              address = cerebrite;
-              port = 8112;
-              tailscale = true;
-            }
-            {
-              subdomain = "sonarr";
-              address = cerebrite;
-              port = 8989;
-              tailscale = true;
-            }
-            {
-              subdomain = "radarr";
-              address = cerebrite;
-              port = 7878;
-              tailscale = true;
-            }
-            {
-              subdomain = "lidarr";
-              address = cerebrite;
-              port = 8686;
-              tailscale = true;
-            }
-            {
-              subdomain = "prowlarr";
-              address = cerebrite;
-              port = 9696;
-              tailscale = true;
-            }
-            {
-              subdomain = "sync";
-              address = cerebrite;
-              port = 8384;
-              tailscale = true;
-            }
-            {
-              subdomain = "cloud";
-              address = cerebrite;
-              port = 5000;
-              tailscale = true;
-            }
-            {
               subdomain = "portainer";
               address = cerebrite;
               port = 9000;
-            }
-            {
-              subdomain = "netdata";
-              address = cerebrite;
-              port = 19999;
-              tailscale = true;
             }
           ];
         };

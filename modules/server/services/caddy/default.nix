@@ -22,15 +22,17 @@ in {
 
                 address = mkOption {
                   type = lib.types.str;
+                  default = "";
                 };
 
                 port = mkOption {
                   type = lib.types.int;
+                  default = 80;
                 };
 
-                tailscale = mkOption {
-                  type = lib.types.bool;
-                  default = false;
+                extraConfig = mkOption {
+                  type = lib.types.str;
+                  default = "";
                 };
               };
             });
@@ -88,16 +90,13 @@ in {
                 }" = {
                   extraConfig = ''
                     ${
-                      if proxy.tailscale
-                      then "@tailscale remote_ip 100.64.0.0/10"
+                      if proxy.address != ""
+                      then "reverse_proxy http://${proxy.address}:${toString proxy.port}"
                       else ""
                     }
-                    reverse_proxy ${
-                      if proxy.tailscale
-                      then "@tailscale"
-                      else ""
-                    } http://${proxy.address}:${toString proxy.port}
                     tls /var/lib/acme/${domain}/cert.pem /var/lib/acme/${domain}/key.pem
+
+                    ${proxy.extraConfig}
                   '';
                 };
               }

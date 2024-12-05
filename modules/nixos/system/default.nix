@@ -106,6 +106,8 @@ in {
       overlays = [
         self.overlays.additions # Additional Packages
         self.overlays.modifications # Modified Packages
+
+        inputs.nur.overlay # Nix User Repository
         inputs.custom-neovim.overlays.default # Neovim Custom Configuration
         inputs.custom-zsh.overlays.default # Zsh Custom Configuration
       ];

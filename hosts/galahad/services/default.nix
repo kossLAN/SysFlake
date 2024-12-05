@@ -28,6 +28,13 @@
       useRoutingFeatures = "client";
     };
 
+    ollama = {
+      enable = true;
+      host = "0.0.0.0";
+      acceleration = "rocm";
+      rocmOverrideGfx = "10.3.0";
+    };
+
     displayManager = {
       autoLogin = {
         enable = true;

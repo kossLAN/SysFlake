@@ -717,6 +717,21 @@
         "type": "github"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1733294525,
+        "narHash": "sha256-3EUU3tm+T3vUHmZdsLWisxHjWzn6RT2U2KMOaGho9Oo=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "dda476d2da1f38f7a5391a60b563d520eb1ea4f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "pipewire-screenaudio": {
       "inputs": {
         "nixpkgs": [
@@ -792,6 +807,7 @@
         "jovian": "jovian",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-stable": "nixpkgs-stable_3",
+        "nur": "nur",
         "pipewire-screenaudio": "pipewire-screenaudio",
         "quickshell": "quickshell",
         "zen-browser": "zen-browser"

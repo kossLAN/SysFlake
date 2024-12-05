@@ -32,13 +32,6 @@ in {
     privateNetwork = true;
     hostAddress = "192.168.100.10";
     localAddress = deployment.containerHostIp "nextcloud";
-    forwardPorts = [
-      {
-        containerPort = 80;
-        hostPort = 5000;
-        protocol = "tcp";
-      }
-    ];
 
     config = {
       networking = {

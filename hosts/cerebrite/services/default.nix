@@ -39,6 +39,12 @@
       motherboard = "amd";
     };
 
+    ollama = {
+      enable = true;
+      host = "0.0.0.0";
+      acceleration = "cuda";
+    };
+
     netdata = {
       enable = true;
 

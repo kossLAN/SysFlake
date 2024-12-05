@@ -11,6 +11,7 @@ in {
   age.secrets = {
     av0client1.file = "${path}/av0client1.age";
     av0preshared.file = "${path}/av0preshared.age";
+    cloudflare.file = "${path}/cloudflare.age";
 
     deluge = {
       file = "${path}/deluge.age";

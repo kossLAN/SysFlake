@@ -81,15 +81,15 @@
 
       extra_records =
         builtins.map (fqdn: {
-          name = fqdn;
+          name = fqdn.name;
           type = "A";
-          value = "100.64.0.1"; # Again assuming this the correct IP
+          value = fqdn.value; # Again assuming this the correct IP
         }) (headscale-custom.tailnetFqdnList)
         ++ [
           {
-            name = "sync.kosslan.me";
+            name = "kosslan.me";
             type = "A";
-            value = "100.64.0.1";
+            value = "100.64.0.4";
           }
         ];
 

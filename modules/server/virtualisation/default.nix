@@ -1,3 +1,3 @@
 {
-  imports = [./flaresolverr ./portainer];
+  imports = [./portainer];
 }

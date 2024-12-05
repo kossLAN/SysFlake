@@ -39,11 +39,6 @@
     localAddress = deployment.containerHostIp "deluge";
     forwardPorts = [
       {
-        containerPort = 8112;
-        hostPort = 8112;
-        protocol = "tcp";
-      }
-      {
         containerPort = 58846;
         hostPort = 58846;
         protocol = "tcp";

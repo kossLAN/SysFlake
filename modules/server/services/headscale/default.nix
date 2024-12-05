@@ -49,8 +49,21 @@ in {
       default = "kosslan.me";
     };
 
-    tailnetSubdomains = mkOption {
-      type = lib.types.listOf lib.types.str;
+    tailnetRecords = mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            description = "The subdomain name";
+          };
+
+          value = lib.mkOption {
+            type = lib.types.str;
+            default = "100.64.0.1";
+            description = "The value to associate with the subdomain";
+          };
+        };
+      });
       default = [];
     };
   };
@@ -60,8 +73,11 @@ in {
       # Adds a subdomain to tailscale dns records
       tailnetFqdnList =
         builtins.map
-        (subdomain: "${subdomain}.${cfg.tailnetDomain}")
-        cfg.tailnetSubdomains;
+        (subdomain: {
+          name = "${subdomain.name}.${cfg.tailnetDomain}";
+          value = subdomain.value;
+        })
+        cfg.tailnetRecords;
     };
 
     environment = {

@@ -62,6 +62,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
+    # Nix User Repository...
+    nur.url = "github:nix-community/NUR";
+
     # Custom Neovim Dots
     custom-neovim = {
       url = "github:kossLAN/NvimFlake";

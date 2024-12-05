@@ -75,23 +75,18 @@
     dns = {
       override_local_dns = true;
       base_domain = cfg.baseDomain;
-      nameservers.global = ["1.1.1.1" "8.8.8.8"];
+      nameservers.global =
+        if !cfg.adguardhome.enable
+        then ["1.1.1.1" "8.8.8.8"]
+        else ["100.64.0.1"]; # SHOULD be headscale host
 
       search_domains = headscale-custom.tailnetFqdnList;
 
-      extra_records =
-        builtins.map (fqdn: {
-          name = fqdn.name;
-          type = "A";
-          value = fqdn.value; # Again assuming this the correct IP
-        }) (headscale-custom.tailnetFqdnList)
-        ++ [
-          {
-            name = "kosslan.me";
-            type = "A";
-            value = "100.64.0.4";
-          }
-        ];
+      extra_records = builtins.map (fqdn: {
+        name = fqdn.name;
+        type = "A";
+        value = fqdn.value; # Again assuming this the correct IP
+      }) (headscale-custom.tailnetFqdnList);
 
       magic_dns = true;
     };

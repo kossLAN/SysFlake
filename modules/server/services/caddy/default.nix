@@ -94,9 +94,9 @@ in {
                       then "reverse_proxy http://${proxy.address}:${toString proxy.port}"
                       else ""
                     }
-                    tls /var/lib/acme/${domain}/cert.pem /var/lib/acme/${domain}/key.pem
 
                     ${proxy.extraConfig}
+                    tls /var/lib/acme/${domain}/cert.pem /var/lib/acme/${domain}/key.pem
                   '';
                 };
               }

@@ -14,6 +14,8 @@ in {
   options.services.headscale-custom = {
     enable = mkEnableOption "Enable headscale service";
 
+    adguardhome.enable = mkEnableOption "Whether or not to enable adguardhome on the tailnet";
+
     package = mkOption {
       type = lib.types.package;
       default = pkgs.headscale;
@@ -54,6 +56,7 @@ in {
         options = {
           name = lib.mkOption {
             type = lib.types.str;
+            default = "";
             description = "The subdomain name";
           };
 
@@ -74,7 +77,10 @@ in {
       tailnetFqdnList =
         builtins.map
         (subdomain: {
-          name = "${subdomain.name}.${cfg.tailnetDomain}";
+          name =
+            if subdomain.name != ""
+            then "${subdomain.name}.${cfg.tailnetDomain}"
+            else cfg.tailnetDomain;
           value = subdomain.value;
         })
         cfg.tailnetRecords;
@@ -99,6 +105,13 @@ in {
         home = "/var/lib/headscale";
         group = cfg.group;
         isSystemUser = true;
+      };
+    };
+
+    services = {
+      adguardhome = mkIf cfg.adguardhome.enable {
+        enable = true;
+        mutableSettings = true;
       };
     };
 

@@ -22,10 +22,15 @@ in {
     xdg.portal = {
       enable = true;
       extraPortals = [pkgs.libsForQt5.xdg-desktop-portal-kde];
+      xdgOpenUsePortal = true;
 
-      config.common = {
+      config.hyprland = {
         default = [
           "hyprland"
+          "gtk"
+        ];
+
+        "org.freedesktop.impl.portal.FileChooser" = [
           "kde"
         ];
       };

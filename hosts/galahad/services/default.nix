@@ -13,10 +13,13 @@
 
   display.amd.enable = true;
 
+  virtualisation.libvirtd.enable = true;
+
   services = {
     ssh.enable = true;
     common.enable = true;
     syncthing.enable = true;
+    blueman.enable = true;
 
     sound = {
       enable = true;

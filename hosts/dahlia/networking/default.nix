@@ -1,22 +1,16 @@
 {config, ...}: let
   interface = "enp1s0"; # WAN interface
   cerebrite = "100.64.0.4";
-  dahlia = "100.64.0.1";
   localhost = "localhost";
 in {
   services = {
     headscale-custom = {
       enable = true;
-      adguardhome.enable = true;
       serverUrl = "https://kosslan.me";
       baseDomain = "ts.kosslan.me";
       tailnetDomain = "kosslan.me";
       tailnetRecords = [
         {value = cerebrite;}
-        {
-          name = "adguard";
-          value = dahlia;
-        }
         {
           name = "sync";
           value = cerebrite;
@@ -43,6 +37,10 @@ in {
         }
         {
           name = "prowlarr";
+          value = cerebrite;
+        }
+        {
+          name = "chat";
           value = cerebrite;
         }
         {
@@ -87,16 +85,6 @@ in {
               address = localhost;
               port = 3442;
             }
-
-            # Adguard Home - Needs special configuration for tailscale
-            {
-              subdomain = "adguard";
-              extraConfig = ''
-                @tailscale remote_ip 100.64.0.0/10
-                reverse_proxy @tailscale http://localhost:3001
-              '';
-            }
-
             # Jellyfin
             {
               subdomain = "jellyfin";

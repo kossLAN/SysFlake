@@ -31,8 +31,7 @@ in {
     systemd.user.services.quickshell = {
       enable = true;
       description = "Quickshell Service";
-      wantedBy = ["default.target"];
-      after = ["graphical-session.target"];
+      wantedBy = ["graphical-session.target"];
 
       serviceConfig = {
         Type = "simple";

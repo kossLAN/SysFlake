@@ -59,6 +59,11 @@
               port = 80;
             }
             {
+              subdomain = "chat";
+              address = localhost;
+              port = 12121;
+            }
+            {
               subdomain = "netdata";
               address = localhost;
               port = 19999;

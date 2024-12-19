@@ -18,6 +18,7 @@
   nixpkgs.hostPlatform = "x86_64-linux";
 
   services.xserver.videoDrivers = ["nvidia"];
+
   hardware = {
     graphics.enable = true;
     nvidia = {

@@ -17,6 +17,7 @@
     common.enable = true;
     sound.enable = true;
     syncthing.enable = true;
+    blueman.enable = true;
 
     tailscale = {
       enable = true;

@@ -85,7 +85,7 @@
       extra_records = builtins.map (fqdn: {
         name = fqdn.name;
         type = "A";
-        value = fqdn.value; # Again assuming this the correct IP
+        value = fqdn.value;
       }) (headscale-custom.tailnetFqdnList);
 
       magic_dns = true;
